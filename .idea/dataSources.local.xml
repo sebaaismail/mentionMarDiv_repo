@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="MySQL - dbmention@localhost" uuid="7a24fe85-e9cc-4775-8c3b-e2bdb9a2be7e">
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <schema-pattern>dbmention.*</schema-pattern>
+      <default-schemas>dbmention.*</default-schemas>
+    </data-source>
+  </component>
+</project>

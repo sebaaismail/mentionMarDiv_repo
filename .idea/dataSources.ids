@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - dbmention@localhost" uuid="7a24fe85-e9cc-4775-8c3b-e2bdb9a2be7e">
+    <database-info product="MySQL" version="5.6.22-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.31 ( Revision: alexander.soklakov@oracle.com-20140520065950-groqzzbvxprqdmnz )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <schema name="" catalog="dbmention"/>
+    <table name="citoyen" schema="" catalog="dbmention" type="TABLE">
+      <column name="id_cit" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="num_actnaiss" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="annee_actnaiss" sqlType="SMALLINT UNSIGNED" precision="5" scale="0" nullable="false" jdbcType="5"/>
+      <column name="code_lieunaiss" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="nom_fr" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="prenom_fr" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="nom_ar" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="prenom_ar" sqlType="VARCHAR" precision="40" scale="0" nullable="false" jdbcType="12"/>
+      <column name="date_naiss" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <column name="p_pere" sqlType="VARCHAR" precision="40" scale="0" nullable="true" jdbcType="12"/>
+      <column name="np_mere" sqlType="VARCHAR" precision="60" scale="0" nullable="true" jdbcType="12"/>
+      <column name="est_masculin" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6" def="MQ=="/>
+      <column name="id_deces" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4" def="MA=="/>
+      <column name="date_est_presume" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6" def="MA=="/>
+      <column name="sit_famil" sqlType="CHAR" precision="1" scale="0" nullable="true" jdbcType="1" def="J2Mn"/>
+      <primary-key name="PRIMARY" columns="id_cit"/>
+      <exported-key name="mariage_ibfk_1" table="mariage" schema="" catalog="dbmention" columns="id_epoux"/>
+      <exported-key name="mariage_ibfk_2" table="mariage" schema="" catalog="dbmention" columns="id_epouse"/>
+      <index name="unique_index" unique="true" columns="num_actnaiss,annee_actnaiss,code_lieunaiss"/>
+    </table>
+    <table name="mariage" schema="" catalog="dbmention" type="TABLE">
+      <column name="id_mar" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="numact_mar" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="date_mar" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
+      <column name="lieu_mar" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="id_epoux" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="id_epouse" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="observ" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="id_mar"/>
+      <foreign-key name="mariage_ibfk_1" columns="id_epoux" ref-table="citoyen" ref-schema="" ref-catalog="dbmention" ref-columns="id_cit" update-rule="3" delete-rule="0" deferrability="2"/>
+      <foreign-key name="mariage_ibfk_2" columns="id_epouse" ref-table="citoyen" ref-schema="" ref-catalog="dbmention" ref-columns="id_cit" update-rule="3" delete-rule="0" deferrability="2"/>
+      <index name="unique_index" unique="true" columns="numact_mar,date_mar,lieu_mar"/>
+    </table>
+  </data-source>
+</component>
