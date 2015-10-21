@@ -5,14 +5,12 @@ import com.jgoodies.binding.list.SelectionInList;
 import com.jgoodies.common.collect.ArrayListModel;
 import com.jgoodies.forms.builder.FormBuilder;
 import com.jgoodies.forms.factories.Paddings;
-import com.sebaainf.mentionMarDiv.citoyenPackage.Citoyen;
+import com.sebaainf.mentionMarDiv.common.MyApp;
+import com.sebaainf.mentionMarDiv.common.MyTableAdapter;
 import com.sebaainf.mentionMarDiv.mentionPack.ChooseMentFrame;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -67,8 +65,8 @@ public class ResultaRechJFrame extends JFrame {
 
     private ResultaRechJFrame(List listCit) {
 
-        UIManager.put("Table.background", new ColorUIResource(Color.decode("#D7EAF5")));
-        UIManager.put("Table.alternateRowColor", Color.decode("#F5F5D7"));
+        UIManager.put("Table.background", new ColorUIResource(MyApp.tableBackColor));
+        UIManager.put("Table.alternateRowColor", MyApp.alternateRowColor);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         screenSize = toolkit.getScreenSize();
         this.listCit = listCit;
@@ -104,19 +102,18 @@ public class ResultaRechJFrame extends JFrame {
     public JComponent createPanel() {
 
 
-        final ListModel listCitoyens = new ArrayListModel(this.listCit);
+        //final List listCitoyens = new ArrayListModel(this.listCit);
 
-        final SelectionInList selectionInList = new SelectionInList(listCit);
+        //final SelectionInList selectionInList = new SelectionInList(listCit);
+        MyTableAdapter tableAdapter = new MyTableAdapter(
+                listCit,new String[] {Citoyen.PROPERTY_NOM_AR, Citoyen.PROPERTY_PRENOM_AR,
+                Citoyen.PROPERTY_DATE_NAISS, Citoyen.PROPERTY_P_PERE, Citoyen.PROPERTY_NP_MERE,
+                Citoyen.PROPERTY_NOM_FR, Citoyen.PROPERTY_PRENOM_FR}
+                , new String[] {"الإسم", "اللقب", "تاريخ الإزدياد",
+                        "إسم الأب", "إسم الأم", "Nom", "Prenom"});
+        JTable table = new JTable(tableAdapter);
 
-        //BeanAdapter beanAdapter = new BeanAdapter(selectionInList);
-
-        JTable table = new JTable(
-                new CitoyenTableAdapter(
-                        selectionInList,
-                        new String[] {"الإسم", "اللقب", "تاريخ الإزدياد",
-                                "إسم الأب", "إسم الأم", "Nom", "Prenom"}));
-
-        settingTable(table);
+        tableAdapter.settingTable(table);
 
         // on double Click Action  ******************
 
@@ -128,7 +125,7 @@ public class ResultaRechJFrame extends JFrame {
                 if (me.getClickCount() == 2) {
                     // your valueChanged overridden method
 
-                    Citoyen selectedCit = (Citoyen) listCitoyens.getElementAt(table.getSelectedRow());
+                    Citoyen selectedCit = (Citoyen) new ArrayListModel(listCit).getElementAt(table.getSelectedRow());
                     ChooseMentFrame mentFrame = ChooseMentFrame.getInstance(selectedCit);
                     mentFrame.setVisible(true);
 
@@ -149,23 +146,6 @@ public class ResultaRechJFrame extends JFrame {
                 .padding(Paddings.DIALOG)
                 .add(scrollPane).xy(1, 1)
                 .build();
-
-    }
-
-    public static void settingTable(JTable table) {
-
-        JTableHeader header = table.getTableHeader();
-        header.setBackground(Color.decode("#919AFA"));
-        header.setForeground(Color.white);
-
-        FontMetrics metrics = table.getFontMetrics(table.getFont());
-        int fontHeight = metrics.getHeight();
-        table.setRowHeight( fontHeight + 4 );
-        DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
-        rightRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-        for(int i=0;i<table.getColumnCount();i++){
-            table.getColumnModel().getColumn(i).setCellRenderer(rightRenderer);
-        }
 
     }
 

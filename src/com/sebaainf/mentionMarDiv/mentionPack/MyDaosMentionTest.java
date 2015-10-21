@@ -22,10 +22,20 @@ public class MyDaosMentionTest extends TestCase {
      */
     public void testGetListMentions_shouldReturnListMentionsOfCit() throws Exception {
 
-        //TODO auto-generated
         Citoyen ismail = new Citoyen();
         ismail.setId_cit(1);
         List<Mention> list = MyDaosMention.getListMentions(ismail);
         assertThat(list.get(0).getNp_conj_fr(), equalTo("sihem"));
+    }
+
+    /**
+     * @verifies return mention where id_ment is found
+     * @see MyDaosMention#getMention(int)
+     */
+    public void testGetMention_shouldReturnMentionWhereId_mentIsFound() throws Exception {
+
+        Mention ment = null;
+        ment = MyDaosMention.getMention(1);
+        assertThat(ment.getNp_conj_fr() , equalTo("sihem"));
     }
 }

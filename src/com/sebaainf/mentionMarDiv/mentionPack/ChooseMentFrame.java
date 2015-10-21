@@ -1,17 +1,16 @@
 package com.sebaainf.mentionMarDiv.mentionPack;
 
-import com.jgoodies.binding.adapter.AbstractTableAdapter;
 import com.jgoodies.binding.list.SelectionInList;
 import com.jgoodies.common.collect.ArrayListModel;
 import com.jgoodies.forms.builder.FormBuilder;
 import com.jgoodies.forms.factories.Paddings;
 import com.sebaainf.mentionMarDiv.citoyenPackage.Citoyen;
-import com.sebaainf.mentionMarDiv.citoyenPackage.ResultaRechJFrame;
 import com.sebaainf.mentionMarDiv.common.MyTableAdapter;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
+import java.awt.event.WindowEvent;
 import java.util.List;
 
 /**
@@ -22,14 +21,14 @@ import java.util.List;
 public class ChooseMentFrame extends JFrame {
 
     private static ChooseMentFrame uniqueInstance;
+    // dont make it singleton
+    //private static ChooseMentFrame uniqueInstance;
     private Citoyen cit;
     private static Dimension screenSize, dimWin, dimPannel;
 
     private ChooseMentFrame(Citoyen cit) {
 
 
-        UIManager.put("Table.background", new ColorUIResource(Color.decode("#D7EAF5")));
-        UIManager.put("Table.alternateRowColor", Color.decode("#F5F5D7"));
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         screenSize = toolkit.getScreenSize();
         this.cit = cit;
@@ -48,12 +47,13 @@ public class ChooseMentFrame extends JFrame {
 
     }
 
-    // Singleton
+      // not Singleton but a special behavior of it, close last windows why call to new
     public static ChooseMentFrame getInstance(Citoyen cit) {
 
-        if (uniqueInstance == null) {
-            uniqueInstance = new ChooseMentFrame(cit);
+        if (uniqueInstance != null) {
+            uniqueInstance.dispatchEvent(new WindowEvent(uniqueInstance, WindowEvent.WINDOW_CLOSING));
         }
+        uniqueInstance = new ChooseMentFrame(cit);
         return uniqueInstance;
     }
 
@@ -61,19 +61,21 @@ public class ChooseMentFrame extends JFrame {
 
         List listMent = MyDaosMention.getListMentions(this.cit);
 
-        ListModel listMentions = new ArrayListModel(listMent);
 
-        SelectionInList selectionInList = new SelectionInList(listMent);
 
         //BeanAdapter beanAdapter = new BeanAdapter(selectionInList);
 
-        JTable table = new JTable(
-                new MyTableAdapter(
-                        selectionInList,
-                        new String[] {Mention.PROPERTY_NP_CONJ_FR, Mention.PROPERTY_TRIBUNAL_DIV}));
+        MyTableAdapter tableAdapter = new MyTableAdapter(
+                listMent,
+                new String[] {Mention.PROPERTY_NUMACT_MAR, Mention.PROPERTY_DATE_MAR,
+                Mention.PROPERTY_NP_CONJ_FR, Mention.PROPERTY_TRIBUNAL_DIV,Mention.PROPERTY_NP_CONJ_AR},
+                new String[]{"Num acte mariage","Date mariage",
+                        "NomPren Epouse", "المحكمة", "إسم ولقب الزوجة"});
 
-        ResultaRechJFrame.settingTable(table);
+        JTable table = new JTable(tableAdapter);
 
+        tableAdapter.settingTable(table);
+        //tableAdapter.setHeaders(table, new String[]{"إسم ولقب الزوجة", "المحكمة"});
 
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setPreferredSize(dimPannel);

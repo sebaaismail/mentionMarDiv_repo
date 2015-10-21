@@ -38,4 +38,25 @@ public class MyDaosMention {
         }
     }
 
+    /**
+     *
+     * @param id_ment
+     * @return
+     * @should return mention where id_ment is found
+     */
+    public static Mention getMention(int id_ment) {
+        Mention mention = null;
+        try {
+
+            String sql = "select * from mention where id_ment =?";
+            IDaos daos = MyDaos.persistenceManager.createDaos();
+            mention = daos.getObjectDao().read(Mention.class, sql, id_ment);
+
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+        } finally {
+            return mention;
+        }
+    }
+
 }

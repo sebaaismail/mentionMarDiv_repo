@@ -3,7 +3,6 @@ package com.sebaainf.mentionMarDiv.common;
 import com.jgoodies.binding.list.SelectionInList;
 import com.jgoodies.common.collect.ArrayListModel;
 import com.sebaainf.mentionMarDiv.citoyenPackage.Citoyen;
-import com.sebaainf.mentionMarDiv.citoyenPackage.ResultaRechJFrame;
 import com.sebaainf.mentionMarDiv.mentionPack.Mention;
 import com.sebaainf.mentionMarDiv.mentionPack.MyDaosMention;
 import junit.framework.Assert;
@@ -29,18 +28,17 @@ public class MyTableAdapterTest extends TestCase {
         cit.setId_cit(1);
         List listMent = MyDaosMention.getListMentions(cit);
 
-        ListModel listMentions = new ArrayListModel(listMent);
 
-        SelectionInList selectionInList = new SelectionInList(listMent);
 
         //BeanAdapter beanAdapter = new BeanAdapter(selectionInList);
 
-        JTable table = new JTable(
-                new MyTableAdapter(
-                        selectionInList,
-                        new String[] {Mention.PROPERTY_NP_CONJ_FR, Mention.PROPERTY_TRIBUNAL_DIV}));
+        MyTableAdapter tableAdapter = new MyTableAdapter(
+                listMent,
+                new String[] {Mention.PROPERTY_NP_CONJ_FR, Mention.PROPERTY_TRIBUNAL_DIV});
+        JTable table = new JTable();
 
-        ResultaRechJFrame.settingTable(table);
+
+        tableAdapter.settingTable(table);
 
         String hoho = (String) table.getValueAt(2, 1);
         String hoho2 = (String) table.getValueAt(1, 1);

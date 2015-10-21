@@ -15,6 +15,9 @@ public class MyApp {
 
     public static int default_id_c = 3114; //todo get from general variable or file config
     public static MyTheme theme = new BlackTheme(); //todo put in config
+    public static Color tableBackColor = Color.white;
+    public static Color alternateRowColor = Color.lightGray;
+    //public static Color tableBackgColor = Color.decode("#D7EAF5");
 
     //public static MyTheme theme = new GreyTheme(); //todo put in config
     public static void setUIFont(javax.swing.plaf.FontUIResource f){
