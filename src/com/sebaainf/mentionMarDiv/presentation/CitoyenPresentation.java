@@ -3,7 +3,7 @@ package com.sebaainf.mentionMarDiv.presentation;
 import com.jgoodies.binding.PresentationModel;
 import com.jgoodies.binding.value.ComponentValueModel;
 import com.jgoodies.binding.value.ValueModel;
-import com.sebaainf.mentionMarDiv.citoyen.Citoyen;
+import com.sebaainf.mentionMarDiv.citoyenPackage.Citoyen;
 
 /**
  * Created by ${sebaainf.com} on 03/03/2015.
@@ -41,13 +41,13 @@ public class CitoyenPresentation {
         prenom_ar = citoyenAdapter.getComponentModel(Citoyen.PROPERTY_PRENOM_AR);
         id_cit = citoyenAdapter.getComponentModel(Citoyen.PROPERTY_ID_CIT);
         date_naiss = citoyenAdapter.getComponentModel(Citoyen.PROPERTY_DATE_NAISS);
-        code_lieunaiss = citoyenAdapter.getComponentModel(Citoyen.PROPERTY_CODE_LIEUNAISS);
-        sit_famil = citoyenAdapter.getComponentModel(Citoyen.PROPERTY_SIT_FAMIL);
+        //code_lieunaiss = citoyenAdapter.getComponentModel(Citoyen.PROPERTY_CODE_LIEUNAISS);
+        //sit_famil = citoyenAdapter.getComponentModel(Citoyen.PROPERTY_SIT_FAMIL);
         p_pere = citoyenAdapter.getComponentModel(Citoyen.PROPERTY_P_PERE);
         np_mere = citoyenAdapter.getComponentModel(Citoyen.PROPERTY_NP_MERE);
         est_masculin = citoyenAdapter.getComponentModel(Citoyen.PROPERTY_EST_MASCULIN);
 
-        date_est_presume = citoyenAdapter.getComponentModel(Citoyen.PROPERTY_DATE_EST_PRESUME);
+        //date_est_presume = citoyenAdapter.getComponentModel(Citoyen.PROPERTY_DATE_EST_PRESUME);
 
 
     }

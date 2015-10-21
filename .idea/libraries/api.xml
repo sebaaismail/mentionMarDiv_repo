@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="api">
+    <CLASSES />
+    <JAVADOC>
+      <root url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-animation-1.4.3/docs/api" />
+      <root url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-binding-2.13.0/docs/api" />
+      <root url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-common-1.8.1/docs/api" />
+      <root url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-forms-1.9.0/docs/api" />
+      <root url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-looks-2.7.0/docs/api" />
+      <root url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-validation-2.5.1/docs/api" />
+    </JAVADOC>
+    <SOURCES />
+  </library>
+</component>

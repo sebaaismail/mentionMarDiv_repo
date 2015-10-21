@@ -1,9 +1,9 @@
 package com.sebaainf.mentionMarDiv.view;
 
 import com.jgoodies.forms.layout.FormLayout;
-import com.sebaainf.mentionMarDiv.common.Mention;
+import com.sebaainf.mentionMarDiv.citoyenPackage.Citoyen;
+import com.sebaainf.mentionMarDiv.mentionPack.Mention;
 import com.sebaainf.mentionMarDiv.common.MyApp;
-import com.sebaainf.mentionMarDiv.presentation.CitoyenEditorModel;
 import com.sebaainf.mentionMarDiv.presentation.CitoyenPresentation;
 
 import javax.swing.*;
@@ -73,16 +73,18 @@ public final class MentionJFrame extends JFrame {
 
         //todo Testing JComboBox binding
         //ficheFam.getCitoyen().setSit_famil("d");
-        CitoyenPresentation presenter = new CitoyenPresentation(mention.getCitoyen());
+       // CitoyenPresentation presenter = new CitoyenPresentation(mention.getCitoyen());
+        CitoyenPresentation presenter = new CitoyenPresentation(new Citoyen());
         // TODO set CitoyenManagerUI in place CitoyenManagerUI_Test
         //CitoyenManagerUI_Test app = new CitoyenManagerUI_Test(presenter);
 
         //return app.getPanel();
-        CitoyenEditorModel model = new CitoyenEditorModel(mention.getCitoyen());
+        //CitoyenEditorModel model = new CitoyenEditorModel(mention.getCitoyen());
+        //CitoyenEditorModel model = new CitoyenEditorModel(new Citoyen());
         //CitoyenEditorView view = new CitoyenEditorView(model);
-        CitoyenHomeView view = new CitoyenHomeView(model);
+        //CitoyenHomeView view = new CitoyenHomeView(model);
 
-        return view.showDialog(null);
+        return null;
     }
 
     private JComponent buildButtonBarPanel() {
@@ -108,9 +110,9 @@ public final class MentionJFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                JOptionPane.showMessageDialog(null, "citoyen " + mention.getCitoyen().getNom_fr()
+                /*JOptionPane.showMessageDialog(null, "citoyen " + mention.getCitoyen().getNom_fr()
                         + " " + mention.getCitoyen().getPrenom_fr() + " est comme situation familiale : " +
-                        mention.getCitoyen().getSit_famil());
+                        mention.getCitoyen().getSit_famil());*/
             }
         });
         buttonModifier.addActionListener(new ActionListener() {
@@ -121,17 +123,18 @@ public final class MentionJFrame extends JFrame {
 
                 //todo Testing JComboBox binding
                 //ficheFam.getCitoyen().setSit_famil("d");
-                CitoyenPresentation presenter = new CitoyenPresentation(mention.getCitoyen());
+                // * todo CitoyenPresentation presenter = new CitoyenPresentation(mention.getCitoyen());
                 // TODO set CitoyenManagerUI in place CitoyenManagerUI_Test
                 //CitoyenManagerUI_Test app = new CitoyenManagerUI_Test(presenter);
 
                 //return app.getPanel();
-                CitoyenEditorModel model = new CitoyenEditorModel(mention.getCitoyen());
+                //   *todo CitoyenEditorModel model = new CitoyenEditorModel(mention.getCitoyen());
+                //CitoyenEditorModel model = new CitoyenEditorModel(new Citoyen());
                 //CitoyenEditorView view = new CitoyenEditorView(model);
-                CitoyenEditorView view = new CitoyenEditorView(model);
+                //CitoyenEditorView view = new CitoyenEditorView(model);
 
                 JFrame editCitPanel = new JFrame();
-                editCitPanel.add(view.showDialog(null));
+                //editCitPanel.add(view.showDialog(null));
                 editCitPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 editCitPanel.setTitle("Modifier Citoyen");
 

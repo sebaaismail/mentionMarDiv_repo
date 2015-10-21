@@ -1,35 +1,40 @@
 <component name="libraryTable">
   <library name="jgoodies">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/../../modules/jgoodies/jgoodies-binding-2.12.0" />
-      <root url="file://$PROJECT_DIR$/../../modules/jgoodies/jgoodies-common-1.8.1" />
-      <root url="file://$PROJECT_DIR$/../../modules/jgoodies/jgoodies-forms-1.9.0" />
-      <root url="file://$PROJECT_DIR$/../../modules/jgoodies/jgoodies-looks-2.7.0" />
-      <root url="file://$PROJECT_DIR$/../../modules/jgoodies/jgoodies-validation-2.5.1" />
+      <root url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-animation-1.4.3" />
+      <root url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-binding-2.13.0" />
+      <root url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-common-1.8.1" />
+      <root url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-forms-1.9.0" />
+      <root url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-looks-2.7.0" />
+      <root url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-validation-2.5.1" />
     </CLASSES>
     <JAVADOC>
-      <root url="file://$PROJECT_DIR$/../../modules/jgoodies/jgoodies-binding-2.12.0/docs/api" />
-      <root url="file://$PROJECT_DIR$/../../modules/jgoodies/jgoodies-common-1.8.1/docs/api" />
-      <root url="file://$PROJECT_DIR$/../../modules/jgoodies/jgoodies-forms-1.9.0/docs/api" />
-      <root url="file://$PROJECT_DIR$/../../modules/jgoodies/jgoodies-looks-2.7.0/docs/api" />
-      <root url="file://$PROJECT_DIR$/../../modules/jgoodies/jgoodies-validation-2.5.1/docs/api" />
+      <root url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-animation-1.4.3/docs/api" />
+      <root url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-binding-2.13.0/docs/api" />
+      <root url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-common-1.8.1/docs/api" />
+      <root url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-forms-1.9.0/docs/api" />
+      <root url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-looks-2.7.0/docs/api" />
+      <root url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-validation-2.5.1/docs/api" />
     </JAVADOC>
     <SOURCES>
-      <root url="file://$PROJECT_DIR$/../../modules/jgoodies/jgoodies-binding-2.12.0" />
-      <root url="file://$PROJECT_DIR$/../../modules/jgoodies/jgoodies-common-1.8.1" />
-      <root url="file://$PROJECT_DIR$/../../modules/jgoodies/jgoodies-forms-1.9.0" />
-      <root url="file://$PROJECT_DIR$/../../modules/jgoodies/jgoodies-looks-2.7.0" />
-      <root url="file://$PROJECT_DIR$/../../modules/jgoodies/jgoodies-validation-2.5.1" />
+      <root url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-animation-1.4.3" />
+      <root url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-binding-2.13.0" />
+      <root url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-common-1.8.1" />
+      <root url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-forms-1.9.0" />
+      <root url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-looks-2.7.0" />
+      <root url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-validation-2.5.1" />
     </SOURCES>
-    <jarDirectory url="file://$PROJECT_DIR$/../../modules/jgoodies/jgoodies-binding-2.12.0" recursive="false" />
-    <jarDirectory url="file://$PROJECT_DIR$/../../modules/jgoodies/jgoodies-common-1.8.1" recursive="false" />
-    <jarDirectory url="file://$PROJECT_DIR$/../../modules/jgoodies/jgoodies-forms-1.9.0" recursive="false" />
-    <jarDirectory url="file://$PROJECT_DIR$/../../modules/jgoodies/jgoodies-looks-2.7.0" recursive="false" />
-    <jarDirectory url="file://$PROJECT_DIR$/../../modules/jgoodies/jgoodies-validation-2.5.1" recursive="false" />
-    <jarDirectory url="file://$PROJECT_DIR$/../../modules/jgoodies/jgoodies-binding-2.12.0" recursive="false" type="SOURCES" />
-    <jarDirectory url="file://$PROJECT_DIR$/../../modules/jgoodies/jgoodies-common-1.8.1" recursive="false" type="SOURCES" />
-    <jarDirectory url="file://$PROJECT_DIR$/../../modules/jgoodies/jgoodies-forms-1.9.0" recursive="false" type="SOURCES" />
-    <jarDirectory url="file://$PROJECT_DIR$/../../modules/jgoodies/jgoodies-looks-2.7.0" recursive="false" type="SOURCES" />
-    <jarDirectory url="file://$PROJECT_DIR$/../../modules/jgoodies/jgoodies-validation-2.5.1" recursive="false" type="SOURCES" />
+    <jarDirectory url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-animation-1.4.3" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-binding-2.13.0" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-common-1.8.1" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-forms-1.9.0" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-looks-2.7.0" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-validation-2.5.1" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-animation-1.4.3" recursive="false" type="SOURCES" />
+    <jarDirectory url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-binding-2.13.0" recursive="false" type="SOURCES" />
+    <jarDirectory url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-common-1.8.1" recursive="false" type="SOURCES" />
+    <jarDirectory url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-forms-1.9.0" recursive="false" type="SOURCES" />
+    <jarDirectory url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-looks-2.7.0" recursive="false" type="SOURCES" />
+    <jarDirectory url="file://$PROJECT_DIR$/../../modules/Jgoodies/jgoodies-validation-2.5.1" recursive="false" type="SOURCES" />
   </library>
 </component>

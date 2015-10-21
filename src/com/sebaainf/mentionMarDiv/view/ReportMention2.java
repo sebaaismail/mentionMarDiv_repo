@@ -1,7 +1,7 @@
 package com.sebaainf.mentionMarDiv.view;
 
 
-import com.sebaainf.mentionMarDiv.common.Mention;
+import com.sebaainf.mentionMarDiv.mentionPack.Mention;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JRDesignVariable;
@@ -23,7 +23,7 @@ public class ReportMention2 {
 
         // Preparing data
 
-        mention.prepareTexts();
+        //mention.prepareTexts();
         Collection<Mention> data = new Vector<Mention>();
         data.add(mention);
 
