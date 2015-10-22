@@ -17,22 +17,23 @@ public abstract class IsmValidator implements Validator<Object> {
 
     /**
      * method to add blank error , property can be String or int
+     *
      * @param propertyName
      * @param propertyText text shown in the error message
      */
-    protected void addBlankError(String propertyName, String propertyText){
+    protected void addBlankError(String propertyName, String propertyText) {
 
         String blankErrorMessage = " قم بملاء خانة";
         boolean flag = false;
         AbstractValueModel value = this.preModel.getModel(propertyName);
-        if(value.getValue().getClass().getSimpleName().equals("String")) {
+        if (value.getValue().getClass().getSimpleName().equals("String")) {
             if (value.getValue().equals("")) flag = true;
 
-        } else if(value.intValue() == 0) {
+        } else if (value.intValue() == 0) {
             flag = true;
         }
 
-        if (flag){
+        if (flag) {
             validationResult.addError(blankErrorMessage + " " + propertyText);
         }
 

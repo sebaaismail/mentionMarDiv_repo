@@ -1,13 +1,10 @@
 package com.sebaainf.mentionMarDiv.citoyenPackage;
 
-import com.jgoodies.binding.PresentationModel;
-import com.jgoodies.binding.value.ComponentValueModel;
-import com.jgoodies.binding.value.ValueModel;
-
 /**
  * Created by ${sebaainf.com} on 22/10/2015.
  */
 public class CitoyenPresentation {
+/*
 
     // TODO à modifier
 
@@ -15,19 +12,20 @@ public class CitoyenPresentation {
 
 
     private ComponentValueModel id_cit;
+
     private ComponentValueModel nom_fr;
     private ComponentValueModel prenom_fr;
     private ComponentValueModel nom_ar;
     private ComponentValueModel prenom_ar;
     private ComponentValueModel date_naiss;
-    private ComponentValueModel code_lieunaiss;
-    //private ComponentValueModel sit_famil;
-    private ValueModel sit_famil;
+    private ComponentValueModel lieunaiss;
+    private ComponentValueModel emploi;
+
     private ComponentValueModel p_pere;
     private ComponentValueModel np_mere;
     private ComponentValueModel est_masculin;
-    private ComponentValueModel id_deces;
-    private ComponentValueModel date_est_presume;
+
+    private ComponentValueModel dateNaiss_est_presume;
 
 
     public CitoyenPresentation(Citoyen citoyen) {
@@ -42,13 +40,13 @@ public class CitoyenPresentation {
         prenom_ar = citoyenAdapter.getComponentModel(Citoyen.PROPERTY_PRENOM_AR);
         id_cit = citoyenAdapter.getComponentModel(Citoyen.PROPERTY_ID_CIT);
         date_naiss = citoyenAdapter.getComponentModel(Citoyen.PROPERTY_DATE_NAISS);
-        code_lieunaiss = citoyenAdapter.getComponentModel(Citoyen.PROPERTY_CODE_LIEUNAISS);
-        sit_famil = citoyenAdapter.getComponentModel(Citoyen.PROPERTY_SIT_FAMIL);
+        lieunaiss = citoyenAdapter.getComponentModel(Citoyen.PROPERTY_LIEUNAISS);
+        emploi = citoyenAdapter.getComponentModel(Citoyen.PROPERTY_EMPLOI);
+
         p_pere = citoyenAdapter.getComponentModel(Citoyen.PROPERTY_P_PERE);
         np_mere = citoyenAdapter.getComponentModel(Citoyen.PROPERTY_NP_MERE);
         est_masculin = citoyenAdapter.getComponentModel(Citoyen.PROPERTY_EST_MASCULIN);
-        id_deces = citoyenAdapter.getComponentModel(Citoyen.PROPERTY_ID_DECES);
-        date_est_presume = citoyenAdapter.getComponentModel(Citoyen.PROPERTY_DATE_EST_PRESUME);
+        dateNaiss_est_presume = citoyenAdapter.getComponentModel(Citoyen.PROPERTY_DATENAISS_EST_PRESUME);
 
 
     }
@@ -84,16 +82,15 @@ public class CitoyenPresentation {
         return date_naiss;
     }
 
-    public ComponentValueModel getCode_lieunaiss() {
+    public ComponentValueModel getLieunaiss() {
 
-        return code_lieunaiss;
+        return lieunaiss;
     }
 
-    public ValueModel getSit_famil() {
+    public ComponentValueModel getEmploi() {
 
-        return sit_famil;
+        return emploi;
     }
-
 
     public ComponentValueModel getP_pere() {
 
@@ -110,13 +107,10 @@ public class CitoyenPresentation {
         return est_masculin;
     }
 
-    public ComponentValueModel getId_deces() {
+    public ComponentValueModel getDateNaiss_est_presume() {
 
-        return id_deces;
+        return dateNaiss_est_presume;
     }
+*/
 
-    public ComponentValueModel getDate_est_presume() {
-
-        return date_est_presume;
-    }
 }

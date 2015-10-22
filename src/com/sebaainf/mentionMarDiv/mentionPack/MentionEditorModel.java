@@ -2,8 +2,6 @@ package com.sebaainf.mentionMarDiv.mentionPack;
 
 import com.jgoodies.binding.PresentationModel;
 import com.jgoodies.binding.value.ComponentValueModel;
-import com.sebaainf.mentionMarDiv.citoyenPackage.Citoyen;
-import com.sebaainf.mentionMarDiv.citoyenPackage.IPerson;
 
 /**
  * Created by ${sebaainf.com} on 21/10/2015.

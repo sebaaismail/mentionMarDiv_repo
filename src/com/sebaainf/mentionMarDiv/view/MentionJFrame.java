@@ -2,8 +2,8 @@ package com.sebaainf.mentionMarDiv.view;
 
 import com.jgoodies.forms.layout.FormLayout;
 import com.sebaainf.mentionMarDiv.citoyenPackage.Citoyen;
-import com.sebaainf.mentionMarDiv.mentionPack.Mention;
 import com.sebaainf.mentionMarDiv.common.MyApp;
+import com.sebaainf.mentionMarDiv.mentionPack.Mention;
 import com.sebaainf.mentionMarDiv.presentation.CitoyenPresentation;
 
 import javax.swing.*;
@@ -18,8 +18,6 @@ public final class MentionJFrame extends JFrame {
 
     private static Dimension screenSize;
     private final Mention mention;
-
-
 
 
     public MentionJFrame(Mention mention) {
@@ -47,7 +45,7 @@ public final class MentionJFrame extends JFrame {
         JComponent panel = new JPanel(layout);
 
         panel.add(buildButtonBarPanel(), BorderLayout.WEST);
-        panel.add(buildEpouxInfoPanel() , BorderLayout.CENTER);
+        panel.add(buildEpouxInfoPanel(), BorderLayout.CENTER);
         panel.add(buildEpouxDecesInfoPanel(), BorderLayout.EAST);
         panel.add(buildMariageInfoPanel(), BorderLayout.SOUTH);
 
@@ -73,7 +71,7 @@ public final class MentionJFrame extends JFrame {
 
         //todo Testing JComboBox binding
         //ficheFam.getCitoyen().setSit_famil("d");
-       // CitoyenPresentation presenter = new CitoyenPresentation(mention.getCitoyen());
+        // CitoyenPresentation presenter = new CitoyenPresentation(mention.getCitoyen());
         CitoyenPresentation presenter = new CitoyenPresentation(new Citoyen());
         // TODO set CitoyenManagerUI in place CitoyenManagerUI_Test
         //CitoyenManagerUI_Test app = new CitoyenManagerUI_Test(presenter);
@@ -145,7 +143,7 @@ public final class MentionJFrame extends JFrame {
                 editCitPanel.setVisible(true);
 
 
-                  }
+            }
         });
 
         builder.addGlue();

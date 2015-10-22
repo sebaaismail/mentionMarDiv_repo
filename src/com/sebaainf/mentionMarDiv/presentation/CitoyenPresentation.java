@@ -110,7 +110,6 @@ public class CitoyenPresentation {
     }
 
 
-
     public ComponentValueModel getDate_est_presume() {
 
         return date_est_presume;

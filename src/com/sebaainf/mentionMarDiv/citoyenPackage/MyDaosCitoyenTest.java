@@ -1,6 +1,7 @@
 package com.sebaainf.mentionMarDiv.citoyenPackage;
 
 import org.junit.Test;
+
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -12,7 +13,6 @@ import static org.hamcrest.core.IsEqual.equalTo;
  * https://github.com/sebaaismail
  */
 public class MyDaosCitoyenTest {
-
 
 
     /**

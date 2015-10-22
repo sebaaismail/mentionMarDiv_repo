@@ -36,19 +36,18 @@ public class MyDaos {
 
 
     /**
-     *
      * @param id_cit
      * @return
      * @should return mention du citoyen ayant id_cit
      */
-   public static Mention getMention(int id_cit, int numact_mar) {
+    public static Mention getMention(int id_cit, int numact_mar) {
 
 
         Mention mention = null;
         try {
 
             String sql = "select * from mention where id_cit =" + id_cit
-            + " and numact_mar =" + numact_mar;
+                    + " and numact_mar =" + numact_mar;
             IDaos daos = MyDaos.persistenceManager.createDaos();
             mention = daos.getObjectDao().read(Mention.class, sql);
             //mention.setCitoyen(MyDaosCitoyen.getCitoyen(id_cit));
@@ -78,7 +77,7 @@ public class MyDaos {
                 IDaos daos = MyDaos.persistenceManager.createDaos();
                 listMents = daos.getObjectDao().readList(Mention.class, sql);
 
-                if(listMents == null) {
+                if (listMents == null) {
                     mentions = new TreeSet<Mention>();
                 } else {
                     mentions = new TreeSet<Mention>(listMents);

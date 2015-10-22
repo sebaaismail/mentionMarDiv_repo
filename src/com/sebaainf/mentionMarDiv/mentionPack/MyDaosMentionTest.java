@@ -1,7 +1,6 @@
 package com.sebaainf.mentionMarDiv.mentionPack;
 
 import com.sebaainf.mentionMarDiv.citoyenPackage.Citoyen;
-import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import java.util.List;
@@ -36,6 +35,6 @@ public class MyDaosMentionTest extends TestCase {
 
         Mention ment = null;
         ment = MyDaosMention.getMention(1);
-        assertThat(ment.getNp_conj_fr() , equalTo("sihem"));
+        assertThat(ment.getNp_conj_fr(), equalTo("sihem"));
     }
 }

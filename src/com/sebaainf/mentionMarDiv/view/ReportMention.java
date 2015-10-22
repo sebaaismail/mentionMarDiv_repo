@@ -37,7 +37,6 @@ public class ReportMention {
             JasperPrint jasperPrint1 = null;
 
 
-
             JRBeanCollectionDataSource beanDs1, beanDs2;
 
             Map parameters = new HashMap();
@@ -53,7 +52,6 @@ public class ReportMention {
 
 
             jasperReport1 = JasperCompileManager.compileReport(jasperDesign1);
-
 
 
             jasperPrint1 = JasperFillManager.fillReport(jasperReport1, parameters, beanDs1);

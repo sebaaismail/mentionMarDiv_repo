@@ -14,19 +14,27 @@ import java.util.ArrayList;
 public class MyCommonUtils {
 
 
+    public ActionListener actionDeces = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+
+        }
+    };
+
     public static void setListComponentsEnabled(ArrayList<JComponent> listComponents, boolean b) {
 
         for (JComponent comp : listComponents) {
 
             if (comp.getClass().getSimpleName().equals("JTextField"))
                 ((JTextField) comp).setEditable(b);
-            else if(comp.getClass().getSimpleName().equals("JCheckBox"))
+            else if (comp.getClass().getSimpleName().equals("JCheckBox"))
                 ((JCheckBox) comp).setEnabled(b);
-            else if(comp.getClass().getSimpleName().equals("JComboBox"))
+            else if (comp.getClass().getSimpleName().equals("JComboBox"))
                 ((JComboBox) comp).setEnabled(b);
-            else if(comp.getClass().getSimpleName().equals("JRadioButton"))
+            else if (comp.getClass().getSimpleName().equals("JRadioButton"))
                 ((JRadioButton) comp).setEnabled(b);
-            else if(comp.getClass().getSimpleName().equals("JDatePickerImpl")) {
+            else if (comp.getClass().getSimpleName().equals("JDatePickerImpl")) {
                 ((JDatePickerImpl) comp).setTextEditable(b);
                 // set the button disabled
                 ((JDatePickerImpl) comp).getComponent(1).setEnabled(b);
@@ -35,16 +43,7 @@ public class MyCommonUtils {
         }
 
 
-
     }
-
-    public ActionListener actionDeces = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-
-        }
-    };
 
 }
 

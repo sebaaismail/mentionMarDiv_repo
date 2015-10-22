@@ -3,10 +3,12 @@ package com.sebaainf.mentionMarDiv.citoyenPackage;
 import com.jenkov.db.itf.mapping.AGetterMapping;
 import com.jgoodies.common.bean.Bean;
 import com.sebaainf.mentionMarDiv.mentionPack.Mention;
-//import com.sebaainf.fichfamil.common.Deces;
 
 import java.sql.Date;
-import java.util.TreeSet;
+import java.util.ArrayList;
+import java.util.List;
+
+//import com.sebaainf.fichfamil.common.Deces;
 
 //import com.sebaainf.fichfamil.persistance.MyDaosCitoyen;
 
@@ -55,10 +57,9 @@ public class Citoyen extends Bean implements IPerson {
     private String np_mere = "";
     private Boolean est_masculin = true;
 
-
     private Boolean dateNaiss_est_presume = false;
 
-    private TreeSet<Mention> listMentions = new TreeSet<Mention>();
+    private List<Mention> listMentions = new ArrayList<Mention>();
 
 
     @AGetterMapping(databaseGenerated = true)
@@ -201,25 +202,6 @@ public class Citoyen extends Bean implements IPerson {
 
     }
 
-
-
-
-    public Boolean getDate_est_presume() {
-
-        return dateNaiss_est_presume;
-    }
-
-    public void setDate_est_presume(Boolean newDateNaiss_est_presume) {
-
-        Boolean oldDateNaiss_est_presume = this.dateNaiss_est_presume;
-        this.dateNaiss_est_presume = newDateNaiss_est_presume;
-        if (oldDateNaiss_est_presume != newDateNaiss_est_presume) {
-            firePropertyChange(Citoyen.PROPERTY_DATENAISS_EST_PRESUME,
-                    oldDateNaiss_est_presume, newDateNaiss_est_presume);
-        }
-    }
-
-
     public String getLieunaiss() {
 
         return lieunaiss;
@@ -249,10 +231,40 @@ public class Citoyen extends Bean implements IPerson {
         }
     }
 
-    public void addMention(Mention ment){
+
+    public Boolean getDateNaiss_est_presume() {
+
+        return dateNaiss_est_presume;
+    }
+
+    public void setDateNaiss_est_presume(Boolean newDateNaiss_est_presume) {
+
+        Boolean oldDateNaiss_est_presume = this.dateNaiss_est_presume;
+        this.dateNaiss_est_presume = newDateNaiss_est_presume;
+        if (oldDateNaiss_est_presume != newDateNaiss_est_presume) {
+            firePropertyChange(Citoyen.PROPERTY_DATENAISS_EST_PRESUME,
+                    oldDateNaiss_est_presume, newDateNaiss_est_presume);
+        }
+
+    }
+
+    public List<Mention> getListMentions() {
+
+        return listMentions;
+    }
+
+    public void setListMentions(List<Mention> listMentions) {
+
+        this.listMentions = listMentions;
+    }
+
+    public void addMention(Mention ment) {
+
         this.listMentions.add(ment);
     }
-    public void removeMention(Mention ment){
-            this.listMentions.remove(ment);
+
+    public void removeMention(Mention ment) {
+
+        this.listMentions.remove(ment);
     }
 }

@@ -56,7 +56,6 @@ public class ReportMention2 {
             JRDesignVariable prenomVar;
 
 
-
             jasperReport1 = JasperCompileManager.compileReport(jasperDesign1);
 
 

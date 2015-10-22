@@ -11,21 +11,6 @@ import java.util.Date;
  */
 public class Mention extends Bean implements Comparable<Mention> {
 
-    private int id_ment;
-    private int id_cit;
-    private int numact_mar;
-    private Date date_mar;
-    private Date date_acte_mar;
-    private int annee_mar;
-    private String acte_ecrit_par;
-
-    private String np_conj_ar;
-    private String np_conj_fr;
-
-    private Boolean est_divorce;
-    private String tribunal_div;
-    private Date date_div;
-
     public static final String PROPERTY_ID_MENT = "id_ment";
     public static final String PROPERTY_ID_CIT = "id_cit";
     public static final String PROPERTY_NUMACT_MAR = "numact_mar";
@@ -33,23 +18,34 @@ public class Mention extends Bean implements Comparable<Mention> {
     public static final String PROPERTY_DATE_ACTE_MAR = "date_acte_mar";
     public static final String PROPERTY_ANNEE_MAR = "annee_mar";
     public static final String PROPERTY_ACTE_ECRIT_PAR = "acte_ecrit_par";
-
     public static final String PROPERTY_NP_CONJ_AR = "np_conj_ar";
     public static final String PROPERTY_NP_CONJ_FR = "np_conj_fr";
-
     public static final String PROPERTY_EST_DIVORCE = "est_divorce";
     public static final String PROPERTY_TRIBUNAL_DIV = "tribunal_div";
     public static final String PROPERTY_DATE_DIV = "date_div";
+    private int id_ment;
+    private int id_cit;
+    private int numact_mar;
+    private Date date_mar;
+    private Date date_acte_mar;
+    private int annee_mar;
+    private String acte_ecrit_par;
+    private String np_conj_ar;
+    private String np_conj_fr;
+    private Boolean est_divorce;
+    private String tribunal_div;
+    private Date date_div;
 
 
-
-    public Mention(){
+    public Mention() {
 
     }
 
-    public Mention(Citoyen cit){
+    public Mention(Citoyen cit) {
+
         this.setId_cit(cit.getId_cit());
     }
+
     @AGetterMapping(databaseGenerated = true)
 
     public int getId_cit() {
@@ -78,8 +74,6 @@ public class Mention extends Bean implements Comparable<Mention> {
         this.numact_mar = newNumact_mar;
         firePropertyChange(PROPERTY_NUMACT_MAR, oldValue, newNumact_mar);
     }
-
-
 
 
     @Override

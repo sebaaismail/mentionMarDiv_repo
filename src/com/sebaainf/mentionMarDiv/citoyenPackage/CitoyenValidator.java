@@ -1,19 +1,17 @@
-package com.sebaainf.mentionMarDiv.presentation;
+package com.sebaainf.mentionMarDiv.citoyenPackage;
 
 import com.jgoodies.binding.PresentationModel;
 import com.jgoodies.validation.ValidationResult;
 import com.jgoodies.validation.Validator;
-import com.sebaainf.mentionMarDiv.citoyenPackage.Citoyen;
 import com.sebaainf.mentionMarDiv.common.IsmValidator;
 
 
 /**
- * Created by ${sebaainf.com} on 04/04/2015.
+ * Created by ${sebaainf.com} on 22/10/2015.
  * https://bitbucket.org/sebaa_ismail
  * https://github.com/sebaaismail
  */
 public class CitoyenValidator extends IsmValidator implements Validator<Object> {
-
 
 
     public CitoyenValidator(PresentationModel preModel) {

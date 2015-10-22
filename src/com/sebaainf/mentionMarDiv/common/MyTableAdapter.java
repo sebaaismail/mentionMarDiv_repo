@@ -1,15 +1,12 @@
 package com.sebaainf.mentionMarDiv.common;
 
 import com.jgoodies.binding.adapter.AbstractTableAdapter;
-import com.jgoodies.binding.list.SelectionInList;
 import com.jgoodies.common.collect.ArrayListModel;
-import com.sebaainf.mentionMarDiv.citoyenPackage.Citoyen;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
-import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
@@ -30,30 +27,34 @@ public class MyTableAdapter extends AbstractTableAdapter {
     private Color backgroundColor = Color.darkGray;
     private Color foregroundColor = Color.white;
 
-    private  String[] columnNames;
+    private String[] columnNames;
 
 
-    private  String[] columnsHeaderText;
+    private String[] columnsHeaderText;
 
     /**
      * constructor without columnsHeaderText
+     *
      * @param list
      * @param columnNames
      */
-    public MyTableAdapter(java.util.List list, String[] columnNames){
+    public MyTableAdapter(java.util.List list, String[] columnNames) {
+
         super(new ArrayListModel((Collection) list), columnNames);
         this.columnNames = columnNames;
     }
 
     /**
      * constructor with columnsHeaderText
+     *
      * @param list
      * @param columnNames
      * @param columnsHeaderText
      */
 
     public MyTableAdapter(List list, String[] columnNames
-                                             , String[] columnsHeaderText){
+            , String[] columnsHeaderText) {
+
         this(list, columnNames);
         this.columnsHeaderText = columnsHeaderText;
     }
@@ -66,10 +67,10 @@ public class MyTableAdapter extends AbstractTableAdapter {
 
         FontMetrics metrics = table.getFontMetrics(table.getFont());
         int fontHeight = metrics.getHeight();
-        table.setRowHeight( fontHeight + 4 );
+        table.setRowHeight(fontHeight + 4);
         DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
         rightRenderer.setHorizontalAlignment(SwingConstants.CENTER);
-        for(int i=0;i<table.getColumnCount();i++){
+        for (int i = 0; i < table.getColumnCount(); i++) {
             table.getColumnModel().getColumn(i).setCellRenderer(rightRenderer);
         }
 
@@ -80,6 +81,7 @@ public class MyTableAdapter extends AbstractTableAdapter {
     }
 
     public void settingTable(JTable table, Color backgroundColor, Color foregroundColor) {
+
         this.backgroundColor = backgroundColor;
         this.foregroundColor = foregroundColor;
         settingTable(table);
@@ -99,7 +101,7 @@ public class MyTableAdapter extends AbstractTableAdapter {
 
         Object obj = getRow(rowIndex);
 
-        for (int i=0; i < columnNames.length; i++ ){
+        for (int i = 0; i < columnNames.length; i++) {
             if (columnIndex == i) {
                 try {
                     return PropertyUtils.getProperty(obj, columnNames[i]);
@@ -116,20 +118,19 @@ public class MyTableAdapter extends AbstractTableAdapter {
         return null;
     }
 
-    public void setHeaders(JTable table, String[] columnsHeaderText){
+    public void setHeaders(JTable table, String[] columnsHeaderText) {
 
-        if (columnsHeaderText.length >0){
-            for(int i=0; i<columnsHeaderText.length; i++){
+        if (columnsHeaderText.length > 0) {
+            for (int i = 0; i < columnsHeaderText.length; i++) {
 
-                if ((columnsHeaderText[i]!= null) && (columnsHeaderText[i]!="")) {
+                if ((columnsHeaderText[i] != null) && (columnsHeaderText[i] != "")) {
 
-                table.getColumnModel().getColumn(i).setHeaderValue(columnsHeaderText[i]);
+                    table.getColumnModel().getColumn(i).setHeaderValue(columnsHeaderText[i]);
 
                 }
 
             }
         }
-
 
 
     }
@@ -147,7 +148,7 @@ public class MyTableAdapter extends AbstractTableAdapter {
     /**
      * @should test MyTableAdapter
      */
-    void tester(){
+    void tester() {
 
     }
 }

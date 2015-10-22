@@ -1,13 +1,13 @@
 package com.sebaainf.mentionMarDiv.citoyenPackage;
 
 import com.jgoodies.binding.adapter.AbstractTableAdapter;
-import com.jgoodies.binding.list.SelectionInList;
 import com.jgoodies.common.collect.ArrayListModel;
 import com.jgoodies.forms.builder.FormBuilder;
 import com.jgoodies.forms.factories.Paddings;
 import com.sebaainf.mentionMarDiv.common.MyApp;
 import com.sebaainf.mentionMarDiv.common.MyTableAdapter;
-import com.sebaainf.mentionMarDiv.mentionPack.ChooseMentFrame;
+import com.sebaainf.mentionMarDiv.mentionPack.ListMentions_window;
+import com.sebaainf.mentionMarDiv.mentionPack.MyDaosMention;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
@@ -21,49 +21,13 @@ import java.util.List;
  * https://bitbucket.org/sebaa_ismail
  * https://github.com/sebaaismail
  */
-public class ResultaRechJFrame extends JFrame {
+public class ResultaRech_window extends JFrame {
 
-    private List listCit;
     private static Dimension screenSize, dimWin, dimPannel;
+    private static ResultaRech_window uniqueFrame;
+    private List listCit;
 
-    private static ResultaRechJFrame uniqueFrame;
-
-    private class CitoyenTableAdapter extends AbstractTableAdapter {
-
-        public CitoyenTableAdapter(ListModel listModel, String[] columnNames){
-            super(listModel, columnNames);
-        }
-        /**
-         * Returns the value for the cell at <code>columnIndex</code> and
-         * <code>rowIndex</code>.
-         *
-         * @param rowIndex    the row whose value is to be queried
-         * @param columnIndex the column whose value is to be queried
-         * @return the value Object at the specified cell
-         */
-        @Override
-        public Object getValueAt(int rowIndex, int columnIndex) {
-
-            Citoyen cit = (Citoyen) getRow(rowIndex);
-            if (columnIndex == 0){
-                return cit.getNom_ar();
-            } else if (columnIndex == 1){
-                return cit.getPrenom_ar();
-            } else if (columnIndex == 2){
-                return cit.getDate_naiss();
-            } else if (columnIndex == 3){
-                return cit.getP_pere();
-            } else if (columnIndex == 4){
-                return cit.getNp_mere();
-            } else if (columnIndex == 5){
-                return cit.getNom_fr();
-            } else {
-                return cit.getPrenom_fr();
-            }
-        }
-    }
-
-    private ResultaRechJFrame(List listCit) {
+    private ResultaRech_window(List listCit) {
 
         UIManager.put("Table.background", new ColorUIResource(MyApp.tableBackColor));
         UIManager.put("Table.alternateRowColor", MyApp.alternateRowColor);
@@ -84,20 +48,16 @@ public class ResultaRechJFrame extends JFrame {
         this.setLocationRelativeTo(null); //to center the frame in the middle of screen
     }
 
-    // Singleton
-
-    public static ResultaRechJFrame getInstance(List listCit) {
+    public static ResultaRech_window getInstance(List listCit) {
 
         if (uniqueFrame == null) {
-            uniqueFrame = new ResultaRechJFrame(listCit);
+            uniqueFrame = new ResultaRech_window(listCit);
         }
         return uniqueFrame;
 
     }
 
-
-
-
+    // Singleton
 
     public JComponent createPanel() {
 
@@ -106,11 +66,11 @@ public class ResultaRechJFrame extends JFrame {
 
         //final SelectionInList selectionInList = new SelectionInList(listCit);
         MyTableAdapter tableAdapter = new MyTableAdapter(
-                listCit,new String[] {Citoyen.PROPERTY_NOM_AR, Citoyen.PROPERTY_PRENOM_AR,
+                listCit, new String[]{Citoyen.PROPERTY_NOM_AR, Citoyen.PROPERTY_PRENOM_AR,
                 Citoyen.PROPERTY_DATE_NAISS, Citoyen.PROPERTY_P_PERE, Citoyen.PROPERTY_NP_MERE,
                 Citoyen.PROPERTY_NOM_FR, Citoyen.PROPERTY_PRENOM_FR}
-                , new String[] {"الإسم", "اللقب", "تاريخ الإزدياد",
-                        "إسم الأب", "إسم الأم", "Nom", "Prenom"});
+                , new String[]{"الإسم", "اللقب", "تاريخ الإزدياد",
+                "إسم الأب", "إسم الأم", "Nom", "Prenom"});
         JTable table = new JTable(tableAdapter);
 
         tableAdapter.settingTable(table);
@@ -119,15 +79,31 @@ public class ResultaRechJFrame extends JFrame {
 
         table.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent me) {
-                JTable table =(JTable) me.getSource();
+
+                JTable table = (JTable) me.getSource();
                 Point p = me.getPoint();
                 int row = table.rowAtPoint(p);
                 if (me.getClickCount() == 2) {
                     // your valueChanged overridden method
 
                     Citoyen selectedCit = (Citoyen) new ArrayListModel(listCit).getElementAt(table.getSelectedRow());
-                    ChooseMentFrame mentFrame = ChooseMentFrame.getInstance(selectedCit);
-                    mentFrame.setVisible(true);
+
+                    List listMent = MyDaosMention.getListMentions(selectedCit);
+                    if (listMent != null) {
+                        selectedCit.setListMentions(listMent);
+
+                        if (listMent.size() > 1) {
+                            ListMentions_window mentFrame = ListMentions_window.getInstance(selectedCit);
+                            mentFrame.setVisible(true);
+                        } else {
+                            // TODO
+                            //if( listMent.size() == 1)
+                        }
+
+                    } else {
+                        // TODO when citoyen have no mention in Data base
+                    }
+
 
                 }
             }
@@ -147,6 +123,43 @@ public class ResultaRechJFrame extends JFrame {
                 .add(scrollPane).xy(1, 1)
                 .build();
 
+    }
+
+    private class CitoyenTableAdapter extends AbstractTableAdapter {
+
+        public CitoyenTableAdapter(ListModel listModel, String[] columnNames) {
+
+            super(listModel, columnNames);
+        }
+
+        /**
+         * Returns the value for the cell at <code>columnIndex</code> and
+         * <code>rowIndex</code>.
+         *
+         * @param rowIndex    the row whose value is to be queried
+         * @param columnIndex the column whose value is to be queried
+         * @return the value Object at the specified cell
+         */
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex) {
+
+            Citoyen cit = (Citoyen) getRow(rowIndex);
+            if (columnIndex == 0) {
+                return cit.getNom_ar();
+            } else if (columnIndex == 1) {
+                return cit.getPrenom_ar();
+            } else if (columnIndex == 2) {
+                return cit.getDate_naiss();
+            } else if (columnIndex == 3) {
+                return cit.getP_pere();
+            } else if (columnIndex == 4) {
+                return cit.getNp_mere();
+            } else if (columnIndex == 5) {
+                return cit.getNom_fr();
+            } else {
+                return cit.getPrenom_fr();
+            }
+        }
     }
 
 

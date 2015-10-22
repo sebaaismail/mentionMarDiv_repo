@@ -27,18 +27,17 @@ import java.net.Socket;
 /**
  * @author sebaa ismail
  */
-public class SearchJFrame extends JFrame implements Runnable{
+public class SearchCit_window extends JFrame implements Runnable {
 
     // why implements Runnable ? ----> because it is the only
     // way to ensure that one instance of application is run
     // Singleton dont work with the first JFrame
 
 
-    //count of tried instances
-    private int triedInstances = 0;
     //the port number using
     private static final int PORT = 5555;
-
+    //count of tried instances
+    private int triedInstances = 0;
     private ValidationResultModel cit_validationResultModel = new DefaultValidationResultModel();
     private PresentationModel<Citoyen> cit_adapter = new PresentationModel<Citoyen>(new Citoyen());
     //private JLabel messageLabel = ValidationResultViewFactory.createReportIconAndTextLabel(validationResultModel);
@@ -46,7 +45,7 @@ public class SearchJFrame extends JFrame implements Runnable{
 
     private JDatePickerImpl datePicker;
 
-    public SearchJFrame() {
+    public SearchCit_window() {
 
         this.setTitle("Mention App");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -91,7 +90,7 @@ public class SearchJFrame extends JFrame implements Runnable{
                     java.util.List<Citoyen> listCit = MyDaosCitoyen.getListCit(nomFr_Field.getText(),
                             prenomFr_Field.getText(), true);
                     if (listCit.size() > 0) {
-                        JFrame winTable = ResultaRechJFrame.getInstance(listCit);
+                        JFrame winTable = ResultaRech_window.getInstance(listCit);
                         winTable.setVisible(true);
                     } else {
                         JOptionPane.showMessageDialog(null, "غير مسجل في قاعدة البيانات !");
@@ -110,13 +109,13 @@ public class SearchJFrame extends JFrame implements Runnable{
                 .rows("pref, $lg, pref, 16dlu, pref, $lg, pref, 8dlu, pref")
                 .padding(Paddings.DIALOG)
 
-                .add("Nom :")   .xy(1, 1)
-                .add(nomFr_Field) .xy(3, 1)
-                .add("Prenom :")   .xy(1, 3)
-                .add(prenomFr_Field)  .xy(3, 3)
-                .add(": اللقب")  .xy(1, 5)
-                .add(nomAr_Field) .xy(3, 5)
-                .add(": الإسم")  .xy(1, 7)
+                .add("Nom :").xy(1, 1)
+                .add(nomFr_Field).xy(3, 1)
+                .add("Prenom :").xy(1, 3)
+                .add(prenomFr_Field).xy(3, 3)
+                .add(": اللقب").xy(1, 5)
+                .add(nomAr_Field).xy(3, 5)
+                .add(": الإسم").xy(1, 7)
                 .add(prenomAr_Field).xy(3, 7)
                 .add(buttonOk).xy(3, 9, "right, fill")
                 .add(enFrance).xy(6, 3)
@@ -125,7 +124,7 @@ public class SearchJFrame extends JFrame implements Runnable{
                 .build();
         // i create tabbedPanel with MyFormBuilder
         // to centralize attributes like font size etc ...
-        }
+    }
 
     /**
      * When an object implementing interface <code>Runnable</code> is used
@@ -140,6 +139,7 @@ public class SearchJFrame extends JFrame implements Runnable{
      */
     @Override
     public void run() {
+
         try {
             //create server socket
             ServerSocket serverSocket = new ServerSocket(PORT);
@@ -197,27 +197,28 @@ public class SearchJFrame extends JFrame implements Runnable{
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-    }
-
-    private class ValidationListener implements PropertyChangeListener {
-
-        /**
-         * This method gets called when a bound property is changed.
-         *
-         * @param evt A PropertyChangeEvent object describing the event source
-         *            and the property that has changed.
-         */
-        @Override
-        public void propertyChange(PropertyChangeEvent evt) {
-
-
-            if (evt.getPropertyName() == ValidationResultModel.PROPERTY_RESULT) {
-                JOptionPane.showMessageDialog(null, "Validation has been performed");
-            } else if (evt.getPropertyName() == ValidationResultModel.PROPERTY_MESSAGES) {
-
-            }
 
         }
+
+        private class ValidationListener implements PropertyChangeListener {
+
+            /**
+             * This method gets called when a bound property is changed.
+             *
+             * @param evt A PropertyChangeEvent object describing the event source
+             *            and the property that has changed.
+             */
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+
+
+                if (evt.getPropertyName() == ValidationResultModel.PROPERTY_RESULT) {
+                    JOptionPane.showMessageDialog(null, "Validation has been performed");
+                } else if (evt.getPropertyName() == ValidationResultModel.PROPERTY_MESSAGES) {
+
+                }
+
+            }
+        }
     }
-}
 }

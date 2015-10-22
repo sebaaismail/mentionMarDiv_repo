@@ -1,7 +1,5 @@
 package com.sebaainf.mentionMarDiv.common;
 
-import com.jgoodies.binding.list.SelectionInList;
-import com.jgoodies.common.collect.ArrayListModel;
 import com.sebaainf.mentionMarDiv.citoyenPackage.Citoyen;
 import com.sebaainf.mentionMarDiv.mentionPack.Mention;
 import com.sebaainf.mentionMarDiv.mentionPack.MyDaosMention;
@@ -29,12 +27,11 @@ public class MyTableAdapterTest extends TestCase {
         List listMent = MyDaosMention.getListMentions(cit);
 
 
-
         //BeanAdapter beanAdapter = new BeanAdapter(selectionInList);
 
         MyTableAdapter tableAdapter = new MyTableAdapter(
                 listMent,
-                new String[] {Mention.PROPERTY_NP_CONJ_FR, Mention.PROPERTY_TRIBUNAL_DIV});
+                new String[]{Mention.PROPERTY_NP_CONJ_FR, Mention.PROPERTY_TRIBUNAL_DIV});
         JTable table = new JTable();
 
 

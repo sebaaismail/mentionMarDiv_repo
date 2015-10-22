@@ -2,11 +2,11 @@ package com.sebaainf.mentionMarDiv.citoyenPackage;
 
 import com.jenkov.db.itf.IDaos;
 import com.jenkov.db.itf.PersistenceException;
-import com.sebaainf.mentionMarDiv.citoyenPackage.Citoyen;
 import com.sebaainf.mentionMarDiv.persistance.MyDaos;
-//import com.sebaainf.fichfamil.common.Deces;
 
 import java.util.*;
+
+//import com.sebaainf.fichfamil.common.Deces;
 
 /**
  * Created by admin on 25/01/2015.
@@ -16,7 +16,6 @@ public class MyDaosCitoyen {
 
 
     /**
-     *
      * @param nom
      * @param prenom
      * @param inFrench
@@ -26,20 +25,20 @@ public class MyDaosCitoyen {
      */
     public static List<Citoyen> getListCit(String nom, String prenom, boolean inFrench) throws PersistenceException {
 
-    List<Citoyen> list = new ArrayList<Citoyen>();
+        List<Citoyen> list = new ArrayList<Citoyen>();
 
         try {
 
             String sql = "";
-        if (inFrench){
-            sql = "select * from citoyen where nom_fr like '"
-                    + nom + "%' and prenom_fr like '" + prenom + "%'";
-        } else {
-            sql = "select * from citoyen where nom_ar like '"
-                    + nom + "%' and prenom_ar like '" + prenom + "%'";
-        }
-        IDaos daos = MyDaos.persistenceManager.createDaos();
-        list = daos.getObjectDao().readList(Citoyen.class, sql);
+            if (inFrench) {
+                sql = "select * from citoyen where nom_fr like '"
+                        + nom + "%' and prenom_fr like '" + prenom + "%'";
+            } else {
+                sql = "select * from citoyen where nom_ar like '"
+                        + nom + "%' and prenom_ar like '" + prenom + "%'";
+            }
+            IDaos daos = MyDaos.persistenceManager.createDaos();
+            list = daos.getObjectDao().readList(Citoyen.class, sql);
 
         } catch (PersistenceException e) {
             e.printStackTrace();
@@ -48,6 +47,7 @@ public class MyDaosCitoyen {
         }
 
     }
+
     /**
      * @param id_cit
      * @return

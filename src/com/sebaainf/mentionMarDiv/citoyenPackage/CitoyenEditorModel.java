@@ -1,16 +1,7 @@
 package com.sebaainf.mentionMarDiv.citoyenPackage;
 
 import com.jgoodies.binding.PresentationModel;
-import com.jgoodies.binding.beans.Model;
-import com.jgoodies.binding.beans.PropertyAdapter;
-import com.jgoodies.binding.beans.PropertyConnector;
-import com.jgoodies.binding.list.SelectionInList;
 import com.jgoodies.binding.value.ComponentValueModel;
-import com.jgoodies.binding.value.ValueHolder;
-import com.jgoodies.binding.value.ValueModel;
-import com.jgoodies.common.collect.ArrayListModel;
-
-import javax.swing.*;
 
 /**
  * Created by ${sebaainf.com} on 21/10/2015.
@@ -45,7 +36,6 @@ public final class CitoyenEditorModel extends PresentationModel<IPerson> {
         this.citoyen = citoyen;
         initComponents();
     }
-
 
 
     /**

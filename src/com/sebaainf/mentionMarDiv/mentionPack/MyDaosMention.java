@@ -16,13 +16,13 @@ import java.util.List;
 public class MyDaosMention {
 
     /**
-     *
      * @param cit
      * @return list mentions of cit
      * @should return list mentions of cit
      */
 
     public static List<Mention> getListMentions(Citoyen cit) {
+
         List<Mention> list = new ArrayList<Mention>();
 
         try {
@@ -39,12 +39,12 @@ public class MyDaosMention {
     }
 
     /**
-     *
      * @param id_ment
      * @return
      * @should return mention where id_ment is found
      */
     public static Mention getMention(int id_ment) {
+
         Mention mention = null;
         try {
 
