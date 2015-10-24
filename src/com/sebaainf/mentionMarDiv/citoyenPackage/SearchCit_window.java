@@ -8,9 +8,11 @@ import com.jenkov.db.itf.PersistenceException;
 import com.jgoodies.binding.PresentationModel;
 import com.jgoodies.forms.builder.FormBuilder;
 import com.jgoodies.forms.factories.Paddings;
+import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.validation.ValidationResultModel;
 import com.jgoodies.validation.util.DefaultValidationResultModel;
 import com.jgoodies.validation.view.ValidationResultViewFactory;
+import com.sebaainf.mentionMarDiv.common.IsmComponentFactory;
 import org.jdatepicker.impl.JDatePickerImpl;
 
 import javax.swing.*;
@@ -23,6 +25,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Date;
 
 /**
  * @author sebaa ismail
@@ -47,7 +50,7 @@ public class SearchCit_window extends JFrame implements Runnable {
 
     public SearchCit_window() {
 
-        this.setTitle("Mention App");
+        this.setTitle("Mention App                                  / Recherche d'un citoyen");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.add(this.createPanel());
         this.pack();
@@ -69,8 +72,10 @@ public class SearchCit_window extends JFrame implements Runnable {
         JTextField prenomAr_Field = new JTextField();
 
         JButton buttonOk = new JButton("Ok");
-        JButton buttonAnnuler = new JButton("Annuler");
-        buttonOk.setPreferredSize(buttonAnnuler.getPreferredSize());
+        JButton buttonQuit = new JButton("Quitter");
+        JButton buttonNouveauCit = new JButton("* Nouveau Citoyen");
+
+        buttonOk.setPreferredSize(buttonQuit.getPreferredSize());
 
         JRadioButton enFrance = new JRadioButton("En français");
         JRadioButton enArabe = new JRadioButton("بالعربية");
@@ -102,12 +107,36 @@ public class SearchCit_window extends JFrame implements Runnable {
             }
         });
 
+        buttonQuit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                System.exit(0);
+
+            }
+        });
+
+        // testing datpicker********
+
+        JDatePickerImpl date_naiss;
+        Citoyen citTesting = new Citoyen();
+        citTesting.setDate_naiss(new java.sql.Date(1990,8,20));
+
+        date_naiss = IsmComponentFactory.createDatePickerImpl(new CitoyenEditorModel(citTesting)
+                ,Citoyen.PROPERTY_DATE_NAISS, "yyyy/MM/dd");
+
+
+
+        //*************************
+
+
+
         buttonOk.addActionListener(new CitoyenValidationAction());
         //TODO file:///C:/projects/modules/Jgoodies/jgoodies-forms-1.9.0/docs/api/index.html
         return FormBuilder.create()
                 .columns("right:pref, 4dlu, pref, 4dlu, left:pref, left:default")
-                .rows("pref, $lg, pref, 16dlu, pref, $lg, pref, 8dlu, pref")
-                .padding(Paddings.DIALOG)
+                .rows("pref, $lg, pref, 16dlu, pref, $lg, pref, 8dlu, pref, 14dlu, pref")
+                .padding(Paddings.DLU14)
 
                 .add("Nom :").xy(1, 1)
                 .add(nomFr_Field).xy(3, 1)
@@ -117,10 +146,13 @@ public class SearchCit_window extends JFrame implements Runnable {
                 .add(nomAr_Field).xy(3, 5)
                 .add(": الإسم").xy(1, 7)
                 .add(prenomAr_Field).xy(3, 7)
-                .add(buttonOk).xy(3, 9, "right, fill")
+
                 .add(enFrance).xy(6, 3)
                 .add(enArabe).xy(6, 5)
-                .add(buttonAnnuler).xyw(5, 9, 2, "left, fill")
+                //.add(buttonQuit).xyw(5, 9, 2, "left, fill")
+                .addBar(buttonOk).xy(3, 9, "right, fill")
+                .addBar(buttonQuit).xy(5, 9, "left, fill")
+                .addBar(buttonNouveauCit).xy(3, 11)
                 .build();
         // i create tabbedPanel with MyFormBuilder
         // to centralize attributes like font size etc ...

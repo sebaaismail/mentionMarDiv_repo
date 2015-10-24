@@ -4,6 +4,7 @@ import com.jgoodies.binding.adapter.AbstractTableAdapter;
 import com.jgoodies.common.collect.ArrayListModel;
 import com.jgoodies.forms.builder.FormBuilder;
 import com.jgoodies.forms.factories.Paddings;
+import com.sebaainf.mentionMarDiv.common.IsmAbstractJFrame;
 import com.sebaainf.mentionMarDiv.common.MyApp;
 import com.sebaainf.mentionMarDiv.common.MyTableAdapter;
 import com.sebaainf.mentionMarDiv.mentionPack.ListMentions_window;
@@ -23,7 +24,8 @@ import java.util.List;
  */
 public class ResultaRech_window extends JFrame {
 
-    private static Dimension screenSize, dimWin, dimPannel;
+    public static Dimension dimWin;
+    public static Dimension dimPannel;
     private static ResultaRech_window uniqueFrame;
     private List listCit;
 
@@ -31,11 +33,10 @@ public class ResultaRech_window extends JFrame {
 
         UIManager.put("Table.background", new ColorUIResource(MyApp.tableBackColor));
         UIManager.put("Table.alternateRowColor", MyApp.alternateRowColor);
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        screenSize = toolkit.getScreenSize();
+
         this.listCit = listCit;
-        dimWin = new Dimension(6 * (int) screenSize.getWidth() / 10, 4 * (int) screenSize.getHeight() / 10);
-        dimPannel = new Dimension(5 * (int) screenSize.getWidth() / 10, 3 * (int) screenSize.getHeight() / 10);
+        dimWin = new Dimension(6 * (int) IsmAbstractJFrame.screenSize.getWidth() / 10, 4 * (int) IsmAbstractJFrame.screenSize.getHeight() / 10);
+        dimPannel = new Dimension(5 * (int) IsmAbstractJFrame.screenSize.getWidth() / 10, 3 * (int) IsmAbstractJFrame.screenSize.getHeight() / 10);
 
         this.setTitle("Resultat de recherche !");
         //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

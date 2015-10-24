@@ -20,6 +20,8 @@
       <column name="np_mere" sqlType="VARCHAR" precision="60" scale="0" nullable="true" jdbcType="12"/>
       <column name="est_masculin" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6" def="MQ=="/>
       <column name="dateNaiss_est_presume" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6" def="MA=="/>
+      <column name="daira_naiss" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
+      <column name="wilaya_naiss" sqlType="VARCHAR" precision="50" scale="0" nullable="true" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="id_cit"/>
       <exported-key name="mention_ibfk_1" table="mention" schema="" catalog="dbmention" columns="id_cit"/>
       <index name="unique_index" unique="true" columns="nom_fr,prenom_fr,date_naiss,p_pere,np_mere"/>

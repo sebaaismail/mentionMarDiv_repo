@@ -1,19 +1,22 @@
 package com.sebaainf.mentionMarDiv.common;
 
+import com.jgoodies.binding.adapter.BasicComponentFactory;
 import com.jgoodies.forms.builder.FormBuilder;
-import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.debug.FormDebugPanel;
+import com.jgoodies.forms.factories.Paddings;
+import com.jgoodies.forms.layout.LayoutMap;
 import com.jgoodies.validation.ValidationResult;
 import com.jgoodies.validation.ValidationResultModel;
 import com.jgoodies.validation.util.DefaultValidationResultModel;
 import com.jgoodies.validation.view.ValidationResultViewFactory;
-import com.sebaainf.mentionMarDiv.citoyenPackage.Citoyen;
-import com.sebaainf.mentionMarDiv.citoyenPackage.CitoyenEditorModel;
-import com.sebaainf.mentionMarDiv.citoyenPackage.CitoyenValidator;
-import com.sebaainf.mentionMarDiv.citoyenPackage.MyDaosCitoyen;
+import com.sebaainf.mentionMarDiv.citoyenPackage.*;
+import com.sebaainf.mentionMarDiv.mentionPack.Mention;
 import com.sebaainf.mentionMarDiv.mentionPack.MentionEditorModel;
+
 import org.jdatepicker.impl.JDatePickerImpl;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.EventObject;
@@ -23,7 +26,7 @@ import java.util.EventObject;
  * https://bitbucket.org/sebaa_ismail
  * https://github.com/sebaaismail
  */
-public class Editor_window extends JFrame {
+public class Editor_window extends IsmAbstractJFrame {
 
     private static Editor_window uniqueInstance;
 
@@ -35,11 +38,15 @@ public class Editor_window extends JFrame {
     private MentionEditorModel mentModel;
     private JTextField nom_fr;
     private JTextField prenom_fr;
-    private JTextField nom_ar;
-    private JTextField prenom_ar;
+    public JTextField nom_ar;
+    public JTextField prenom_ar;
+
+    private JTextField emploi;
 
     private JDatePickerImpl date_naiss;
     private JTextField lieunaiss;
+    private JTextField daira_naiss;
+    private JTextField wilaya_naiss;
 
     private JTextField p_pere;
     private JTextField np_mere;
@@ -49,6 +56,22 @@ public class Editor_window extends JFrame {
     private JButton validerButton;
     private JButton annulerButton;
 
+    // ***** pour Mention
+
+    private JTextField numact_mar;
+    private JTextField np_conj_ar;
+    private JTextField np_conj_fr;
+    private JTextField acte_ecrit_par;
+    private JDatePickerImpl date_mar;
+    private JTextField annee_mar;
+    private JDatePickerImpl date_acte_mar;
+
+    private JTextField est_divorce; // TODO ???
+    private JTextField tribunal_div;
+    private JDatePickerImpl date_div;
+
+
+
     //***************************************************************
 
 
@@ -57,23 +80,31 @@ public class Editor_window extends JFrame {
         this.citModel = citModel;
         this.mentModel = mentModel;
         initComponents();
+        configContent();
 
     }
 
 
-    private void initComponents() {
+    protected void initComponents() {
 
+        this.setTitle("Application des Mentions                         " +
+                "                                                           " +
+                "                                               sebaainf©2015");
 
         nom_fr = IsmComponentFactory.createTextField(citModel.getNom_fr());
         prenom_fr = IsmComponentFactory.createTextField(citModel.getPrenom_fr());
-        nom_ar = IsmComponentFactory.createTextField(citModel.getNom_ar());
-        prenom_ar = IsmComponentFactory.createTextField(citModel.getPrenom_ar());
+        nom_ar = IsmComponentFactory.createArabTextField(citModel.getNom_ar());
+        prenom_ar = IsmComponentFactory.createArabTextField(citModel.getPrenom_ar());
 
-        lieunaiss = IsmComponentFactory.createTextField(citModel.getLieunaiss());
+        emploi = IsmComponentFactory.createArabTextField(citModel.getEmploi());
 
-        date_naiss = IsmComponentFactory.createDatePickerImpl(citModel, "yyyy/MM/dd");
+        lieunaiss = IsmComponentFactory.createArabTextField(citModel.getLieunaiss());
+        daira_naiss = IsmComponentFactory.createArabTextField(citModel.getDaira_naiss());
+        wilaya_naiss = IsmComponentFactory.createArabTextField(citModel.getWilaya_naiss());
+
+        date_naiss = IsmComponentFactory.createDatePickerImpl(citModel, Citoyen.PROPERTY_DATE_NAISS, "yyyy/MM/dd" );
         dateNaiss_est_presume = IsmComponentFactory.createCheckBox(
-                citModel.getDate_est_presume(), "* ?????");
+                citModel.getDateNaiss_est_presume(), "* ممفرض");
 
         // we use createBooleanNegator to return the inverse of Boolean
         //id_deces = IsmComponentFactory.createCheckBox(citModel.getId_deces(), "* ??? ??? ??????");
@@ -82,24 +113,27 @@ public class Editor_window extends JFrame {
 
         //*/
 
-        p_pere = IsmComponentFactory.createTextField(citModel.getP_pere());
-        np_mere = IsmComponentFactory.createTextField(citModel.getNp_mere());
+        p_pere = IsmComponentFactory.createArabTextField(citModel.getP_pere());
+        np_mere = IsmComponentFactory.createArabTextField(citModel.getNp_mere());
 
-        // HorizontalAlignment of JTextField
-        nom_ar.setHorizontalAlignment(JTextField.RIGHT);
-        prenom_ar.setHorizontalAlignment(JTextField.RIGHT);
-        p_pere.setHorizontalAlignment(JTextField.RIGHT);
-        np_mere.setHorizontalAlignment(JTextField.RIGHT);
+        //******** Now the mention fields
 
-        /*
-        if ((Integer)(citModel.getId_deces().getValue()) > 0) {
-            id_deces.setSelected(false);
-            decesInfosEnable(true);
-        } else {
-            id_deces.setSelected(true);
-            decesInfosEnable(false);
-        }
-        //*/
+        numact_mar = IsmComponentFactory.createIntegerField(mentModel.getNumact_mar());
+        np_conj_ar = IsmComponentFactory.createArabTextField(mentModel.getNp_conj_ar());
+        np_conj_fr = IsmComponentFactory.createTextField(mentModel.getNp_conj_fr());
+        annee_mar = IsmComponentFactory.createIntegerField(mentModel.getAnnee_mar());
+        acte_ecrit_par = IsmComponentFactory.createArabTextField(mentModel.getActe_ecrit_par());
+        date_mar = IsmComponentFactory.createDatePickerImpl(mentModel
+                , Mention.PROPERTY_DATE_MAR, "yyyy/MM/dd");
+        date_acte_mar = IsmComponentFactory.createDatePickerImpl(mentModel
+                , Mention.PROPERTY_DATE_ACTE_MAR, "yyyy/MM/dd");
+
+/*        date_div = IsmComponentFactory.createDatePickerImpl(mentModel
+                , Mention.PROPERTY_DATE_DIV, "yyyy/MM/dd");*/
+
+        tribunal_div = IsmComponentFactory.createArabTextField(mentModel.getActe_ecrit_par());
+
+
 
         validerButton = new JButton(new CitoyenValidationAction());
         annulerButton = new JButton("Annuler");
@@ -112,71 +146,153 @@ public class Editor_window extends JFrame {
     }
 
 
-    private JComponent buildContent() {
+    protected JComponent buildContent() {
 
-        MyCommonUtils.setListComponentsEnabled(getListComponents(), true);
+        nom_ar.setPreferredSize(date_naiss.getPreferredSize());
+        prenom_ar.setPreferredSize(date_naiss.getPreferredSize());
+
+        LayoutMap.getRoot().columnPut("label_ar", "left:pref");
+        LayoutMap.getRoot().columnPut("label_fr", "right:pref");
+
+        // TODO delete this ?
+        //MyCommonUtils.setListComponentsEnabled(getListComponents(), true);
+
+        JPanel mainPanel = new JPanel();
+
+        mainPanel.setLayout(new BorderLayout());
+
+        mainPanel.add(editorCenterPanel(), BorderLayout.CENTER);
+        mainPanel.add(westButtonsPanel(), BorderLayout.WEST);
+        mainPanel.add(southButtonsPanel(), BorderLayout.SOUTH);
 
 
-/*
-        FormLayout layout = new FormLayout(
 
-                //      textField         label         textField           label     //
-                "  4dlu,pref:grow,4dlu,right:pref,3dlu ,pref:grow  ,4dlu ,right:pref"//, //columns
-                //      --------          ------        ---------           -------
-        );
-*/
 
-        CellConstraints cc = new CellConstraints();
+        MyCommonUtils.setListComponentsEnabled(getListComponents(),true);
 
-        //JComponent form =
+        return mainPanel;
+    }
+
+    private JComponent editorCenterPanel() {
+
+
+        JPanel fullPanel = new JPanel();
+        //FormDebugPanel fullPanel = new FormDebugPanel();
+
+        fullPanel.setLayout(new FlowLayout());
+        //fullPanel.setLayout(new GridLayout(2, 1));
+
+        fullPanel.add(citEditorPanel());
+        fullPanel.add(mentZonePanel());
+
+        return fullPanel;
+
+    }
+
+    private JComponent citEditorPanel() {
+
+        // Building citEditorPanel()
+
 
         return FormBuilder.create()
-                .columns("40dlu,fill:default,8dlu,left:pref,100dlu " +
-                        ",150dlu, 8dlu, fill:default, 40dlu")
-                .rows("40dlu,p,6dlu,p,6dlu,p,6dlu,p,6dlu,p,6dlu," +
-                        "p,6dlu,p,6dlu,p,40dlu,p,40dlu,p")
-                .columnGroups(new int[][]{{2, 6}, {4, 8}})
-                .rowGroups(new int[][]{{12, 14}})
-                .add("??????? :").xy(8, 2)
-                .add(nom_ar).xy(6, 2)
-                .add(": Nom").xy(4, 2)
-                .add(nom_fr).xy(2, 2)
-                .add("??????? :").xy(8, 4)
-                .add(prenom_ar).xy(6, 4)
-                .add(": Prenom").xy(4, 4)
-                .add(prenom_fr).xy(2, 4)
-                .add("????? ???????? :").xy(8, 6)
-                .add(date_naiss).xy(6, 6)
-                .add(dateNaiss_est_presume).at(cc.xy(6, 8, CellConstraints.RIGHT,
-                        CellConstraints.CENTER))
-                .add("???? ???????? :").xy(4, 6)
-                .add("*********").xy(2, 6)
-                .add("*********").xy(2, 8)
-                .add("??? ???? ???? :").xy(8, 10)
-                .add(p_pere).xy(6, 10)
-                .add("??? ???? ???? :").xy(4, 10)
-                .add(np_mere).xy(2, 10)
-                .add("????? :").xy(4, 12)
-                .add("*********").at(cc.xy(2, 12, CellConstraints.RIGHT,
-                        CellConstraints.CENTER))
-                .add("*********").at(cc.xy(2, 14, CellConstraints.RIGHT,
-                        CellConstraints.CENTER))
-                .add("*********").xy(6, 12)
-                .add("*********").xy(8, 16)
-                .add("*********").xy(6, 16)
-                .add("*********").xy(4, 16)
-                .add("*********").xy(2, 16)
-                .add(messageLabel).xy(4, 20)
-                .addBar(validerButton, annulerButton).xy(6, 18)
-                        //.add(validerButton).xywh(4, 18,2,1)
-                        //.add(annulerButton).xy(6, 18)
+                //.debug(true)
+                .columns("pref, $lcgap, $label_ar, 10dlu, pref, $lcgap, $label_ar")
+                .rows("p, 14dlu, p, 14dlu, p, 14dlu, p, $lgap, p")
+                .columnGroups(new int[][]{{1, 5}})
+                .padding(Paddings.DLU21)
 
+                .add("اللقب :").xy(7, 1)
+                .add(prenom_ar).xy(5, 1)
+                .add("الإسم :").xy(3, 1)
+                .add(nom_ar)   .xy(1, 1)
 
-                        // TODO buttons ok annuler ?
+                .add("المهنة :").xy(7, 3)
+                .add(emploi).xy(5, 3)
+
+                .add("المولود في :").xy(7, 5)
+                .add(date_naiss).xy(5, 5)
+                .add("بـــ  :").xy(3, 5)
+                .add(lieunaiss).xy(1, 5)
+
+                .add("دائرة :").xy(7, 7)
+                .add(daira_naiss).xy(5, 7)
+                .add("ولايـة :").xy(3, 7)
+                .add(wilaya_naiss).xy(1, 7)
+
+                .add("إبــن :").xy(7, 9)
+                .add(p_pere).xy(5, 9)
+                .add("و    :").xy(3, 9)
+                .add(np_mere).xy(1, 9)
 
                 .build();
 
+    }
 
+    private JComponent mentZonePanel() {
+
+        JPanel mentZonePanel = new JPanel();
+        // Building mentEditorPanel
+        // mentZonePanel have BorderLayout with parts :
+
+
+        mentZonePanel.setLayout(new BorderLayout());
+
+        mentZonePanel.add(mentEditorPanel(), BorderLayout.CENTER);
+        mentZonePanel.add(choiceMentPanel(), BorderLayout.EAST);
+
+        return mentZonePanel;
+    }
+
+    private JComponent mentEditorPanel() {
+
+
+        //TODO
+        return FormBuilder.create()
+                .debug(true)
+                .columns("20dlu, $lcgap, $label_ar, 10dlu, pref, $lcgap, $label_ar")
+                .rows("p, $lgap, p, $lgap, p, $lgap, p, $lgap, p")
+                //.columnGroups(new int[][]{{1, 5}})
+                .padding(Paddings.DLU21)
+
+                .add("تم عقد زواجه مع :").xy(7, 1)
+                .add(np_conj_ar).xy(5, 1)
+                .add("حرر من طرف :").xy(7, 3)
+                .add(acte_ecrit_par).xy(5, 3)
+                .add("بتاريخ :").xy(7, 5)
+                .add(date_mar).xy(5, 5)
+                .add("قيد في سجلات الزواج بتاريخ :").xy(7, 7)
+                .add(date_acte_mar).xy(5, 7)
+
+                .build();
+    }
+
+    private JComponent choiceMentPanel() {
+
+
+        //TODO
+        return new JPanel();
+    }
+
+
+
+    private JComponent westButtonsPanel() {
+
+        JPanel pan = new JPanel();
+        //testField = new JTextField("Test");
+        //testField.setText("Test");
+        //testField.setSize(60, 10);
+        //pan.add(testField);
+
+       // pan.add(testField);
+
+        return pan;
+
+    }
+
+    private JComponent southButtonsPanel() {
+
+
+        return new JPanel();
     }
 
     public JComponent showDialog(EventObject e) {
@@ -185,6 +301,7 @@ public class Editor_window extends JFrame {
 
     }
 
+    @Override
     public ArrayList<JComponent> getListComponents() {
 
         ArrayList<JComponent> list = new ArrayList<JComponent>();
@@ -193,6 +310,10 @@ public class Editor_window extends JFrame {
         list.add(nom_fr);
         list.add(prenom_fr);
         list.add(date_naiss);
+        list.add(lieunaiss);
+        list.add(emploi);
+        list.add(daira_naiss);
+        list.add(wilaya_naiss);
 
         list.add(p_pere);
         list.add(np_mere);

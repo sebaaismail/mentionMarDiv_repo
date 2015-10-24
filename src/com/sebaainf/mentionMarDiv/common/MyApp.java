@@ -55,6 +55,9 @@ public class MyApp {
 
         System.out.println("Welcome to Mentions app");
 
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        IsmAbstractJFrame.screenSize = toolkit.getScreenSize();
+
         JFrame frame = new SearchCit_window();
 
         frame.setVisible(true);

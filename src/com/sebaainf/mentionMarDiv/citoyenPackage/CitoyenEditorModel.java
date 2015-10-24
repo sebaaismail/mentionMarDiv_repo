@@ -13,14 +13,19 @@ public final class CitoyenEditorModel extends PresentationModel<IPerson> {
     private ComponentValueModel prenom_fr;
     private ComponentValueModel nom_ar;
     private ComponentValueModel prenom_ar;
+
     private ComponentValueModel date_naiss;
     private ComponentValueModel lieunaiss;
+    private ComponentValueModel daira_naiss;
+    private ComponentValueModel wilaya_naiss;
+
+
     private ComponentValueModel emploi;
 
     private ComponentValueModel p_pere;
     private ComponentValueModel np_mere;
 
-    private ComponentValueModel date_est_presume;
+    private ComponentValueModel dateNaiss_est_presume;
     private ComponentValueModel est_masculin;
 
 
@@ -48,14 +53,19 @@ public final class CitoyenEditorModel extends PresentationModel<IPerson> {
         nom_ar = this.getComponentModel(Citoyen.PROPERTY_NOM_AR);
         prenom_ar = this.getComponentModel(Citoyen.PROPERTY_PRENOM_AR);
         id_cit = this.getComponentModel(Citoyen.PROPERTY_ID_CIT);
+
         date_naiss = this.getComponentModel(Citoyen.PROPERTY_DATE_NAISS);
         lieunaiss = this.getComponentModel(Citoyen.PROPERTY_LIEUNAISS);
+        daira_naiss = this.getComponentModel(Citoyen.PROPERTY_DAIRA_NAISS);
+        wilaya_naiss = this.getComponentModel(Citoyen.PROPERTY_WILAYA_NAISS);
+
+
         emploi = this.getComponentModel(Citoyen.PROPERTY_EMPLOI);
 
         p_pere = this.getComponentModel(Citoyen.PROPERTY_P_PERE);
         np_mere = this.getComponentModel(Citoyen.PROPERTY_NP_MERE);
 
-        date_est_presume = this.getComponentModel(Citoyen.PROPERTY_DATENAISS_EST_PRESUME);
+        dateNaiss_est_presume = this.getComponentModel(Citoyen.PROPERTY_DATENAISS_EST_PRESUME);
         est_masculin = this.getComponentModel(Citoyen.PROPERTY_EST_MASCULIN);
 
     }
@@ -95,6 +105,16 @@ public final class CitoyenEditorModel extends PresentationModel<IPerson> {
         return lieunaiss;
     }
 
+    public ComponentValueModel getDaira_naiss() {
+
+        return daira_naiss;
+    }
+
+    public ComponentValueModel getWilaya_naiss() {
+
+        return wilaya_naiss;
+    }
+
     public ComponentValueModel getEmploi() {
 
         return emploi;
@@ -111,9 +131,9 @@ public final class CitoyenEditorModel extends PresentationModel<IPerson> {
     }
 
 
-    public ComponentValueModel getDate_est_presume() {
+    public ComponentValueModel getDateNaiss_est_presume() {
 
-        return date_est_presume;
+        return dateNaiss_est_presume;
     }
 
     public ComponentValueModel getEst_masculin() {

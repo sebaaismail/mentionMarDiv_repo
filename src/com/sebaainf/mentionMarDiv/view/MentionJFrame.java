@@ -4,7 +4,6 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.sebaainf.mentionMarDiv.citoyenPackage.Citoyen;
 import com.sebaainf.mentionMarDiv.common.MyApp;
 import com.sebaainf.mentionMarDiv.mentionPack.Mention;
-import com.sebaainf.mentionMarDiv.presentation.CitoyenPresentation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -72,7 +71,7 @@ public final class MentionJFrame extends JFrame {
         //todo Testing JComboBox binding
         //ficheFam.getCitoyen().setSit_famil("d");
         // CitoyenPresentation presenter = new CitoyenPresentation(mention.getCitoyen());
-        CitoyenPresentation presenter = new CitoyenPresentation(new Citoyen());
+        //s CitoyenPresentation presenter = new CitoyenPresentation(new Citoyen());
         // TODO set CitoyenManagerUI in place CitoyenManagerUI_Test
         //CitoyenManagerUI_Test app = new CitoyenManagerUI_Test(presenter);
 

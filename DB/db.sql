@@ -10,6 +10,8 @@ CREATE TABLE dbmention.Citoyen
 	prenom_ar VARCHAR(40) NOT NULL,
 	date_naiss DATE NULL,
 	lieunaiss VARCHAR(100) NULL,
+	daira_naiss VARCHAR(50) NULL,
+	wilaya_naiss VARCHAR(50) NULL,
 	emploi VARCHAR(80) NULL,
 	p_pere VARCHAR(40) NULL,
 	np_mere VARCHAR(60) NULL,

@@ -36,7 +36,7 @@ public class ListMentions_window extends JFrame {
         dimWin = new Dimension(6 * (int) screenSize.getWidth() / 10, 4 * (int) screenSize.getHeight() / 10);
         dimPannel = new Dimension(5 * (int) screenSize.getWidth() / 10, 3 * (int) screenSize.getHeight() / 10);
 
-        this.setTitle("Resultat de recherche !");
+        this.setTitle("Liste des mentions");
         //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.add(this.createPanel());
 
@@ -102,19 +102,11 @@ public class ListMentions_window extends JFrame {
                     MentionEditorModel mentModel = new MentionEditorModel(selectedMent);
 
                     Editor_window view = new Editor_window(citModel, mentModel);
-                    System.out.printf("affichage de l'editeur citoyen");
-                    JFrame editCitPanel = new JFrame();
-                    editCitPanel.add(view.showDialog(null));
-                    editCitPanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    editCitPanel.setTitle("Application des Mentions                         " +
-                            "                                                           " +
-                            "                                               sebaainf©2015");
+                    view.setVisible(true);
 
-                    editCitPanel.pack();
-                    editCitPanel.setSize(new Dimension(8 * (int) screenSize.getWidth() / 10, 9 * (int) screenSize.getHeight() / 10));
-
-                    editCitPanel.setLocationRelativeTo(null);
-                    editCitPanel.setVisible(true);
+                    System.out.println("i am here, building the center of Editor ... citoyen name is :");
+                    System.out.println(view.nom_ar.getText() + " " + view.prenom_ar.getText());
+                    System.out.println("sahitah");
 
                 }
             }

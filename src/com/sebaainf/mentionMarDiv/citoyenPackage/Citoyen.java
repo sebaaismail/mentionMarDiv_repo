@@ -33,6 +33,9 @@ public class Citoyen extends Bean implements IPerson {
 
     public static final String PROPERTY_DATE_NAISS = "date_naiss";
     public static final String PROPERTY_LIEUNAISS = "lieunaiss";
+    public static final String PROPERTY_DAIRA_NAISS = "daira_naiss";
+    public static final String PROPERTY_WILAYA_NAISS = "wilaya_naiss";
+
     public static final String PROPERTY_EMPLOI = "emploi";
 
     public static final String PROPERTY_P_PERE = "p_pere";
@@ -51,6 +54,10 @@ public class Citoyen extends Bean implements IPerson {
 
     private Date date_naiss;
     private String lieunaiss = "";
+    private String daira_naiss = "";
+    private String wilaya_naiss = "";
+
+
     private String emploi = "";
 
     private String p_pere = "";
@@ -213,6 +220,34 @@ public class Citoyen extends Bean implements IPerson {
         this.lieunaiss = new_lieunaiss;
         if (!old_lieunaiss.equals(new_lieunaiss)) {
             firePropertyChange(Citoyen.PROPERTY_LIEUNAISS, old_lieunaiss, new_lieunaiss);
+        }
+    }
+
+    public String getDaira_naiss() {
+
+        return daira_naiss;
+    }
+
+    public void setDaira_naiss(String new_daira_naiss) {
+
+        String old_daira_naiss = this.daira_naiss;
+        this.daira_naiss = new_daira_naiss;
+        if (!old_daira_naiss.equals(new_daira_naiss)) {
+            firePropertyChange(Citoyen.PROPERTY_DAIRA_NAISS, old_daira_naiss, new_daira_naiss);
+        }
+    }
+
+    public String getWilaya_naiss() {
+
+        return wilaya_naiss;
+    }
+
+    public void setWilaya_naiss(String new_wilaya_naiss) {
+
+        String old_wilaya_naiss = this.wilaya_naiss;
+        this.wilaya_naiss = new_wilaya_naiss;
+        if (!old_wilaya_naiss.equals(new_wilaya_naiss)) {
+            firePropertyChange(Citoyen.PROPERTY_WILAYA_NAISS, old_wilaya_naiss, new_wilaya_naiss);
         }
     }
 
