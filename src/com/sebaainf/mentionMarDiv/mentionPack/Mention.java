@@ -11,6 +11,9 @@ import java.util.Date;
  */
 public class Mention extends Bean implements Comparable<Mention> {
 
+    // always becarfull declare boolean as boolean with small b miniscul , not Boolean
+    // because Boolean will causes a problem in binding part
+
     public static final String PROPERTY_ID_MENT = "id_ment";
     public static final String PROPERTY_ID_CIT = "id_cit";
     public static final String PROPERTY_NUMACT_MAR = "numact_mar";
@@ -32,7 +35,7 @@ public class Mention extends Bean implements Comparable<Mention> {
     private String acte_ecrit_par;
     private String np_conj_ar;
     private String np_conj_fr;
-    private Boolean est_divorce;
+    private boolean est_divorce;
     private String tribunal_div;
     private Date date_div;
 
@@ -185,9 +188,10 @@ public class Mention extends Bean implements Comparable<Mention> {
         return est_divorce;
     }
 
-    public void setEst_divorce(Boolean new_est_divorce) {
+    public void setEst_divorce(boolean new_est_divorce) {
 
-        Boolean oldValue = this.est_divorce;
+
+        boolean oldValue = this.est_divorce;
         this.est_divorce = new_est_divorce;
         if (oldValue != new_est_divorce) {
             firePropertyChange(PROPERTY_EST_DIVORCE, oldValue, new_est_divorce);

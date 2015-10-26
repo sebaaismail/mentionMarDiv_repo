@@ -1,24 +1,21 @@
 package com.sebaainf.mentionMarDiv.common;
 
-import com.jgoodies.binding.adapter.BasicComponentFactory;
-import com.jgoodies.binding.adapter.RadioButtonAdapter;
 import com.jgoodies.forms.builder.FormBuilder;
-import com.jgoodies.forms.debug.FormDebugPanel;
 import com.jgoodies.forms.factories.Paddings;
 import com.jgoodies.forms.layout.LayoutMap;
 import com.jgoodies.validation.ValidationResult;
 import com.jgoodies.validation.ValidationResultModel;
 import com.jgoodies.validation.util.DefaultValidationResultModel;
 import com.jgoodies.validation.view.ValidationResultViewFactory;
-import com.sebaainf.mentionMarDiv.citoyenPackage.*;
+import com.sebaainf.mentionMarDiv.citoyenPackage.Citoyen;
+import com.sebaainf.mentionMarDiv.citoyenPackage.CitoyenEditorModel;
+import com.sebaainf.mentionMarDiv.citoyenPackage.CitoyenValidator;
+import com.sebaainf.mentionMarDiv.citoyenPackage.MyDaosCitoyen;
 import com.sebaainf.mentionMarDiv.mentionPack.Mention;
 import com.sebaainf.mentionMarDiv.mentionPack.MentionEditorModel;
-
 import org.jdatepicker.impl.JDatePickerImpl;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.text.NumberFormat;
@@ -30,9 +27,9 @@ import java.util.EventObject;
  * https://bitbucket.org/sebaa_ismail
  * https://github.com/sebaaismail
  */
-public class Editor_window extends IsmAbstractJFrame {
+public class OLD_Editor_window extends IsmAbstractJFrame {
 
-    private static Editor_window uniqueInstance;
+    private static OLD_Editor_window uniqueInstance;
 
 
     private ValidationResultModel validationResultModel = new DefaultValidationResultModel();
@@ -88,7 +85,7 @@ public class Editor_window extends IsmAbstractJFrame {
     //***************************************************************
 
 
-    public Editor_window(CitoyenEditorModel citModel, MentionEditorModel mentModel) {
+    public OLD_Editor_window(CitoyenEditorModel citModel, MentionEditorModel mentModel) {
 
         this.citModel = citModel;
         this.mentModel = mentModel;
@@ -102,7 +99,7 @@ public class Editor_window extends IsmAbstractJFrame {
 
         this.setTitle("Application des Mentions                         " +
                 "                                                           " +
-                "                                               Boufatis©2015");
+                "                                               sebaainf©2015");
 
         nom_fr = IsmComponentFactory.createTextField(citModel.getNom_fr());
         prenom_fr = IsmComponentFactory.createTextField(citModel.getPrenom_fr());
@@ -131,16 +128,12 @@ public class Editor_window extends IsmAbstractJFrame {
 
         //******** Now the mention fields
 
-        NumberFormat nf = NumberFormat.getInstance();
-        nf.setGroupingUsed(false);                // to remove the thousand separator
-
-
-
-        numact_mar = IsmComponentFactory.createIntegerField(mentModel.getNumact_mar(),nf, null);
+        numact_mar = IsmComponentFactory.createIntegerField(mentModel.getNumact_mar());
         np_conj_ar = IsmComponentFactory.createArabTextField(mentModel.getNp_conj_ar());
         np_conj_fr = IsmComponentFactory.createTextField(mentModel.getNp_conj_fr());
 
-
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setGroupingUsed(false);                // to remove the thousand separator
         annee_mar = IsmComponentFactory.createIntegerField(mentModel.getAnnee_mar(),nf, null);
 
 
@@ -156,7 +149,6 @@ public class Editor_window extends IsmAbstractJFrame {
         tribunal_div = IsmComponentFactory.createArabTextField(mentModel.getTribunal_div());
 
         divorce = IsmComponentFactory.createRadioButton(mentModel.getEst_divorce(),true,"طلاق");
-        //mariage = new JRadioButton("زواج");
         mariage = IsmComponentFactory.createRadioButton(mentModel.getEst_divorce(),false,"زواج");
 
 
@@ -178,29 +170,6 @@ public class Editor_window extends IsmAbstractJFrame {
         prenom_ar.setPreferredSize(date_naiss.getPreferredSize());
 
         annee_mar.setColumns(4);
-        numact_mar.setColumns(6);
-        annee_mar.setHorizontalAlignment(JTextField.RIGHT);
-        numact_mar.setHorizontalAlignment(JTextField.RIGHT);
-
-
-        //setting border
-        for(JComponent comp:getListComponents()) {
-            if (!comp.getClass().getSimpleName().equals("JDatePickerImpl"))
-            comp.setBorder(BorderFactory.createEtchedBorder());
-        }
-
-        mariage.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                if (mariage.isSelected()) {
-
-                }
-            }
-        });
-
-        /*ButtonGroup bg = new ButtonGroup();
-        bg.add(mariage);
-        bg.add(divorce);*/
 
 
         LayoutMap.getRoot().columnPut("label_ar", "left:pref");
@@ -235,6 +204,7 @@ public class Editor_window extends IsmAbstractJFrame {
         //fullPanel.setLayout(new GridLayout(2, 1));
 
         fullPanel.add(citEditorPanel());
+        fullPanel.add(mentZonePanel());
 
         return fullPanel;
 
@@ -247,9 +217,8 @@ public class Editor_window extends IsmAbstractJFrame {
 
         return FormBuilder.create()
                 //.debug(true)
-                .columns("pref, $lcgap, $label_ar, $ugap , pref, $lcgap, $label_ar, $lcgap, $label_ar")
-                .rows("p, $lgap, p, $lgap, p, $lgap, p, $lgap, p, 21dlu,"       // for Citoyen Zone
-                +"p, $lgap, p, $lgap, p, $lgap, p, $lgap, p, $pgap, p, $lgap, p")//for mention Zone
+                .columns("pref, $lcgap, $label_ar, $ugap , pref, $lcgap, $label_ar")
+                .rows("p, $pgap, p, $pgap, p, $lgap, p, $pgap, p")
                 .columnGroups(new int[][]{{1, 5}})
                 .padding(Paddings.DLU21)
 
@@ -276,32 +245,73 @@ public class Editor_window extends IsmAbstractJFrame {
                 .add("و    :").xy(3, 9)
                 .add(np_mere).xy(1, 9)
 
-                // mention zone began
-
-                .add("تم عقد زواجه مع :").xyw(3, 11, 3)
-                .add(np_conj_ar).xy(1, 11)
-                .add("حرر من طرف :").xyw(3, 13, 3)
-                .add(acte_ecrit_par).xy(1, 13)
-                .add("بتاريخ :").xyw(3, 15, 3)
-                .add(date_mar).xy(1, 15)
-                .add("عـام :").xyw(3, 17, 3)
-                .add(annee_mar).xy(1, 17, "right,center")
-                .add("قيد في سجلات الزواج بتاريخ :").xyw(3, 19, 3)
-                .add(date_acte_mar).xy(1, 19)
-
-                .add(tribunLabel).xyw(3, 21, 3)
-                .add(tribunal_div).xy(1, 21)
-                .add(dateDivLabel).xyw(3, 23, 3)
-                .add(date_div).xy(1, 23)
-
-                .add(mariage).xy(5, 13, "right,center")
-                .add(divorce).xy(5, 15, "right,center")
-                .add("رقـم :").xy(7, 17)
-                .add(numact_mar).xy(5, 17, "right,center")
-
                 .build();
 
     }
+
+    private JComponent mentZonePanel() {
+
+        JPanel mentZonePanel = new JPanel();
+        // Building mentEditorPanel
+        // mentZonePanel have BorderLayout with parts :
+
+
+        mentZonePanel.setLayout(new BorderLayout());
+
+        mentZonePanel.add(mentEditorPanel(), BorderLayout.CENTER);
+        mentZonePanel.add(choiceMentPanel(), BorderLayout.EAST);
+
+        return mentZonePanel;
+    }
+
+    private JComponent mentEditorPanel() {
+
+        return FormBuilder.create()
+                //.debug(true)
+                .columns("pref, $lcgap, $label_ar, $ugap, pref, $lcgap, $label_ar")
+                .rows("p, $lgap, p, $lgap, p, $lgap, p, $pgap, p, $lgap, p")
+                //.columnGroups(new int[][]{{1, 5}})
+                //.padding(Paddings.DLU21)
+
+                .add("تم عقد زواجه مع :").xy(7, 1)
+                .add(np_conj_ar).xy(5, 1)
+                .add("حرر من طرف :").xy(7, 3)
+                .add(acte_ecrit_par).xy(5, 3)
+                .add("بتاريخ :").xy(7, 5)
+                .add(date_mar).xy(5, 5)
+                .add("عـام :").xy(3, 5)
+                .add(annee_mar).xy(1, 5)
+                .add("قيد في سجلات الزواج بتاريخ :").xy(7, 7)
+                .add(date_acte_mar).xy(5, 7)
+
+                .add(tribunLabel).xy(7, 9)
+                .add(tribunal_div).xy(5, 9)
+                .add(dateDivLabel).xy(7, 11)
+                .add(date_div).xy(5, 11)
+
+
+                .build();
+    }
+
+    private JComponent choiceMentPanel() {
+
+
+        //TODO
+        return FormBuilder.create()
+                .debug(true)
+                .columns("pref, $rgap, $label_ar")
+                .rows("p, $lgap, p, $pgap, p")
+                        //.columnGroups(new int[][]{{1, 5}})
+                .padding(Paddings.DLU21)
+
+                .add(mariage).xyw(1, 1,3)
+                .add(divorce).xyw(1, 3, 3)
+                .add("رقـم :").xy(3, 5)
+                .add(numact_mar).xy(1, 5)
+                .build();
+    }
+
+
 
     private JComponent westButtonsPanel() {
 
@@ -345,17 +355,6 @@ public class Editor_window extends IsmAbstractJFrame {
 
         list.add(p_pere);
         list.add(np_mere);
-
-        list.add(np_conj_ar);
-        list.add(np_conj_fr);
-        list.add(acte_ecrit_par);
-        list.add(date_mar);
-        list.add(annee_mar);
-        list.add(date_acte_mar);
-        list.add(date_acte_mar);
-        list.add(tribunal_div);
-        list.add(date_div);
-        list.add(numact_mar);
 
         return list;
 

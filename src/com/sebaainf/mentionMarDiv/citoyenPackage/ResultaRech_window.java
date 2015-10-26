@@ -4,10 +4,13 @@ import com.jgoodies.binding.adapter.AbstractTableAdapter;
 import com.jgoodies.common.collect.ArrayListModel;
 import com.jgoodies.forms.builder.FormBuilder;
 import com.jgoodies.forms.factories.Paddings;
+import com.sebaainf.mentionMarDiv.common.Editor_window;
 import com.sebaainf.mentionMarDiv.common.IsmAbstractJFrame;
 import com.sebaainf.mentionMarDiv.common.MyApp;
 import com.sebaainf.mentionMarDiv.common.MyTableAdapter;
 import com.sebaainf.mentionMarDiv.mentionPack.ListMentions_window;
+import com.sebaainf.mentionMarDiv.mentionPack.Mention;
+import com.sebaainf.mentionMarDiv.mentionPack.MentionEditorModel;
 import com.sebaainf.mentionMarDiv.mentionPack.MyDaosMention;
 
 import javax.swing.*;
@@ -53,6 +56,11 @@ public class ResultaRech_window extends JFrame {
 
         if (uniqueFrame == null) {
             uniqueFrame = new ResultaRech_window(listCit);
+        } else {
+            //becarfull with using singleton
+            // for exple : without this else part it was an disaster
+            uniqueFrame.dispose();
+            uniqueFrame = new ResultaRech_window(listCit);
         }
         return uniqueFrame;
 
@@ -97,8 +105,12 @@ public class ResultaRech_window extends JFrame {
                             ListMentions_window mentFrame = ListMentions_window.getInstance(selectedCit);
                             mentFrame.setVisible(true);
                         } else {
-                            // TODO
-                            //if( listMent.size() == 1)
+                            //so( listMent.size() == 1)
+                            CitoyenEditorModel citModel = new CitoyenEditorModel(selectedCit);
+                            MentionEditorModel mentModel = new MentionEditorModel((Mention) listMent.get(0));
+
+                            Editor_window view = new Editor_window(citModel, mentModel);
+                            view.setVisible(true);
                         }
 
                     } else {

@@ -28,17 +28,19 @@ public class MyDaosCitoyen {
         List<Citoyen> list = new ArrayList<Citoyen>();
 
         try {
+            if (!nom.equals("") && !prenom.equals("")) {
 
-            String sql = "";
-            if (inFrench) {
-                sql = "select * from citoyen where nom_fr like '"
-                        + nom + "%' and prenom_fr like '" + prenom + "%'";
-            } else {
-                sql = "select * from citoyen where nom_ar like '"
-                        + nom + "%' and prenom_ar like '" + prenom + "%'";
+                String sql = "";
+                if (inFrench) {
+                    sql = "select * from citoyen where nom_fr like '"
+                            + nom + "%' and prenom_fr like '" + prenom + "%'";
+                } else {
+                    sql = "select * from citoyen where nom_ar like '"
+                            + nom + "%' and prenom_ar like '" + prenom + "%'";
+                }
+                IDaos daos = MyDaos.persistenceManager.createDaos();
+                list = daos.getObjectDao().readList(Citoyen.class, sql);
             }
-            IDaos daos = MyDaos.persistenceManager.createDaos();
-            list = daos.getObjectDao().readList(Citoyen.class, sql);
 
         } catch (PersistenceException e) {
             e.printStackTrace();

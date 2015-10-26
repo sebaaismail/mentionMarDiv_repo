@@ -8,7 +8,7 @@ import com.jenkov.db.itf.PersistenceException;
 import com.jgoodies.binding.PresentationModel;
 import com.jgoodies.forms.builder.FormBuilder;
 import com.jgoodies.forms.factories.Paddings;
-import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.validation.ValidationResult;
 import com.jgoodies.validation.ValidationResultModel;
 import com.jgoodies.validation.util.DefaultValidationResultModel;
 import com.jgoodies.validation.view.ValidationResultViewFactory;
@@ -16,6 +16,8 @@ import com.sebaainf.mentionMarDiv.common.IsmComponentFactory;
 import org.jdatepicker.impl.JDatePickerImpl;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,12 +27,21 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Date;
 
 /**
  * @author sebaa ismail
  */
 public class SearchCit_window extends JFrame implements Runnable {
+
+
+    // Binding *************************************************
+    private PresentationModel<Citoyen> cit_adapter =
+            new PresentationModel<Citoyen>(new Citoyen());
+    private ValidationResultModel validationResultModel =
+            new DefaultValidationResultModel();
+
+    //private JTextArea messageError = ValidationResultViewFactory.createReportTextArea(validationResultModel);
+    //  *************************************************
 
     // why implements Runnable ? ----> because it is the only
     // way to ensure that one instance of application is run
@@ -41,12 +52,26 @@ public class SearchCit_window extends JFrame implements Runnable {
     private static final int PORT = 5555;
     //count of tried instances
     private int triedInstances = 0;
-    private ValidationResultModel cit_validationResultModel = new DefaultValidationResultModel();
-    private PresentationModel<Citoyen> cit_adapter = new PresentationModel<Citoyen>(new Citoyen());
-    //private JLabel messageLabel = ValidationResultViewFactory.createReportIconAndTextLabel(validationResultModel);
-    private JComponent cit_messageLabel = ValidationResultViewFactory.createReportList(cit_validationResultModel);
 
     private JDatePickerImpl datePicker;
+
+    JTextField nomFr_Field;
+    JTextField nomAr_Field;
+    JTextField prenomFr_Field;
+    JTextField prenomAr_Field;
+
+    JRadioButton enFrance = new JRadioButton("En français");
+    JRadioButton enArabe = new JRadioButton("بالعربية");
+    ButtonGroup bg = new ButtonGroup();
+
+    JLabel nomFrLabel = new JLabel("Nom :");
+    JLabel prenomFrLabel = new JLabel("Prenom :");
+    JLabel nomArLabel = new JLabel(": اللقب");
+    JLabel prenomArLabel = new JLabel(": الإسم");
+
+    JButton buttonOk = new JButton(new CitoyenValidationAction());
+    JButton buttonQuit = new JButton("Quitter");
+    JButton buttonNouveauCit = new JButton("* Nouveau Citoyen");
 
     public SearchCit_window() {
 
@@ -66,24 +91,60 @@ public class SearchCit_window extends JFrame implements Runnable {
     public JComponent createPanel() {
 
 
-        final JTextField nomFr_Field = new JTextField();
-        final JTextField nomAr_Field = new JTextField();
-        final JTextField prenomFr_Field = new JTextField();
-        JTextField prenomAr_Field = new JTextField();
+        // Binding *************************************************
+        nomFr_Field = IsmComponentFactory.createTextField(
+                cit_adapter.getModel(Citoyen.PROPERTY_NOM_FR));
 
-        JButton buttonOk = new JButton("Ok");
-        JButton buttonQuit = new JButton("Quitter");
-        JButton buttonNouveauCit = new JButton("* Nouveau Citoyen");
+        prenomFr_Field = IsmComponentFactory.createTextField(
+                cit_adapter.getModel(Citoyen.PROPERTY_PRENOM_FR));
 
+        nomAr_Field = IsmComponentFactory.createArabTextField(
+                cit_adapter.getModel(Citoyen.PROPERTY_NOM_AR));
+
+        prenomAr_Field = IsmComponentFactory.createArabTextField(
+                cit_adapter.getModel(Citoyen.PROPERTY_PRENOM_AR));
+        //  *********************************************************
+
+
+        buttonOk.setText("Ok");
         buttonOk.setPreferredSize(buttonQuit.getPreferredSize());
 
-        JRadioButton enFrance = new JRadioButton("En français");
-        JRadioButton enArabe = new JRadioButton("بالعربية");
         enFrance.setSelected(true);
 
-        ButtonGroup bg = new ButtonGroup();
+        nomAr_Field.setEnabled(false);
+        prenomAr_Field.setEnabled(false);
+        nomArLabel.setEnabled(false);
+        prenomArLabel.setEnabled(false);
+
         bg.add(enFrance);
         bg.add(enArabe);
+
+        enFrance.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+
+                nomFr_Field.setEnabled(enFrance.isSelected());
+                prenomFr_Field.setEnabled(enFrance.isSelected());
+                nomFrLabel.setEnabled(enFrance.isSelected());
+                prenomFrLabel.setEnabled(enFrance.isSelected());
+
+
+
+                nomAr_Field.setEnabled(!enFrance.isSelected());
+                prenomAr_Field.setEnabled(!enFrance.isSelected());
+                nomArLabel.setEnabled(!enFrance.isSelected());
+                prenomArLabel.setEnabled(!enFrance.isSelected());
+
+                if (enFrance.isSelected()){
+                    nomAr_Field.setText("");
+                    prenomAr_Field.setText("");
+                } else {
+                    nomFr_Field.setText("");
+                    prenomFr_Field.setText("");
+                }
+
+            }
+        });
 
         nomFr_Field.setPreferredSize(new Dimension(140, nomFr_Field.getPreferredSize().height));
 
@@ -91,18 +152,6 @@ public class SearchCit_window extends JFrame implements Runnable {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                try {
-                    java.util.List<Citoyen> listCit = MyDaosCitoyen.getListCit(nomFr_Field.getText(),
-                            prenomFr_Field.getText(), true);
-                    if (listCit.size() > 0) {
-                        JFrame winTable = ResultaRech_window.getInstance(listCit);
-                        winTable.setVisible(true);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "غير مسجل في قاعدة البيانات !");
-                    }
-                } catch (PersistenceException e1) {
-                    e1.printStackTrace();
-                }
 
             }
         });
@@ -129,22 +178,19 @@ public class SearchCit_window extends JFrame implements Runnable {
 
         //*************************
 
-
-
-        buttonOk.addActionListener(new CitoyenValidationAction());
         //TODO file:///C:/projects/modules/Jgoodies/jgoodies-forms-1.9.0/docs/api/index.html
         return FormBuilder.create()
                 .columns("right:pref, 4dlu, pref, 4dlu, left:pref, left:default")
                 .rows("pref, $lg, pref, 16dlu, pref, $lg, pref, 8dlu, pref, 14dlu, pref")
                 .padding(Paddings.DLU14)
 
-                .add("Nom :").xy(1, 1)
+                .add(nomFrLabel).xy(1, 1)
                 .add(nomFr_Field).xy(3, 1)
-                .add("Prenom :").xy(1, 3)
+                .add(prenomFrLabel).xy(1, 3)
                 .add(prenomFr_Field).xy(3, 3)
-                .add(": اللقب").xy(1, 5)
+                .add(nomArLabel).xy(1, 5)
                 .add(nomAr_Field).xy(3, 5)
-                .add(": الإسم").xy(1, 7)
+                .add(prenomArLabel).xy(1, 7)
                 .add(prenomAr_Field).xy(3, 7)
 
                 .add(enFrance).xy(6, 3)
@@ -156,6 +202,15 @@ public class SearchCit_window extends JFrame implements Runnable {
                 .build();
         // i create tabbedPanel with MyFormBuilder
         // to centralize attributes like font size etc ...
+    }
+
+    private void initilizer() {
+
+        nomFr_Field.setText("");
+        prenomFr_Field.setText("");
+        nomAr_Field.setText("");
+        prenomAr_Field.setText("");
+
     }
 
     /**
@@ -220,6 +275,8 @@ public class SearchCit_window extends JFrame implements Runnable {
         public CitoyenValidationAction() {
 
             super("Chercher");
+            System.out.println("ha wahda ...");
+
         }
 
         /**
@@ -229,6 +286,41 @@ public class SearchCit_window extends JFrame implements Runnable {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
+
+            validationResultModel.setResult(ValidationResult.EMPTY);
+
+            CitoyenValidator validator = new CitoyenValidator(cit_adapter);
+            ValidationResult result = validator.validate(cit_adapter.getBean(),!enFrance.isSelected() );
+
+            if (!result.hasErrors()) {
+
+                try {
+                    // TODO lsiten to radio button for arabic search
+                    java.util.List<Citoyen> listCit;
+                    if (enFrance.isSelected()) {
+                        listCit = MyDaosCitoyen.getListCit(cit_adapter.getBean().getNom_fr(),
+                                cit_adapter.getBean().getPrenom_fr(), true);
+                    } else {
+                        listCit = MyDaosCitoyen.getListCit(cit_adapter.getBean().getNom_ar(),
+                                cit_adapter.getBean().getPrenom_ar(), false);
+                    }
+
+                    if (listCit.size() > 0) {
+                        JFrame winTable = ResultaRech_window.getInstance(listCit);
+                        winTable.setVisible(true);
+                        //initilizer();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "غير مسجل في قاعدة البيانات !");
+                    }
+                } catch (PersistenceException e1) {
+                    e1.printStackTrace();
+                }
+
+
+            } else {
+
+                JOptionPane.showMessageDialog(null, result.getMessagesText());
+            }
 
         }
 

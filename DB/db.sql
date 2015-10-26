@@ -30,7 +30,7 @@ CREATE TABLE dbmention.Mention
 	date_mar DATE NOT NULL,
 	date_acte_mar DATE NOT NULL,
 	annee_mar INT UNSIGNED NOT NULL,
-	acte_ecrit_par VARCHAR(255) DEFAULT '',
+	acte_ecrit_par VARCHAR(255) DEFAULT 'ضابط الحالة المدنية',
 	np_conj_ar VARCHAR(255) DEFAULT '',
 	np_conj_fr VARCHAR(255) DEFAULT '',
 	est_divorce BOOLEAN DEFAULT FALSE ,

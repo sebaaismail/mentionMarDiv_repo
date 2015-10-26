@@ -33,7 +33,7 @@
       <column name="date_mar" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
       <column name="date_acte_mar" sqlType="DATE" precision="10" scale="0" nullable="false" jdbcType="91"/>
       <column name="annee_mar" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="true" jdbcType="4"/>
-      <column name="acte_ecrit_par" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12" def="Jyc="/>
+      <column name="acte_ecrit_par" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12" def="J9i22KfYqNi3INin2YTYrdin2YTYqSDYp9mE2YXYr9mG2YrYqSc="/>
       <column name="np_conj_ar" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="np_conj_fr" sqlType="VARCHAR" precision="255" scale="0" nullable="true" jdbcType="12"/>
       <column name="est_divorce" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6" def="MA=="/>

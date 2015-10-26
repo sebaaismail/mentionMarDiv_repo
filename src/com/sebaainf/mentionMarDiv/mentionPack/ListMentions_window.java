@@ -95,18 +95,11 @@ public class ListMentions_window extends JFrame {
                     Mention selectedMent = (Mention) new ArrayListModel(cit.getListMentions())
                             .getElementAt(table.getSelectedRow());
 
-                    //FicheMentionCit fiche = new FicheMentionCit(cit, selectedMent);
-                    //EditorView editorWin = EditorView.getInstance(fiche);
-                    //editorWin.setVisible(true);
                     CitoyenEditorModel citModel = new CitoyenEditorModel(cit);
                     MentionEditorModel mentModel = new MentionEditorModel(selectedMent);
 
                     Editor_window view = new Editor_window(citModel, mentModel);
                     view.setVisible(true);
-
-                    System.out.println("i am here, building the center of Editor ... citoyen name is :");
-                    System.out.println(view.nom_ar.getText() + " " + view.prenom_ar.getText());
-                    System.out.println("sahitah");
 
                 }
             }

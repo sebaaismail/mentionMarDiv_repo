@@ -24,17 +24,33 @@ public class CitoyenValidator extends IsmValidator implements Validator<Object> 
     public ValidationResult validate(Object citoyen) {
 
         //TODO complete the validations
-        System.out.println("validating...");
-        addBlankError(Citoyen.PROPERTY_NOM_AR, "اللقب");
-        addBlankError(Citoyen.PROPERTY_PRENOM_AR, "الإسم");
+        System.out.println("validating french...");
+
         addBlankError(Citoyen.PROPERTY_NOM_FR, "Nom_FR");
         addBlankError(Citoyen.PROPERTY_PRENOM_FR, "Prenom_FR");
+
         /*
         if (this.preModel.getModel("nom_ar").getValue().equals("")) {
             validationResult.addError("من فضلك ، قم بإدخال بيانات اللقب");
             System.out.println("erreur 1 !!!!!!!");
         }
 */
+        return validationResult;
+    }
+
+    public ValidationResult validate(Object citoyen, boolean arabicSearch) {
+
+        if (arabicSearch) {
+            System.out.println("validating arabic...");
+
+            addBlankError(Citoyen.PROPERTY_NOM_AR, "Nom_AR");
+            addBlankError(Citoyen.PROPERTY_PRENOM_AR, "Prenom_AR");
+
+        } else {
+            validate(citoyen);
+
+        }
+
         return validationResult;
     }
 }

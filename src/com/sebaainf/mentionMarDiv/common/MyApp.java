@@ -6,7 +6,11 @@ import com.sebaainf.mentionMarDiv.view.themes.BlackTheme;
 import com.sebaainf.mentionMarDiv.view.themes.MyTheme;
 
 import javax.swing.*;
+import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  * Created by admin on 24/01/2015.
@@ -23,6 +27,7 @@ public class MyApp {
     public static void setUIFont(javax.swing.plaf.FontUIResource f) {
 
         java.util.Enumeration keys = UIManager.getDefaults().keys();
+
         while (keys.hasMoreElements()) {
             Object key = keys.nextElement();
             Object value = UIManager.get(key);
@@ -32,17 +37,17 @@ public class MyApp {
     }
 
     public static void main(String[] args) {
-
-
         /**
          * set jgoodies Look And Feel
          */
+
 
         EventQueue.invokeLater(new Runnable() {
             public void run() {
 
                 try {
                     UIManager.setLookAndFeel(new Plastic3DLookAndFeel());
+                    UIManager.put("TextField.inactiveBackground", new ColorUIResource(Color.blue));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

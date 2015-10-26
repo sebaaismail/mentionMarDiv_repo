@@ -23,6 +23,10 @@ import java.util.List;
 
 public class Citoyen extends Bean implements IPerson {
 
+    // always becarfull declare boolean as boolean with small b miniscul , not Boolean
+    // because Boolean will causes a problem in binding part
+
+
 
     public static final String PROPERTY_ID_CIT = "id_cit";
 
@@ -62,9 +66,9 @@ public class Citoyen extends Bean implements IPerson {
 
     private String p_pere = "";
     private String np_mere = "";
-    private Boolean est_masculin = true;
+    private boolean est_masculin = true;
 
-    private Boolean dateNaiss_est_presume = false;
+    private boolean dateNaiss_est_presume = false;
 
     private List<Mention> listMentions = new ArrayList<Mention>();
 
@@ -194,14 +198,14 @@ public class Citoyen extends Bean implements IPerson {
 
     }
 
-    public Boolean getEst_masculin() {
+    public boolean getEst_masculin() {
 
         return est_masculin;
     }
 
-    public void setEst_masculin(Boolean newEst_masculin) {
+    public void setEst_masculin(boolean newEst_masculin) {
 
-        Boolean oldEst_masculin = this.est_masculin;
+        boolean oldEst_masculin = this.est_masculin;
         this.est_masculin = newEst_masculin;
         if (oldEst_masculin != newEst_masculin) {
             firePropertyChange(Citoyen.PROPERTY_EST_MASCULIN, oldEst_masculin, newEst_masculin);
@@ -267,14 +271,14 @@ public class Citoyen extends Bean implements IPerson {
     }
 
 
-    public Boolean getDateNaiss_est_presume() {
+    public boolean getDateNaiss_est_presume() {
 
         return dateNaiss_est_presume;
     }
 
-    public void setDateNaiss_est_presume(Boolean newDateNaiss_est_presume) {
+    public void setDateNaiss_est_presume(boolean newDateNaiss_est_presume) {
 
-        Boolean oldDateNaiss_est_presume = this.dateNaiss_est_presume;
+        boolean oldDateNaiss_est_presume = this.dateNaiss_est_presume;
         this.dateNaiss_est_presume = newDateNaiss_est_presume;
         if (oldDateNaiss_est_presume != newDateNaiss_est_presume) {
             firePropertyChange(Citoyen.PROPERTY_DATENAISS_EST_PRESUME,

@@ -19,7 +19,7 @@ public abstract class IsmAbstractJFrame extends JFrame{
 
     protected void configContent() {
 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.add(buildContent());
         this.pack();
         this.setSize(new Dimension(8 * (int) screenSize.getWidth() / 10,
