@@ -11,8 +11,7 @@ import com.jgoodies.forms.factories.Paddings;
 import com.jgoodies.validation.ValidationResult;
 import com.jgoodies.validation.ValidationResultModel;
 import com.jgoodies.validation.util.DefaultValidationResultModel;
-import com.jgoodies.validation.view.ValidationResultViewFactory;
-import com.sebaainf.mentionMarDiv.common.IsmComponentFactory;
+import com.sebaainf.mentionMarDiv.ismUtils.IsmComponentFactory;
 import org.jdatepicker.impl.JDatePickerImpl;
 
 import javax.swing.*;
@@ -59,6 +58,7 @@ public class SearchCit_window extends JFrame implements Runnable {
     JTextField nomAr_Field;
     JTextField prenomFr_Field;
     JTextField prenomAr_Field;
+
 
     JRadioButton enFrance = new JRadioButton("En français");
     JRadioButton enArabe = new JRadioButton("بالعربية");

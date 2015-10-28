@@ -2,7 +2,7 @@ package com.sebaainf.mentionMarDiv.citoyenPackage;
 
 import com.jenkov.db.itf.IDaos;
 import com.jenkov.db.itf.PersistenceException;
-import com.sebaainf.mentionMarDiv.persistance.MyDaos;
+import com.sebaainf.mentionMarDiv.common.MyDaos;
 
 import java.util.*;
 

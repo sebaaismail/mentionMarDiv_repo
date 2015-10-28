@@ -26,13 +26,13 @@ public class Mention extends Bean implements Comparable<Mention> {
     public static final String PROPERTY_EST_DIVORCE = "est_divorce";
     public static final String PROPERTY_TRIBUNAL_DIV = "tribunal_div";
     public static final String PROPERTY_DATE_DIV = "date_div";
-    private int id_ment;
+    private int id_ment = -1; // default id_ment is -1 to help us when we will added new mention and when we update a mention
     private int id_cit;
     private int numact_mar;
     private Date date_mar;
     private Date date_acte_mar;
     private int annee_mar;
-    private String acte_ecrit_par;
+    private String acte_ecrit_par = "ضابط الحالة المدنية";
     private String np_conj_ar;
     private String np_conj_fr;
     private boolean est_divorce;

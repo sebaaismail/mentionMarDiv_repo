@@ -2,15 +2,13 @@ package com.sebaainf.mentionMarDiv.common;
 
 import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
 import com.sebaainf.mentionMarDiv.citoyenPackage.SearchCit_window;
+import com.sebaainf.mentionMarDiv.ismUtils.IsmAbstractJFrame;
 import com.sebaainf.mentionMarDiv.view.themes.BlackTheme;
 import com.sebaainf.mentionMarDiv.view.themes.MyTheme;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 /**
  * Created by admin on 24/01/2015.
@@ -21,6 +19,7 @@ public class MyApp {
     public static MyTheme theme = new BlackTheme(); //todo put in config
     public static Color tableBackColor = Color.white;
     public static Color alternateRowColor = Color.lightGray;
+
     //public static Color tableBackgColor = Color.decode("#D7EAF5");
 
     //public static MyTheme theme = new GreyTheme(); //todo put in config

@@ -3,7 +3,7 @@ package com.sebaainf.mentionMarDiv.citoyenPackage;
 import com.jgoodies.binding.PresentationModel;
 import com.jgoodies.validation.ValidationResult;
 import com.jgoodies.validation.Validator;
-import com.sebaainf.mentionMarDiv.common.IsmValidator;
+import com.sebaainf.mentionMarDiv.ismUtils.IsmValidator;
 
 
 /**

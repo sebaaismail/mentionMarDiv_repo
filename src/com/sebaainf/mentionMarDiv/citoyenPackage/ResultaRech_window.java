@@ -5,9 +5,9 @@ import com.jgoodies.common.collect.ArrayListModel;
 import com.jgoodies.forms.builder.FormBuilder;
 import com.jgoodies.forms.factories.Paddings;
 import com.sebaainf.mentionMarDiv.common.Editor_window;
-import com.sebaainf.mentionMarDiv.common.IsmAbstractJFrame;
+import com.sebaainf.mentionMarDiv.ismUtils.IsmAbstractJFrame;
 import com.sebaainf.mentionMarDiv.common.MyApp;
-import com.sebaainf.mentionMarDiv.common.MyTableAdapter;
+import com.sebaainf.mentionMarDiv.ismUtils.IsmTableAdapter;
 import com.sebaainf.mentionMarDiv.mentionPack.ListMentions_window;
 import com.sebaainf.mentionMarDiv.mentionPack.Mention;
 import com.sebaainf.mentionMarDiv.mentionPack.MentionEditorModel;
@@ -74,7 +74,7 @@ public class ResultaRech_window extends JFrame {
         //final List listCitoyens = new ArrayListModel(this.listCit);
 
         //final SelectionInList selectionInList = new SelectionInList(listCit);
-        MyTableAdapter tableAdapter = new MyTableAdapter(
+        IsmTableAdapter tableAdapter = new IsmTableAdapter(
                 listCit, new String[]{Citoyen.PROPERTY_NOM_AR, Citoyen.PROPERTY_PRENOM_AR,
                 Citoyen.PROPERTY_DATE_NAISS, Citoyen.PROPERTY_P_PERE, Citoyen.PROPERTY_NP_MERE,
                 Citoyen.PROPERTY_NOM_FR, Citoyen.PROPERTY_PRENOM_FR}
@@ -98,26 +98,27 @@ public class ResultaRech_window extends JFrame {
                     Citoyen selectedCit = (Citoyen) new ArrayListModel(listCit).getElementAt(table.getSelectedRow());
 
                     List listMent = MyDaosMention.getListMentions(selectedCit);
-                    if (listMent != null) {
+
                         selectedCit.setListMentions(listMent);
 
                         if (listMent.size() > 1) {
                             ListMentions_window mentFrame = ListMentions_window.getInstance(selectedCit);
                             mentFrame.setVisible(true);
                         } else {
-                            //so( listMent.size() == 1)
+
                             CitoyenEditorModel citModel = new CitoyenEditorModel(selectedCit);
-                            MentionEditorModel mentModel = new MentionEditorModel((Mention) listMent.get(0));
+                            MentionEditorModel mentModel;
+                            if (listMent.size() == 1) {
+                                //so( listMent.size() == 1)
+                                mentModel = new MentionEditorModel((Mention) listMent.get(0));
+                            } else {
+                                //so( listMent.size() == 0) no mention in data base ,we will create one
+                                mentModel = new MentionEditorModel(new Mention());
+                            }
 
                             Editor_window view = new Editor_window(citModel, mentModel);
                             view.setVisible(true);
                         }
-
-                    } else {
-                        // TODO when citoyen have no mention in Data base
-                    }
-
-
                 }
             }
         });

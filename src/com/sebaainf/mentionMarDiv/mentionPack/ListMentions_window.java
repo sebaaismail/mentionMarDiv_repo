@@ -6,7 +6,7 @@ import com.jgoodies.forms.factories.Paddings;
 import com.sebaainf.mentionMarDiv.citoyenPackage.Citoyen;
 import com.sebaainf.mentionMarDiv.citoyenPackage.CitoyenEditorModel;
 import com.sebaainf.mentionMarDiv.common.Editor_window;
-import com.sebaainf.mentionMarDiv.common.MyTableAdapter;
+import com.sebaainf.mentionMarDiv.ismUtils.IsmTableAdapter;
 
 import javax.swing.*;
 import java.awt.*;
@@ -62,7 +62,7 @@ public class ListMentions_window extends JFrame {
 
         //BeanAdapter beanAdapter = new BeanAdapter(selectionInList);
 
-        MyTableAdapter tableAdapter = new MyTableAdapter(
+        IsmTableAdapter tableAdapter = new IsmTableAdapter(
                 this.cit.getListMentions(),
                 new String[]{Mention.PROPERTY_NUMACT_MAR, Mention.PROPERTY_DATE_MAR,
                         Mention.PROPERTY_NP_CONJ_FR, Mention.PROPERTY_TRIBUNAL_DIV, Mention.PROPERTY_NP_CONJ_AR},

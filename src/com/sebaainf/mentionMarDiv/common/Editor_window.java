@@ -1,9 +1,7 @@
 package com.sebaainf.mentionMarDiv.common;
 
-import com.jgoodies.binding.adapter.BasicComponentFactory;
-import com.jgoodies.binding.adapter.RadioButtonAdapter;
+import com.jgoodies.forms.builder.ButtonBarBuilder;
 import com.jgoodies.forms.builder.FormBuilder;
-import com.jgoodies.forms.debug.FormDebugPanel;
 import com.jgoodies.forms.factories.Paddings;
 import com.jgoodies.forms.layout.LayoutMap;
 import com.jgoodies.validation.ValidationResult;
@@ -11,6 +9,10 @@ import com.jgoodies.validation.ValidationResultModel;
 import com.jgoodies.validation.util.DefaultValidationResultModel;
 import com.jgoodies.validation.view.ValidationResultViewFactory;
 import com.sebaainf.mentionMarDiv.citoyenPackage.*;
+import com.sebaainf.mentionMarDiv.ismUtils.IsmAbstractJFrame;
+import com.sebaainf.mentionMarDiv.ismUtils.IsmButtonBarBuilder;
+import com.sebaainf.mentionMarDiv.ismUtils.IsmButtonStackBuilder;
+import com.sebaainf.mentionMarDiv.ismUtils.IsmComponentFactory;
 import com.sebaainf.mentionMarDiv.mentionPack.Mention;
 import com.sebaainf.mentionMarDiv.mentionPack.MentionEditorModel;
 
@@ -117,10 +119,8 @@ public class Editor_window extends IsmAbstractJFrame {
 
         date_naiss = IsmComponentFactory.createDatePickerImpl(citModel, Citoyen.PROPERTY_DATE_NAISS, "yyyy/MM/dd" );
         dateNaiss_est_presume = IsmComponentFactory.createCheckBox(
-                citModel.getDateNaiss_est_presume(), "* ممفرض");
+                citModel.getDateNaiss_est_presume(), "* تاريخ مفترض");
 
-        // we use createBooleanNegator to return the inverse of Boolean
-        //id_deces = IsmComponentFactory.createCheckBox(citModel.getId_deces(), "* ??? ??? ??????");
 
         //*
 
@@ -248,56 +248,57 @@ public class Editor_window extends IsmAbstractJFrame {
         return FormBuilder.create()
                 //.debug(true)
                 .columns("pref, $lcgap, $label_ar, $ugap , pref, $lcgap, $label_ar, $lcgap, $label_ar")
-                .rows("p, $lgap, p, $lgap, p, $lgap, p, $lgap, p, 21dlu,"       // for Citoyen Zone
-                +"p, $lgap, p, $lgap, p, $lgap, p, $lgap, p, $pgap, p, $lgap, p")//for mention Zone
+                .rows("p, $lgap, p, $lgap, p, $lgap,p ,$lgap , p, $lgap, p, 21dlu,"       // for Citoyen Zone
+                        + "p, $lgap, p, $lgap, p, $lgap, p, $lgap, p, $pgap, p, $lgap, p")//for mention Zone
                 .columnGroups(new int[][]{{1, 5}})
-                .padding(Paddings.DLU21)
+                .padding(Paddings.DLU14)
 
-                .add("اللقب :").xy(7, 1)
+                .add("الإسم :").xy(7, 1)
                 .add(prenom_ar).xy(5, 1)
-                .add("الإسم :").xy(3, 1)
-                .add(nom_ar)   .xy(1, 1)
+                .add("اللقب :").xy(3, 1)
+                .add(nom_ar).xy(1, 1)
 
                 .add("المهنة :").xy(7, 3)
                 .add(emploi).xy(5, 3)
 
                 .add("المولود في :").xy(7, 5)
                 .add(date_naiss).xy(5, 5)
+                .add(dateNaiss_est_presume).xy(5, 7, "right, center")
                 .add("بـــ  :").xy(3, 5)
                 .add(lieunaiss).xy(1, 5)
 
-                .add("دائرة :").xy(7, 7)
-                .add(daira_naiss).xy(5, 7)
-                .add("ولايـة :").xy(3, 7)
-                .add(wilaya_naiss).xy(1, 7)
+                .add("دائرة :").xy(7, 9)
+                .add(daira_naiss).xy(5, 9)
+                .add("ولايـة :").xy(3, 9)
+                .add(wilaya_naiss).xy(1, 9)
 
-                .add("إبــن :").xy(7, 9)
-                .add(p_pere).xy(5, 9)
-                .add("و    :").xy(3, 9)
-                .add(np_mere).xy(1, 9)
+                .add("إبــن :").xy(7, 11)
+                .add(p_pere).xy(5, 11)
+                .add("و    :").xy(3, 11)
+                .add(np_mere).xy(1, 11)
 
                 // mention zone began
 
-                .add("تم عقد زواجه مع :").xyw(3, 11, 3)
-                .add(np_conj_ar).xy(1, 11)
-                .add("حرر من طرف :").xyw(3, 13, 3)
-                .add(acte_ecrit_par).xy(1, 13)
-                .add("بتاريخ :").xyw(3, 15, 3)
-                .add(date_mar).xy(1, 15)
-                .add("عـام :").xyw(3, 17, 3)
-                .add(annee_mar).xy(1, 17, "right,center")
-                .add("قيد في سجلات الزواج بتاريخ :").xyw(3, 19, 3)
-                .add(date_acte_mar).xy(1, 19)
+                .add("تم عقد زواجه مع :").xyw(3, 13, 3)
+                .add(np_conj_ar).xy(1, 13)
+                .add("حرر من طرف :").xyw(3, 15, 3)
+                .add(acte_ecrit_par).xy(1, 15)
+                .add("بتاريخ :").xyw(3, 17, 3)
+                .add(date_mar).xy(1, 17)
+                .add("عـام :").xyw(3, 19, 3)
+                .add(annee_mar).xy(1, 19, "right,center")
+                .add("قيد في سجلات الزواج بتاريخ :").xyw(3, 21, 3)
+                .add(date_acte_mar).xy(1, 21)
 
-                .add(tribunLabel).xyw(3, 21, 3)
-                .add(tribunal_div).xy(1, 21)
-                .add(dateDivLabel).xyw(3, 23, 3)
-                .add(date_div).xy(1, 23)
+                .add(tribunLabel).xyw(3, 23, 3)
+                .add(tribunal_div).xy(1, 23)
+                .add(dateDivLabel).xyw(3, 25, 3)
+                .add(date_div).xy(1, 25)
 
-                .add(mariage).xy(5, 13, "right,center")
-                .add(divorce).xy(5, 15, "right,center")
-                .add("رقـم :").xy(7, 17)
-                .add(numact_mar).xy(5, 17, "right,center")
+                .add(mariage).xy(5, 15, "right,center")
+                .add(divorce).xy(5, 17, "right,center")
+                .add("رقـم :").xy(7, 19)
+                .add(numact_mar).xy(5, 19, "right,center")
 
                 .build();
 
@@ -306,21 +307,63 @@ public class Editor_window extends IsmAbstractJFrame {
     private JComponent westButtonsPanel() {
 
         JPanel pan = new JPanel();
-        //testField = new JTextField("Test");
-        //testField.setText("Test");
-        //testField.setSize(60, 10);
-        //pan.add(testField);
+        IsmButtonStackBuilder bsBuilder = new IsmButtonStackBuilder(pan, screenSize);
+        bsBuilder.setBackground(MyApp.theme.buttonBarColor);
 
-       // pan.add(testField);
+        JButton buttonRetour = new JButton("Retour");
+        JButton buttonSupprCit = new JButton("Supprimer enr.Citoyen");
+        JButton buttonAjouterMent = new JButton("Ajouter Mention");
+        JButton buttonSupprMent = new JButton("Supprimer Mention");
+        JButton buttonQuitter = new JButton("Quitter");
 
-        return pan;
+        bsBuilder.addGlue();
+
+        bsBuilder.addButton(buttonRetour);
+        bsBuilder.addUnrelatedGap();
+
+        bsBuilder.addButton(buttonSupprCit);
+        bsBuilder.addGlue();
+
+        bsBuilder.addButton(buttonAjouterMent);
+        bsBuilder.addUnrelatedGap();
+        bsBuilder.addButton(buttonSupprMent);
+        bsBuilder.addUnrelatedGap();
+
+        bsBuilder.addButton(buttonQuitter);
+        bsBuilder.addGlue();
+
+
+        return bsBuilder.getPanel();
 
     }
 
     private JComponent southButtonsPanel() {
 
+        JButton buttonValider = new JButton("Valider");
+        JButton buttonImprimer = new JButton("Imprimer");
+        JButton buttonAnnulerModif = new JButton("Annuler Modif");
 
-        return new JPanel();
+        JPanel southPan = new JPanel();
+        southPan.setBackground(Color.gray);
+
+        JPanel pan = IsmButtonBarBuilder.create(screenSize)
+                //.addGlue()
+                .addButton(buttonValider)
+                .addRelatedGap()
+                .addButton(buttonImprimer)
+                .addUnrelatedGap()
+                .addUnrelatedGap()
+                .addUnrelatedGap()
+                .addButton(buttonAnnulerModif)
+                .padding(Paddings.DLU9)
+
+
+                .build();
+
+        southPan.add(pan);
+
+        return southPan;
+
     }
 
     public JComponent showDialog(EventObject e) {
