@@ -1,14 +1,20 @@
 package com.sebaainf.mentionMarDiv.common;
 
+import com.jenkov.db.itf.PersistenceException;
 import com.jgoodies.looks.plastic.Plastic3DLookAndFeel;
+import com.sebaainf.mentionMarDiv.citoyenPackage.Citoyen;
+import com.sebaainf.mentionMarDiv.citoyenPackage.MyDaosCitoyen;
 import com.sebaainf.mentionMarDiv.citoyenPackage.SearchCit_window;
 import com.sebaainf.mentionMarDiv.ismUtils.IsmAbstractJFrame;
+import com.sebaainf.mentionMarDiv.mentionPack.MyDaosMention;
 import com.sebaainf.mentionMarDiv.view.themes.BlackTheme;
 import com.sebaainf.mentionMarDiv.view.themes.MyTheme;
 
 import javax.swing.*;
 import javax.swing.plaf.ColorUIResource;
 import java.awt.*;
+import java.util.Collection;
+import java.util.Vector;
 
 /**
  * Created by admin on 24/01/2015.

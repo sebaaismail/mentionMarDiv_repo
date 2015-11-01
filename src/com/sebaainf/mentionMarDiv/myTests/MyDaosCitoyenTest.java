@@ -18,13 +18,25 @@ public class MyDaosCitoyenTest {
 
 
     /**
+     * @verifies return citoyen with id_cit
+     * @see MyDaosCitoyen#getCitoyen(int)
+     */
+    @Test
+    public void testGetCitoyen_shouldReturnCitoyenWithId_cit() throws Exception {
+
+        //TODO auto-generated
+        Citoyen cit = MyDaosCitoyen.getCitoyen(1);
+        assertThat(cit.getPrenom_fr(), equalTo("ismail"));
+    }
+
+    /**
      * @verifies return list citoyen with nom prenom
      * @see MyDaosCitoyen#getListCitoyen(String, String)
      */
     @Test
     public void testGetListCitoyen_shouldReturnListCitoyenWithNomPrenom() throws Exception {
 
-        //TODO auto-generated
+
         List<Citoyen> list = MyDaosCitoyen.getListCit("seb", "ism", true);
         assertThat(list.get(0).getPrenom_fr(), equalTo("ismail"));
     }

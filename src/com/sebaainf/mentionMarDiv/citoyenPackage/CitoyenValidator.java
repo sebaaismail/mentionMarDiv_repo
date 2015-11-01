@@ -24,10 +24,12 @@ public class CitoyenValidator extends IsmValidator implements Validator<Object> 
     public ValidationResult validate(Object citoyen) {
 
         //TODO complete the validations
-        System.out.println("validating french...");
-
+        System.out.println("validating citoyen ...");
+        addBlankError(Citoyen.PROPERTY_NOM_AR, "Nom_AR");
+        addBlankError(Citoyen.PROPERTY_PRENOM_AR, "Prenom_AR");
         addBlankError(Citoyen.PROPERTY_NOM_FR, "Nom_FR");
         addBlankError(Citoyen.PROPERTY_PRENOM_FR, "Prenom_FR");
+
 
         /*
         if (this.preModel.getModel("nom_ar").getValue().equals("")) {
@@ -43,11 +45,14 @@ public class CitoyenValidator extends IsmValidator implements Validator<Object> 
         if (arabicSearch) {
             System.out.println("validating arabic...");
 
-            addBlankError(Citoyen.PROPERTY_NOM_AR, "Nom_AR");
-            addBlankError(Citoyen.PROPERTY_PRENOM_AR, "Prenom_AR");
+            addBlankError(Citoyen.PROPERTY_NOM_AR, "اللقب");
+            addBlankError(Citoyen.PROPERTY_PRENOM_AR, "الإسم");
 
         } else {
-            validate(citoyen);
+            System.out.println("validating french...");
+
+            addBlankError(Citoyen.PROPERTY_NOM_FR, "Nom_FR");
+            addBlankError(Citoyen.PROPERTY_PRENOM_FR, "Prenom_FR");
 
         }
 

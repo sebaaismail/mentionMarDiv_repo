@@ -1,6 +1,9 @@
 package com.sebaainf.mentionMarDiv.myTests;
 
 import com.sebaainf.mentionMarDiv.citoyenPackage.Citoyen;
+import com.sebaainf.mentionMarDiv.common.MyApp;
+import com.sebaainf.mentionMarDiv.common.ReportView;
+import com.sebaainf.mentionMarDiv.common.ReportedBean;
 import com.sebaainf.mentionMarDiv.mentionPack.Mention;
 import com.sebaainf.mentionMarDiv.mentionPack.MyDaosMention;
 import junit.framework.TestCase;
@@ -38,5 +41,16 @@ public class MyDaosMentionTest extends TestCase {
         Mention ment = null;
         ment = MyDaosMention.getMention(1);
         assertThat(ment.getNp_conj_fr(), equalTo("sihem"));
+    }
+
+
+    /**
+     * @verifies return a citoyen with a mention
+     * @see ReportView#getMyMention()
+     */
+    public void testGetMyMention_shouldReturnACitoyenWithAMention() throws Exception {
+
+        ReportedBean bean = ReportView.getMyMention().iterator().next();
+        assertThat(bean.getMent().getNp_conj_fr(), equalTo("sihem"));
     }
 }

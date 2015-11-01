@@ -283,23 +283,18 @@ public class MyDaosCitoyen {
      */
     public static Collection<Citoyen> getCitoyens() throws PersistenceException {
 
+        //createBeanCollection
+
         Vector citoyens = new Vector();
         Citoyen citoyen = null;
-
-        int num_actnaiss = 88;
-        int annee_naiss = 1970;
-        int lieu_naiss = 31001;
-
 
         try {
             /*String sql    = "select * from citoyen where num_actnaiss="+new Integer(num_actnaiss).toString()+" and annee_actnaiss="
                     +new Integer(annee_naiss).toString()+" and code_lieunaiss="+new Integer(lieu_naiss).toString();
           */
-            String sql = "select * from citoyen where num_actnaiss=" + num_actnaiss + " and annee_actnaiss="
-                    + annee_naiss + " and code_lieunaiss=" + lieu_naiss;
+            String sql = "select * from citoyen where id_cit>0";
             IDaos daos = MyDaos.persistenceManager.createDaos();
-            citoyen = daos.getObjectDao().read(Citoyen.class, sql);
-            citoyens.add(citoyen);
+            citoyens = (Vector) daos.getObjectDao().readList(Citoyen.class, sql);
 
         } catch (PersistenceException e) {
             e.printStackTrace();
