@@ -221,4 +221,5 @@ public class Mention extends Bean implements Comparable<Mention> {
         this.date_div = new_date_div;
         firePropertyChange(PROPERTY_DATE_DIV, oldValue, new_date_div);
     }
+
 }

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reportMention" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b3d617a1-eeb4-422c-8cd8-d961568a350f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="est_masculin" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[cit.est_masculin]]></fieldDescription>
+	</field>
+	<field name="nom_fr" class="java.lang.String">
+		<fieldDescription><![CDATA[cit.nom_fr]]></fieldDescription>
+	</field>
+	<field name="wilaya_naiss" class="java.lang.String">
+		<fieldDescription><![CDATA[cit.wilaya_naiss]]></fieldDescription>
+	</field>
+	<field name="id_cit" class="java.lang.Integer">
+		<fieldDescription><![CDATA[cit.id_cit]]></fieldDescription>
+	</field>
+	<field name="np_mere" class="java.lang.String">
+		<fieldDescription><![CDATA[cit.np_mere]]></fieldDescription>
+	</field>
+	<field name="lieunaiss" class="java.lang.String">
+		<fieldDescription><![CDATA[cit.lieunaiss]]></fieldDescription>
+	</field>
+	<field name="prenom_ar" class="java.lang.String">
+		<fieldDescription><![CDATA[cit.prenom_ar]]></fieldDescription>
+	</field>
+	<field name="daira_naiss" class="java.lang.String">
+		<fieldDescription><![CDATA[cit.daira_naiss]]></fieldDescription>
+	</field>
+	<field name="nom_ar" class="java.lang.String">
+		<fieldDescription><![CDATA[cit.nom_ar]]></fieldDescription>
+	</field>
+	<field name="dateNaiss_est_presume" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[cit.dateNaiss_est_presume]]></fieldDescription>
+	</field>
+	<field name="p_pere" class="java.lang.String">
+		<fieldDescription><![CDATA[cit.p_pere]]></fieldDescription>
+	</field>
+	<field name="date_naiss" class="java.sql.Date">
+		<fieldDescription><![CDATA[cit.date_naiss]]></fieldDescription>
+	</field>
+	<field name="emploi" class="java.lang.String">
+		<fieldDescription><![CDATA[cit.emploi]]></fieldDescription>
+	</field>
+	<field name="prenom_fr" class="java.lang.String">
+		<fieldDescription><![CDATA[cit.prenom_fr]]></fieldDescription>
+	</field>
+	<field name="marge" class="java.lang.String">
+		<fieldDescription><![CDATA[marge]]></fieldDescription>
+	</field>
+	<field name="acte_ecrit_par" class="java.lang.String">
+		<fieldDescription><![CDATA[ment.acte_ecrit_par]]></fieldDescription>
+	</field>
+	<field name="est_divorce" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[ment.est_divorce]]></fieldDescription>
+	</field>
+	<field name="numact_mar" class="java.lang.Integer">
+		<fieldDescription><![CDATA[ment.numact_mar]]></fieldDescription>
+	</field>
+	<field name="date_mar" class="java.util.Date">
+		<fieldDescription><![CDATA[ment.date_mar]]></fieldDescription>
+	</field>
+	<field name="np_conj_fr" class="java.lang.String">
+		<fieldDescription><![CDATA[ment.np_conj_fr]]></fieldDescription>
+	</field>
+	<field name="annee_mar" class="java.lang.Integer">
+		<fieldDescription><![CDATA[ment.annee_mar]]></fieldDescription>
+	</field>
+	<field name="tribunal_div" class="java.lang.String">
+		<fieldDescription><![CDATA[ment.tribunal_div]]></fieldDescription>
+	</field>
+	<field name="np_conj_ar" class="java.lang.String">
+		<fieldDescription><![CDATA[ment.np_conj_ar]]></fieldDescription>
+	</field>
+	<field name="date_div" class="java.util.Date">
+		<fieldDescription><![CDATA[ment.date_div]]></fieldDescription>
+	</field>
+	<field name="date_acte_mar" class="java.util.Date">
+		<fieldDescription><![CDATA[ment.date_acte_mar]]></fieldDescription>
+	</field>
+	<field name="cit" class="com.sebaainf.mentionMarDiv.citoyenPackage.Citoyen">
+		<fieldDescription><![CDATA[cit]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<detail>
+		<band height="660" splitType="Stretch">
+			<textField>
+				<reportElement x="311" y="70" width="100" height="20" uuid="1b1608ef-9682-45f9-90b8-ddb03793d9d9"/>
+				<textFieldExpression><![CDATA[$F{prenom_ar}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="60" y="71" width="100" height="20" uuid="e7d781cb-ed4b-4b36-b3ea-e3cbd37be98f"/>
+				<textFieldExpression><![CDATA[$F{nom_ar}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="311" y="141" width="100" height="20" uuid="99c3c5db-448e-4752-9ec0-2324931d1d2a"/>
+				<textFieldExpression><![CDATA[$F{emploi}]]></textFieldExpression>
+			</textField>
+			<textField pattern="yyyy/MM/dd">
+				<reportElement x="314" y="179" width="100" height="20" uuid="8956f865-70e3-46d7-bb6b-edfa07db2433"/>
+				<textFieldExpression><![CDATA[$F{date_naiss}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="60" y="179" width="100" height="20" uuid="f7704366-44b1-4d58-8b50-22681c955ed9"/>
+				<textFieldExpression><![CDATA[$F{lieunaiss}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="311" y="218" width="100" height="20" uuid="3d02ce10-2c92-4819-b16d-a3b6ed380074"/>
+				<textFieldExpression><![CDATA[$F{daira_naiss}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="60" y="218" width="100" height="20" uuid="049f265a-d1a4-4b7d-ad35-824a978129b7"/>
+				<textFieldExpression><![CDATA[$F{wilaya_naiss}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="314" y="260" width="100" height="20" uuid="0d08eee9-c612-4e26-8027-6b13d1fd49d6"/>
+				<textFieldExpression><![CDATA[$F{p_pere}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="60" y="260" width="100" height="20" uuid="3c125e7f-9c40-4383-b588-e39790051ff1"/>
+				<textFieldExpression><![CDATA[$F{np_mere}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="293" y="315" width="100" height="20" uuid="16242ba1-fb40-4ddd-be8d-3898a1bebb3d"/>
+				<textFieldExpression><![CDATA[$F{np_conj_ar}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="260" y="360" width="100" height="20" uuid="168e82f9-a05c-4aec-b805-a0ccb93bb194"/>
+				<textFieldExpression><![CDATA[$F{acte_ecrit_par}]]></textFieldExpression>
+			</textField>
+			<textField pattern="yyyy/MM/dd">
+				<reportElement x="293" y="396" width="100" height="20" uuid="f19b27d4-2487-480a-9593-28bd2967c04f"/>
+				<textFieldExpression><![CDATA[$F{date_mar}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="93" y="396" width="100" height="20" uuid="6549ef1e-f2ce-44f6-b8de-8113dddfed28"/>
+				<textFieldExpression><![CDATA[$F{annee_mar}]]></textFieldExpression>
+			</textField>
+			<textField pattern="yyyy/MM/dd">
+				<reportElement x="100" y="436" width="100" height="20" uuid="edf128c4-d5b2-4d19-978b-cd3df03b3f54"/>
+				<textFieldExpression><![CDATA[$F{date_acte_mar}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="30" y="472" width="100" height="20" uuid="a131c806-c45c-4a53-975b-ac5a5a643869"/>
+				<textFieldExpression><![CDATA[$F{numact_mar}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="73" y="510" width="100" height="20" uuid="05f687fa-1050-4e4e-9195-aeb23fa75247"/>
+				<textFieldExpression><![CDATA[$F{tribunal_div}]]></textFieldExpression>
+			</textField>
+			<textField pattern="yyyy/MM/dd">
+				<reportElement x="293" y="548" width="100" height="20" uuid="f245a1c4-860f-4a78-b63e-9fee5ec0d7b1"/>
+				<textFieldExpression><![CDATA[$F{date_div}!=null ? $F{date_div} : ""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="435" y="91" width="100" height="20" uuid="be7f659a-825e-43ed-8dbe-868ab7f3eaea"/>
+				<textFieldExpression><![CDATA[$F{marge}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="435" y="125" width="100" height="20" uuid="e1a2bcfe-119c-4bc5-9b12-dba05b8426de"/>
+				<textFieldExpression><![CDATA[$F{numact_mar}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="435" y="599" width="100" height="20" uuid="2c681e91-1f27-4102-b6d1-4b53830d1af2"/>
+				<textFieldExpression><![CDATA[""+$F{cit}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="435" y="629" width="100" height="20" uuid="f1004aab-871f-44fa-ae23-7e1be53d5b24"/>
+				<textFieldExpression><![CDATA[$F{np_conj_fr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="60" y="105" width="100" height="20" uuid="183b3bdf-101a-4032-8cfb-2adcd5a76993"/>
+				<textFieldExpression><![CDATA[$F{nom_fr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="311" y="105" width="100" height="20" uuid="0ae05577-73f0-45fe-bf47-6ec3093a0510"/>
+				<textFieldExpression><![CDATA[$F{prenom_fr}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

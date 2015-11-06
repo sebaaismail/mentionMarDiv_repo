@@ -16,6 +16,7 @@ import com.sebaainf.mentionMarDiv.ismUtils.IsmComponentFactory;
 import com.sebaainf.mentionMarDiv.mentionPack.Mention;
 import com.sebaainf.mentionMarDiv.mentionPack.MentionEditorModel;
 
+import com.sebaainf.mentionMarDiv.mentionPack.MentionValidator;
 import org.jdatepicker.impl.JDatePickerImpl;
 
 import javax.swing.*;
@@ -23,6 +24,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.EventObject;
@@ -217,7 +219,16 @@ public class Editor_window extends IsmAbstractJFrame {
         mainPanel.add(westButtonsPanel(), BorderLayout.WEST);
         mainPanel.add(southButtonsPanel(), BorderLayout.SOUTH);
 
+        checkDivorceComponents();
 
+        ActionListener listenerRadio = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkDivorceComponents();
+            }
+        };
+        divorce.addActionListener(listenerRadio);
+        mariage.addActionListener(listenerRadio);
 
 
         MyCommonUtils.setListComponentsEnabled(getListComponents(),true);
@@ -227,14 +238,14 @@ public class Editor_window extends IsmAbstractJFrame {
 
     private JComponent editorCenterPanel() {
 
+        JScrollPane fullPanel = new JScrollPane(citEditorPanel());
 
-        JPanel fullPanel = new JPanel();
-        //FormDebugPanel fullPanel = new FormDebugPanel();
 
-        fullPanel.setLayout(new FlowLayout());
-        //fullPanel.setLayout(new GridLayout(2, 1));
+        // thi code just for centring the JScrollPane in BorderLayout.Center
+        // we will use GridBagLayout for the parent of the component inside it
 
-        fullPanel.add(citEditorPanel());
+        JViewport viewport = fullPanel.getViewport();
+        ((JPanel)viewport.getView()).getParent().setLayout(new GridBagLayout());
 
         return fullPanel;
 
@@ -248,60 +259,77 @@ public class Editor_window extends IsmAbstractJFrame {
         return FormBuilder.create()
                 //.debug(true)
                 .columns("pref, $lcgap, $label_ar, $ugap , pref, $lcgap, $label_ar, $lcgap, $label_ar")
-                .rows("p, $lgap, p, $lgap, p, $lgap,p ,$lgap , p, $lgap, p, 21dlu,"       // for Citoyen Zone
-                        + "p, $lgap, p, $lgap, p, $lgap, p, $lgap, p, $pgap, p, $lgap, p")//for mention Zone
+                .rows("p, $lgap, p, $lgap, p, $lgap, p, $lgap, p ,$lgap , p, $lgap, p, 14dlu,"       // for Citoyen Zone
+                        + "p, $lgap, p, $lgap, p, $lgap, p, $lgap, p, $lgap, p, $pgap, p, $lgap, p")//for mention Zone
                 .columnGroups(new int[][]{{1, 5}})
-                .padding(Paddings.DLU14)
+                .padding(Paddings.DLU9)
 
-                .add("الإسم :").xy(7, 1)
-                .add(prenom_ar).xy(5, 1)
-                .add("اللقب :").xy(3, 1)
-                .add(nom_ar).xy(1, 1)
+                .add("اللقب :").xy(7, 1)
+                .add(nom_ar).xy(5, 1)
+                .add("الإسم :").xy(7, 3)
+                .add(prenom_ar).xy(5, 3)
 
-                .add("المهنة :").xy(7, 3)
-                .add(emploi).xy(5, 3)
+                .add(": Nom").xy(3, 1)
+                .add(nom_fr).xy(1, 1)
+                .add(": Prenom").xy(3, 3)
+                .add(prenom_fr).xy(1, 3)
 
-                .add("المولود في :").xy(7, 5)
-                .add(date_naiss).xy(5, 5)
-                .add(dateNaiss_est_presume).xy(5, 7, "right, center")
-                .add("بـــ  :").xy(3, 5)
-                .add(lieunaiss).xy(1, 5)
 
-                .add("دائرة :").xy(7, 9)
-                .add(daira_naiss).xy(5, 9)
-                .add("ولايـة :").xy(3, 9)
-                .add(wilaya_naiss).xy(1, 9)
+                .add("المهنة :").xy(7, 5)
+                .add(emploi).xy(5, 5)
 
-                .add("إبــن :").xy(7, 11)
-                .add(p_pere).xy(5, 11)
-                .add("و    :").xy(3, 11)
-                .add(np_mere).xy(1, 11)
+                .add("المولود في :").xy(7, 7)
+                .add(date_naiss).xy(5, 7)
+                .add(dateNaiss_est_presume).xy(5, 9, "right, center")
+                .add("بـــ  :").xy(3, 7)
+                .add(lieunaiss).xy(1, 7)
+
+                .add("دائرة :").xy(7, 11)
+                .add(daira_naiss).xy(5, 11)
+                .add("ولايـة :").xy(3, 11)
+                .add(wilaya_naiss).xy(1, 11)
+
+                .add("إبــن :").xy(7, 13)
+                .add(p_pere).xy(5, 13)
+                .add("و    :").xy(3, 13)
+                .add(np_mere).xy(1, 13)
 
                 // mention zone began
 
-                .add("تم عقد زواجه مع :").xyw(3, 13, 3)
-                .add(np_conj_ar).xy(1, 13)
-                .add("حرر من طرف :").xyw(3, 15, 3)
-                .add(acte_ecrit_par).xy(1, 15)
-                .add("بتاريخ :").xyw(3, 17, 3)
-                .add(date_mar).xy(1, 17)
-                .add("عـام :").xyw(3, 19, 3)
-                .add(annee_mar).xy(1, 19, "right,center")
-                .add("قيد في سجلات الزواج بتاريخ :").xyw(3, 21, 3)
-                .add(date_acte_mar).xy(1, 21)
+                .add("تم عقد زواجه مع :").xyw(3, 15, 3)
+                .add(np_conj_ar).xy(1, 15)
+                .add(": L'épouse").xyw(3, 17, 3)
+                .add(np_conj_fr).xy(1, 17)
 
-                .add(tribunLabel).xyw(3, 23, 3)
-                .add(tribunal_div).xy(1, 23)
-                .add(dateDivLabel).xyw(3, 25, 3)
-                .add(date_div).xy(1, 25)
+                .add("حرر من طرف :").xyw(3, 19, 3)
+                .add(acte_ecrit_par).xy(1, 19)
+                .add("بتاريخ :").xyw(3, 21, 3)
+                .add(date_mar).xy(1, 21)
+                .add("عـام :").xyw(3, 23, 3)
+                .add(annee_mar).xy(1, 23, "right,center")
+                .add("قيد في سجلات الزواج بتاريخ :").xyw(3, 25, 3)
+                .add(date_acte_mar).xy(1, 25)
 
-                .add(mariage).xy(5, 15, "right,center")
-                .add(divorce).xy(5, 17, "right,center")
-                .add("رقـم :").xy(7, 19)
-                .add(numact_mar).xy(5, 19, "right,center")
+                .add(tribunLabel).xyw(3, 27, 3)
+                .add(tribunal_div).xy(1, 27)
+                .add(dateDivLabel).xyw(3, 29, 3)
+                .add(date_div).xy(1, 29)
+
+                .add(mariage).xy(5, 17, "right,center")
+                .add(divorce).xy(5, 19, "right,center")
+                .add("رقـم :").xy(7, 21)
+                .add(numact_mar).xy(5, 21, "right,center")
 
                 .build();
 
+    }
+
+    private void checkDivorceComponents(){
+        this.tribunLabel.setEnabled(divorce.isSelected());
+        this.tribunal_div.setEnabled(divorce.isSelected());
+        this.dateDivLabel.setEnabled(divorce.isSelected());
+        this.date_div.getJFormattedTextField().setEnabled(divorce.isSelected());
+        this.date_div.getComponent(1).setVisible(divorce.isSelected());
     }
 
     private JComponent westButtonsPanel() {
@@ -345,6 +373,59 @@ public class Editor_window extends IsmAbstractJFrame {
 
         JPanel southPan = new JPanel();
         southPan.setBackground(Color.gray);
+
+        buttonImprimer.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ReportedBean bean = new ReportedBean((Citoyen)citModel.getBean(),
+                        (Mention)mentModel.getBean());
+                ReportView.report(bean);
+            }
+        });
+
+        buttonValider.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CitoyenValidator citoyenValidator = new CitoyenValidator(citModel);
+                MentionValidator mentionValidator = new MentionValidator(mentModel);
+
+                ValidationResult resultCit =
+                        citoyenValidator.validate(citModel.getBean());
+                ValidationResult resultMent =
+                        mentionValidator.validate(mentModel.getBean(), divorce.isSelected());
+
+                String message = "";
+                boolean correct = true;
+                if (resultCit.hasErrors()) {
+                    correct = false;
+                    if (resultCit.getMessages().size() > 2) {
+                        message = "أدخل بيانات المواطن"  + "\n";
+                    } else {
+                        message += resultCit.getMessagesText();
+                    }
+
+                }
+                if (resultMent.hasErrors()) {
+                    correct = false;
+                    if (resultMent.getMessages().size() > 3) {
+                        message = message + " " + "أدخل البيانات الهامشية"  ;
+                    } else {
+                        message += resultMent.getMessagesText();
+                    }
+
+                }
+
+                if (!correct) {
+                    JOptionPane.showMessageDialog(null,message);
+                } else {
+                    //TODO  update database
+                }
+                System.out.println("Editor_window.actionPerformed ... validate finished!");
+                System.out.println(message);
+
+            }
+        });
+
 
         JPanel pan = IsmButtonBarBuilder.create(screenSize)
                 //.addGlue()

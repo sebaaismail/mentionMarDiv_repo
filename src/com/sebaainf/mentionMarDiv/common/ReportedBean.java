@@ -26,6 +26,9 @@ public class ReportedBean {
 
         this.cit = cit;
         this.ment = ment;
+        if(ment.getEst_divorce()){
+            this.marge = "طلاق";
+        }
 
     }
 

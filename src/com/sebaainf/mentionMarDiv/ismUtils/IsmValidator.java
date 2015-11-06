@@ -26,12 +26,14 @@ public abstract class IsmValidator implements Validator<Object> {
         String blankErrorMessage = " قم بملاء خانة";
         boolean flag = false;
         AbstractValueModel value = this.preModel.getModel(propertyName);
-        if (value.getValue().getClass().getSimpleName().equals("String")) {
+
+        String typeClass = value.getValue().getClass().getSimpleName();
+        if (typeClass.equals("String")) {
             if (value.getValue().equals("")) flag = true;
 
-        } else if (value.intValue() == 0) {
-            flag = true;
-        }
+        } else if (typeClass.equals("Timestamp")) {
+            if (value.equals(null)) flag = true;
+        } else if (value.intValue() == 0) flag = true;
 
         if (flag) {
             validationResult.addError(blankErrorMessage + " " + propertyText);

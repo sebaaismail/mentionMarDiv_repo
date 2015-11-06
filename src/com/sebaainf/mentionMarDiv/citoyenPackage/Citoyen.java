@@ -306,4 +306,11 @@ public class Citoyen extends Bean implements IPerson {
 
         this.listMentions.remove(ment);
     }
+
+    @Override
+    public String toString(){
+        return this.nom_fr + " " + this.prenom_fr;
+    }
+
+
 }

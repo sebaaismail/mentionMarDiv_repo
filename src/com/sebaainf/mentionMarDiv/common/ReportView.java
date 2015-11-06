@@ -48,9 +48,9 @@ public class ReportView {
             beanDs1 = new JRBeanCollectionDataSource(data);
 
             //parameters.put("COUNT_ROWS", beanDs2.getData().size());
-            parameters.put("myText", " سنـة ");
+            //parameters.put("myText", " سنـة ");
 
-            jasperDesign1 = JRXmlLoader.load("reports/tryNestedReport1.jrxml");
+            jasperDesign1 = JRXmlLoader.load("files/reportMention.jrxml");
 
             jasperReport1 = JasperCompileManager.compileReport(jasperDesign1);
 
