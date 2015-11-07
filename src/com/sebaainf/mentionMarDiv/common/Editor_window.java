@@ -1,5 +1,6 @@
 package com.sebaainf.mentionMarDiv.common;
 
+import com.jgoodies.binding.beans.PropertyConnector;
 import com.jgoodies.forms.builder.ButtonBarBuilder;
 import com.jgoodies.forms.builder.FormBuilder;
 import com.jgoodies.forms.factories.Paddings;
@@ -17,6 +18,9 @@ import com.sebaainf.mentionMarDiv.mentionPack.Mention;
 import com.sebaainf.mentionMarDiv.mentionPack.MentionEditorModel;
 
 import com.sebaainf.mentionMarDiv.mentionPack.MentionValidator;
+import com.sebaainf.mentionMarDiv.mentionPack.MyDaosMention;
+import com.sun.javafx.fxml.BeanAdapter;
+import javafx.collections.MapChangeListener;
 import org.jdatepicker.impl.JDatePickerImpl;
 
 import javax.swing.*;
@@ -25,6 +29,10 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyVetoException;
+import java.beans.VetoableChangeListener;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.EventObject;
@@ -163,7 +171,7 @@ public class Editor_window extends IsmAbstractJFrame {
 
 
 
-        validerButton = new JButton(new CitoyenValidationAction());
+        validerButton = new JButton("Valider");
         annulerButton = new JButton("Annuler");
 /*        messageLabel.getComponent(1)
         .setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);*/
@@ -367,7 +375,7 @@ public class Editor_window extends IsmAbstractJFrame {
 
     private JComponent southButtonsPanel() {
 
-        JButton buttonValider = new JButton("Valider");
+        final JButton buttonValider = new JButton("Valider");
         JButton buttonImprimer = new JButton("Imprimer");
         JButton buttonAnnulerModif = new JButton("Annuler Modif");
 
@@ -377,52 +385,31 @@ public class Editor_window extends IsmAbstractJFrame {
         buttonImprimer.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ReportedBean bean = new ReportedBean((Citoyen)citModel.getBean(),
-                        (Mention)mentModel.getBean());
+
+                ReportedBean bean = new ReportedBean((Citoyen) citModel.getBean(),
+                        (Mention) mentModel.getBean());
                 ReportView.report(bean);
             }
         });
 
-        buttonValider.addActionListener(new ActionListener() {
+        buttonValider.setEnabled(false);
+
+        citModel.addBeanPropertyChangeListener(new PropertyChangeListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                CitoyenValidator citoyenValidator = new CitoyenValidator(citModel);
-                MentionValidator mentionValidator = new MentionValidator(mentModel);
+            public void propertyChange(PropertyChangeEvent evt) {
+                //JOptionPane.showMessageDialog(null, evt.getPropertyName() + " is changed !");
+                buttonValider.setEnabled(true);
+            }
+        });
 
-                ValidationResult resultCit =
-                        citoyenValidator.validate(citModel.getBean());
-                ValidationResult resultMent =
-                        mentionValidator.validate(mentModel.getBean(), divorce.isSelected());
 
-                String message = "";
-                boolean correct = true;
-                if (resultCit.hasErrors()) {
-                    correct = false;
-                    if (resultCit.getMessages().size() > 2) {
-                        message = "أدخل بيانات المواطن"  + "\n";
-                    } else {
-                        message += resultCit.getMessagesText();
-                    }
+        buttonValider.addActionListener(new IsmActionListener(citModel, mentModel, divorce));
 
-                }
-                if (resultMent.hasErrors()) {
-                    correct = false;
-                    if (resultMent.getMessages().size() > 3) {
-                        message = message + " " + "أدخل البيانات الهامشية"  ;
-                    } else {
-                        message += resultMent.getMessagesText();
-                    }
 
-                }
-
-                if (!correct) {
-                    JOptionPane.showMessageDialog(null,message);
-                } else {
-                    //TODO  update database
-                }
-                System.out.println("Editor_window.actionPerformed ... validate finished!");
-                System.out.println(message);
-
+        citModel.addVetoableChangeListener(new VetoableChangeListener() {
+            @Override
+            public void vetoableChange(PropertyChangeEvent evt) throws PropertyVetoException {
+                buttonValider.setEnabled(true);
             }
         });
 
@@ -486,7 +473,7 @@ public class Editor_window extends IsmAbstractJFrame {
     }
 
 
-    private class CitoyenValidationAction extends AbstractAction {
+/*    private class CitoyenValidationAction extends AbstractAction {
 
 
         CitoyenValidationAction() {
@@ -495,11 +482,11 @@ public class Editor_window extends IsmAbstractJFrame {
 
         }
 
-        /**
+        *//**
          * Invoked when an action occurs.
          *
          * @param e
-         */
+         *//*
 
 
         @Override
@@ -513,10 +500,11 @@ public class Editor_window extends IsmAbstractJFrame {
             if (!result.hasErrors()) {
                 //mettre a jour data base citoyen infos
                 MyDaosCitoyen.updateCitoyen((Citoyen) citModel.getBean());
+                MyDaosMention.updateMention((Mention) mentModel.getBean());
                 //((Citoyen) citModel.getBean()).setDeces(citModel.getBean().getDeces());
             }
 
         }
-    }
+    }*/
 
 }

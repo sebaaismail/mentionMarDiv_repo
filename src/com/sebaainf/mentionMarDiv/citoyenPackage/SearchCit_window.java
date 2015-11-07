@@ -12,6 +12,7 @@ import com.jgoodies.validation.ValidationResult;
 import com.jgoodies.validation.ValidationResultModel;
 import com.jgoodies.validation.util.DefaultValidationResultModel;
 import com.sebaainf.mentionMarDiv.ismUtils.IsmComponentFactory;
+import com.sebaainf.mentionMarDiv.ismUtils.IsmPrintStream;
 import org.jdatepicker.impl.JDatePickerImpl;
 
 import javax.swing.*;
@@ -60,8 +61,8 @@ public class SearchCit_window extends JFrame implements Runnable {
     JTextField prenomAr_Field;
 
 
-    JRadioButton enFrance = new JRadioButton("En français");
-    JRadioButton enArabe = new JRadioButton("بالعربية");
+    JRadioButton inFrench = new JRadioButton("En français");
+    JRadioButton inArabic = new JRadioButton("بالعربية");
     ButtonGroup bg = new ButtonGroup();
 
     JLabel nomFrLabel = new JLabel("Nom :");
@@ -109,42 +110,43 @@ public class SearchCit_window extends JFrame implements Runnable {
         buttonOk.setText("Ok");
         buttonOk.setPreferredSize(buttonQuit.getPreferredSize());
 
-        enFrance.setSelected(true);
+        inFrench.setSelected(true);
 
         nomAr_Field.setEnabled(false);
         prenomAr_Field.setEnabled(false);
         nomArLabel.setEnabled(false);
         prenomArLabel.setEnabled(false);
 
-        bg.add(enFrance);
-        bg.add(enArabe);
+        bg.add(inFrench);
+        bg.add(inArabic);
 
-        enFrance.addChangeListener(new ChangeListener() {
+        ChangeListener radioChangeLitener = new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-
-                nomFr_Field.setEnabled(enFrance.isSelected());
-                prenomFr_Field.setEnabled(enFrance.isSelected());
-                nomFrLabel.setEnabled(enFrance.isSelected());
-                prenomFrLabel.setEnabled(enFrance.isSelected());
-
+                nomFr_Field.setEnabled(inFrench.isSelected());
+                prenomFr_Field.setEnabled(inFrench.isSelected());
+                nomFrLabel.setEnabled(inFrench.isSelected());
+                prenomFrLabel.setEnabled(inFrench.isSelected());
 
 
-                nomAr_Field.setEnabled(!enFrance.isSelected());
-                prenomAr_Field.setEnabled(!enFrance.isSelected());
-                nomArLabel.setEnabled(!enFrance.isSelected());
-                prenomArLabel.setEnabled(!enFrance.isSelected());
 
-                if (enFrance.isSelected()){
+                nomAr_Field.setEnabled(!inFrench.isSelected());
+                prenomAr_Field.setEnabled(!inFrench.isSelected());
+                nomArLabel.setEnabled(!inFrench.isSelected());
+                prenomArLabel.setEnabled(!inFrench.isSelected());
+
+                if (inFrench.isSelected()){
                     nomAr_Field.setText("");
                     prenomAr_Field.setText("");
                 } else {
                     nomFr_Field.setText("");
                     prenomFr_Field.setText("");
                 }
-
             }
-        });
+        };
+        inArabic.addChangeListener(radioChangeLitener);
+        inFrench.addChangeListener(radioChangeLitener);
+
 
         nomFr_Field.setPreferredSize(new Dimension(140, nomFr_Field.getPreferredSize().height));
 
@@ -193,8 +195,8 @@ public class SearchCit_window extends JFrame implements Runnable {
                 .add(prenomArLabel).xy(1, 7)
                 .add(prenomAr_Field).xy(3, 7)
 
-                .add(enFrance).xy(6, 3)
-                .add(enArabe).xy(6, 5)
+                .add(inFrench).xy(6, 3)
+                .add(inArabic).xy(6, 5)
                 //.add(buttonQuit).xyw(5, 9, 2, "left, fill")
                 .addBar(buttonOk).xy(3, 9, "right, fill")
                 .addBar(buttonQuit).xy(5, 9, "left, fill")
@@ -275,7 +277,6 @@ public class SearchCit_window extends JFrame implements Runnable {
         public CitoyenValidationAction() {
 
             super("Chercher");
-            System.out.println("ha wahda ...");
 
         }
 
@@ -290,14 +291,15 @@ public class SearchCit_window extends JFrame implements Runnable {
             validationResultModel.setResult(ValidationResult.EMPTY);
 
             CitoyenValidator validator = new CitoyenValidator(cit_adapter);
-            ValidationResult result = validator.validate(cit_adapter.getBean(),!enFrance.isSelected() );
+            ValidationResult result = validator.validate(cit_adapter.getBean(), !inFrench.isSelected());
 
             if (!result.hasErrors()) {
+                IsmPrintStream.println_with_space("looking at database");
 
                 try {
-                    // TODO lsiten to radio button for arabic search
+
                     java.util.List<Citoyen> listCit;
-                    if (enFrance.isSelected()) {
+                    if (inFrench.isSelected()) {
                         listCit = MyDaosCitoyen.getListCit(cit_adapter.getBean().getNom_fr(),
                                 cit_adapter.getBean().getPrenom_fr(), true);
                     } else {

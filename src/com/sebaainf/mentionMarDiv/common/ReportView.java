@@ -3,6 +3,7 @@ package com.sebaainf.mentionMarDiv.common;
 import com.jenkov.db.itf.PersistenceException;
 import com.sebaainf.mentionMarDiv.citoyenPackage.Citoyen;
 import com.sebaainf.mentionMarDiv.citoyenPackage.MyDaosCitoyen;
+import com.sebaainf.mentionMarDiv.ismUtils.IsmPrintStream;
 import com.sebaainf.mentionMarDiv.mentionPack.MyDaosMention;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -23,7 +24,7 @@ public class ReportView {
     public static void report(ReportedBean bigBean) {
 
 
-        System.out.println("reporting began ...");
+        IsmPrintStream.println_with_space("reporting began ...");
 
         // Preparing data
 
@@ -72,7 +73,7 @@ public class ReportView {
             e.printStackTrace();
         }
 
-        System.out.println("end reporting ...");
+        IsmPrintStream.println_with_space("end reporting ...");
 
     }
 

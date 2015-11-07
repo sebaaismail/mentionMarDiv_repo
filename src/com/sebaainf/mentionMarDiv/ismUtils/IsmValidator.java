@@ -2,6 +2,7 @@ package com.sebaainf.mentionMarDiv.ismUtils;
 
 import com.jgoodies.binding.PresentationModel;
 import com.jgoodies.binding.value.AbstractValueModel;
+import com.jgoodies.binding.value.ValueHolder;
 import com.jgoodies.validation.ValidationResult;
 import com.jgoodies.validation.Validator;
 
@@ -26,6 +27,8 @@ public abstract class IsmValidator implements Validator<Object> {
         String blankErrorMessage = " قم بملاء خانة";
         boolean flag = false;
         AbstractValueModel value = this.preModel.getModel(propertyName);
+        // TODO
+        if (value == null) value = new ValueHolder();
 
         String typeClass = value.getValue().getClass().getSimpleName();
         if (typeClass.equals("String")) {

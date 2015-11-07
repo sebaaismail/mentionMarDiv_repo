@@ -59,4 +59,17 @@ public class MyDaosMention {
         }
     }
 
+    public static Mention updateMention(Mention mention) {
+
+        try {
+
+            IDaos daos = MyDaos.persistenceManager.createDaos();
+            daos.getObjectDao().update(mention);
+
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+        }
+        return mention;
+
+    }
 }
