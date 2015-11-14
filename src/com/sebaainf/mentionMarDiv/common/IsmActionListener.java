@@ -1,5 +1,7 @@
 package com.sebaainf.mentionMarDiv.common;
 
+import com.jenkov.db.itf.PersistenceException;
+import com.jgoodies.binding.value.Trigger;
 import com.jgoodies.validation.ValidationResult;
 import com.sebaainf.mentionMarDiv.citoyenPackage.Citoyen;
 import com.sebaainf.mentionMarDiv.citoyenPackage.CitoyenEditorModel;
@@ -14,7 +16,6 @@ import com.sebaainf.mentionMarDiv.mentionPack.MyDaosMention;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 /**
  * Created by ${sebaainf.com} on 06/11/2015.
@@ -27,10 +28,14 @@ import java.util.ArrayList;
  */
 public class IsmActionListener implements ActionListener {
 
+
     private CitoyenEditorModel citModel;
     private MentionEditorModel mentModel;
 
     private JToggleButton divorceRadioButton;
+    private boolean add_mode;
+    private Trigger citTrigger;
+    private Trigger mentTrigger;
 
     //private JComponent[] listComp = new JComponent[0];
 
@@ -39,13 +44,17 @@ public class IsmActionListener implements ActionListener {
      * @param citModel
      * @param mentModel
      * @param divorceRadioButton
+     * @param add_mode
      */
     public IsmActionListener(CitoyenEditorModel citModel, MentionEditorModel mentModel,
-                             JToggleButton divorceRadioButton){
+                             JToggleButton divorceRadioButton, boolean add_mode){
 
         this.citModel = citModel;
         this.mentModel = mentModel;
         this.divorceRadioButton = divorceRadioButton;
+        this.add_mode = add_mode;
+        this.citTrigger = (Trigger) citModel.getTriggerChannel();
+        this.mentTrigger = (Trigger) mentModel.getTriggerChannel();
         //this.listComp = listComp;
 
     }
@@ -57,12 +66,17 @@ public class IsmActionListener implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
+
+        String textMode = "updated"; // default
         String message = "";
         boolean correct = true;
 
+        citTrigger.triggerCommit();
+        mentTrigger.triggerCommit();
+
         if (citModel.isChanged()) {
 
-            IsmPrintStream.println_with_space("citModel.isChanged");
+            IsmPrintStream.logging("citModel.isChanged");
             CitoyenValidator citoyenValidator = new CitoyenValidator(citModel);
             ValidationResult resultCit =
                     citoyenValidator.validate(citModel.getBean());
@@ -75,12 +89,27 @@ public class IsmActionListener implements ActionListener {
                 }
 
             } else {
-                MyDaosCitoyen.updateCitoyen((Citoyen) citModel.getBean());
+
+                try {
+                    if (add_mode) {
+                        textMode = "added";
+                        MyDaosCitoyen.insertCitoyen((Citoyen) citModel.getBean());
+                    } else {
+                        // we are in update mode
+                        MyDaosCitoyen.updateCitoyen((Citoyen) citModel.getBean());
+                    }
+                    IsmPrintStream.logging("citoyen " + textMode + " !");
+                } catch (PersistenceException e1) {
+                    e1.printStackTrace();
+                    IsmPrintStream.logging("error in db table citoyen... ism message!");
+
+                }
+
             }
         }
 
         if (mentModel.isChanged()) {
-            IsmPrintStream.println_with_space("mentModel.isChanged");
+            IsmPrintStream.logging("mentModel.isChanged");
             MentionValidator mentionValidator = new MentionValidator(mentModel);
             ValidationResult resultMent =
                     mentionValidator.validate(mentModel.getBean(), divorceRadioButton.isSelected());
@@ -93,10 +122,18 @@ public class IsmActionListener implements ActionListener {
                     message += resultMent.getMessagesText();
                 }
             } else {
-                if (MyDaosMention.updateMention((Mention) mentModel.getBean())!=null){
-                    IsmPrintStream.println_with_space("mention updated in DB !");
-                } else {
-                    IsmPrintStream.println_with_space("error in DB !");
+                try {
+                    if (add_mode) {
+                        MyDaosMention.insertMention((Mention) mentModel.getBean());
+                    } else {
+                        // we are in update mode
+                        MyDaosMention.updateMention((Mention) mentModel.getBean());
+                    }
+                    IsmPrintStream.logging("mention is " + textMode + " ! in DB !");
+
+                } catch (PersistenceException e1) {
+                    e1.printStackTrace();
+                    IsmPrintStream.logging("error in db table mention... ism message!");
                 }
 
             }
@@ -108,11 +145,11 @@ public class IsmActionListener implements ActionListener {
             JOptionPane.showMessageDialog(null, message);
         } else {
             //TODO  update database
-            Citoyen cit = MyDaosCitoyen.updateCitoyen((Citoyen) citModel.getBean());
+            //Citoyen cit = MyDaosCitoyen.updateCitoyen((Citoyen) citModel.getBean());
 
         }
 
-        IsmPrintStream.println_with_space("Editor_window.actionPerformed ... validate finished!");
-        IsmPrintStream.println_with_space(message);
+        IsmPrintStream.logging("Editor_window.actionPerformed ... validate finished!");
+        IsmPrintStream.logging(message);
     }
 }

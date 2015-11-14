@@ -24,7 +24,7 @@ public class ReportView {
     public static void report(ReportedBean bigBean) {
 
 
-        IsmPrintStream.println_with_space("reporting began ...");
+        IsmPrintStream.logging("reporting began ...");
 
         // Preparing data
 
@@ -73,7 +73,7 @@ public class ReportView {
             e.printStackTrace();
         }
 
-        IsmPrintStream.println_with_space("end reporting ...");
+        IsmPrintStream.logging("end reporting ...");
 
     }
 

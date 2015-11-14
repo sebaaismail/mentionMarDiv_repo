@@ -11,8 +11,11 @@ import com.jgoodies.forms.factories.Paddings;
 import com.jgoodies.validation.ValidationResult;
 import com.jgoodies.validation.ValidationResultModel;
 import com.jgoodies.validation.util.DefaultValidationResultModel;
+import com.sebaainf.mentionMarDiv.common.Editor_window;
 import com.sebaainf.mentionMarDiv.ismUtils.IsmComponentFactory;
 import com.sebaainf.mentionMarDiv.ismUtils.IsmPrintStream;
+import com.sebaainf.mentionMarDiv.mentionPack.Mention;
+import com.sebaainf.mentionMarDiv.mentionPack.MentionEditorModel;
 import org.jdatepicker.impl.JDatePickerImpl;
 
 import javax.swing.*;
@@ -158,6 +161,22 @@ public class SearchCit_window extends JFrame implements Runnable {
             }
         });
 
+        //  buttonNouveauCit ActionListener *******************************************
+
+        buttonNouveauCit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CitoyenEditorModel citModel = new CitoyenEditorModel(new Citoyen());
+                MentionEditorModel mentModel = new MentionEditorModel(new Mention());
+
+                Editor_window view = new Editor_window(citModel, mentModel);
+                view.setVisible(true);
+            }
+        });
+
+
+        //  buttonQuit ActionListener **********************************************
+
         buttonQuit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -173,8 +192,8 @@ public class SearchCit_window extends JFrame implements Runnable {
         Citoyen citTesting = new Citoyen();
         citTesting.setDate_naiss(new java.sql.Date(1990,8,20));
 
-        date_naiss = IsmComponentFactory.createDatePickerImpl(new CitoyenEditorModel(citTesting)
-                ,Citoyen.PROPERTY_DATE_NAISS, "yyyy/MM/dd");
+      //  date_naiss = IsmComponentFactory.createDatePickerImpl(new CitoyenEditorModel(citTesting)
+       //         ,Citoyen.PROPERTY_DATE_NAISS, "yyyy/MM/dd");
 
 
 
@@ -204,15 +223,6 @@ public class SearchCit_window extends JFrame implements Runnable {
                 .build();
         // i create tabbedPanel with MyFormBuilder
         // to centralize attributes like font size etc ...
-    }
-
-    private void initilizer() {
-
-        nomFr_Field.setText("");
-        prenomFr_Field.setText("");
-        nomAr_Field.setText("");
-        prenomAr_Field.setText("");
-
     }
 
     /**
@@ -294,7 +304,7 @@ public class SearchCit_window extends JFrame implements Runnable {
             ValidationResult result = validator.validate(cit_adapter.getBean(), !inFrench.isSelected());
 
             if (!result.hasErrors()) {
-                IsmPrintStream.println_with_space("looking at database");
+                IsmPrintStream.logging("looking at database");
 
                 try {
 

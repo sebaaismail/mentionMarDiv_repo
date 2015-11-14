@@ -4,7 +4,7 @@ import com.jenkov.db.itf.mapping.AGetterMapping;
 import com.jgoodies.common.bean.Bean;
 import com.sebaainf.mentionMarDiv.mentionPack.Mention;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +48,8 @@ public class Citoyen extends Bean implements IPerson {
 
     public static final String PROPERTY_DATENAISS_EST_PRESUME = "dateNaiss_est_presume";
 
-    private int id_cit;
+    // default id_ment is -1 to help us when we will added new
+    private int id_cit = -1;
 
 
     private String nom_fr = "";
@@ -56,7 +57,9 @@ public class Citoyen extends Bean implements IPerson {
     private String nom_ar = "";
     private String prenom_ar = "";
 
+    //private Date date_naiss = Date.valueOf("1900-01-01");
     private Date date_naiss;
+
     private String lieunaiss = "";
     private String daira_naiss = "";
     private String wilaya_naiss = "";

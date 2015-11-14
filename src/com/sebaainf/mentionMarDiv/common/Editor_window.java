@@ -1,11 +1,10 @@
 package com.sebaainf.mentionMarDiv.common;
 
 import com.jgoodies.binding.beans.PropertyConnector;
-import com.jgoodies.forms.builder.ButtonBarBuilder;
+import com.jgoodies.binding.value.Trigger;
 import com.jgoodies.forms.builder.FormBuilder;
 import com.jgoodies.forms.factories.Paddings;
 import com.jgoodies.forms.layout.LayoutMap;
-import com.jgoodies.validation.ValidationResult;
 import com.jgoodies.validation.ValidationResultModel;
 import com.jgoodies.validation.util.DefaultValidationResultModel;
 import com.jgoodies.validation.view.ValidationResultViewFactory;
@@ -17,10 +16,6 @@ import com.sebaainf.mentionMarDiv.ismUtils.IsmComponentFactory;
 import com.sebaainf.mentionMarDiv.mentionPack.Mention;
 import com.sebaainf.mentionMarDiv.mentionPack.MentionEditorModel;
 
-import com.sebaainf.mentionMarDiv.mentionPack.MentionValidator;
-import com.sebaainf.mentionMarDiv.mentionPack.MyDaosMention;
-import com.sun.javafx.fxml.BeanAdapter;
-import javafx.collections.MapChangeListener;
 import org.jdatepicker.impl.JDatePickerImpl;
 
 import javax.swing.*;
@@ -29,10 +24,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyVetoException;
-import java.beans.VetoableChangeListener;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.EventObject;
@@ -45,6 +36,7 @@ import java.util.EventObject;
 public class Editor_window extends IsmAbstractJFrame {
 
     private static Editor_window uniqueInstance;
+    private boolean add_mode = false;
 
 
     private ValidationResultModel validationResultModel = new DefaultValidationResultModel();
@@ -102,6 +94,14 @@ public class Editor_window extends IsmAbstractJFrame {
 
     public Editor_window(CitoyenEditorModel citModel, MentionEditorModel mentModel) {
 
+        int idc = ((Citoyen)(citModel.getBean())).getId_cit();
+        int idm = ((Mention)(mentModel.getBean())).getId_ment();
+
+        // check if mode is add new citoyen
+        if ((idc == -1) && (idm == -1)) {
+            this.add_mode = true;
+        }
+
         this.citModel = citModel;
         this.mentModel = mentModel;
         initComponents();
@@ -122,12 +122,26 @@ public class Editor_window extends IsmAbstractJFrame {
         prenom_ar = IsmComponentFactory.createArabTextField(citModel.getPrenom_ar());
 
         emploi = IsmComponentFactory.createArabTextField(citModel.getEmploi());
+        //emploi = IsmComponentFactory.createArabTextField(citModel.getBufferedModel(Citoyen.PROPERTY_EMPLOI));
 
         lieunaiss = IsmComponentFactory.createArabTextField(citModel.getLieunaiss());
         daira_naiss = IsmComponentFactory.createArabTextField(citModel.getDaira_naiss());
         wilaya_naiss = IsmComponentFactory.createArabTextField(citModel.getWilaya_naiss());
 
-        date_naiss = IsmComponentFactory.createDatePickerImpl(citModel, Citoyen.PROPERTY_DATE_NAISS, "yyyy/MM/dd" );
+        // TODO look at createDateField() to bind jdatepicker with dateNaiss
+        date_naiss = IsmComponentFactory.createDatePickerImpl(citModel, Citoyen.PROPERTY_DATE_NAISS, "yyyy/MM/dd");
+        /*
+        date_naiss = new JDatePickerImpl(new JDatePanelImpl(new UtilDateModel(), new Properties())
+                , new IsmDateFormatter());
+        //IsmComponentFactory.createDateField()
+        Bindings.bind(date_naiss.getJFormattedTextField(), citModel.getDate_naiss());
+        //*/
+
+        //IsmComponentFactory.createDateField
+        //
+
+
+        //date_naiss = IsmComponentFactory.createDatePickerImpl(citModel, Citoyen.PROPERTY_DATE_NAISS, "yyyy/MM/dd");
         dateNaiss_est_presume = IsmComponentFactory.createCheckBox(
                 citModel.getDateNaiss_est_presume(), "* تاريخ مفترض");
 
@@ -146,12 +160,12 @@ public class Editor_window extends IsmAbstractJFrame {
 
 
 
-        numact_mar = IsmComponentFactory.createIntegerField(mentModel.getNumact_mar(),nf, null);
+        numact_mar = IsmComponentFactory.createIntegerField(mentModel.getNumact_mar(), nf, null);
         np_conj_ar = IsmComponentFactory.createArabTextField(mentModel.getNp_conj_ar());
         np_conj_fr = IsmComponentFactory.createTextField(mentModel.getNp_conj_fr());
 
 
-        annee_mar = IsmComponentFactory.createIntegerField(mentModel.getAnnee_mar(),nf, null);
+        annee_mar = IsmComponentFactory.createIntegerField(mentModel.getAnnee_mar(), nf, null);
 
 
         acte_ecrit_par = IsmComponentFactory.createArabTextField(mentModel.getActe_ecrit_par());
@@ -165,9 +179,9 @@ public class Editor_window extends IsmAbstractJFrame {
 
         tribunal_div = IsmComponentFactory.createArabTextField(mentModel.getTribunal_div());
 
-        divorce = IsmComponentFactory.createRadioButton(mentModel.getEst_divorce(),true,"طلاق");
+        divorce = IsmComponentFactory.createRadioButton(mentModel.getEst_divorce(), true, "طلاق");
         //mariage = new JRadioButton("زواج");
-        mariage = IsmComponentFactory.createRadioButton(mentModel.getEst_divorce(),false,"زواج");
+        mariage = IsmComponentFactory.createRadioButton(mentModel.getEst_divorce(), false, "زواج");
 
 
 
@@ -392,27 +406,37 @@ public class Editor_window extends IsmAbstractJFrame {
             }
         });
 
+        final Trigger triggerCit = (Trigger) citModel.getTriggerChannel();
+        final Trigger triggerMent = (Trigger) mentModel.getTriggerChannel();
+
+        // TODO dont forget change clolumn emploi in db ----> not unique
         buttonValider.setEnabled(false);
+        buttonAnnulerModif.setEnabled(false);
 
-        citModel.addBeanPropertyChangeListener(new PropertyChangeListener() {
+        // now to enable buttonValider when citModel or mentModel change
+        PropertyConnector.connect(citModel, "buffering", buttonValider, "enabled");
+        PropertyConnector.connect(citModel, "buffering", buttonAnnulerModif, "enabled");
+
+        //PropertyConnector.connect(date_naiss.getJFormattedTextField(), "value", buttonValider, "enabled");
+
+        //PropertyConnector.connect(citModel, Citoyen.PROPERTY_DATE_NAISS, date_naiss, "formattedTextField");
+
+
+        PropertyConnector.connect(mentModel, "buffering", buttonValider, "enabled");
+        PropertyConnector.connect(mentModel, "buffering", buttonAnnulerModif, "enabled");
+
+
+        buttonAnnulerModif.addActionListener(new ActionListener() {
             @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                //JOptionPane.showMessageDialog(null, evt.getPropertyName() + " is changed !");
-                buttonValider.setEnabled(true);
-            }
+            public void actionPerformed(ActionEvent e) {
+                triggerCit.triggerFlush();
+                triggerMent.triggerFlush();
+           }
         });
 
 
-        buttonValider.addActionListener(new IsmActionListener(citModel, mentModel, divorce));
-
-
-        citModel.addVetoableChangeListener(new VetoableChangeListener() {
-            @Override
-            public void vetoableChange(PropertyChangeEvent evt) throws PropertyVetoException {
-                buttonValider.setEnabled(true);
-            }
-        });
-
+        buttonValider.addActionListener(new IsmActionListener
+                (citModel, mentModel, divorce, add_mode));
 
         JPanel pan = IsmButtonBarBuilder.create(screenSize)
                 //.addGlue()
@@ -471,40 +495,5 @@ public class Editor_window extends IsmAbstractJFrame {
         return list;
 
     }
-
-
-/*    private class CitoyenValidationAction extends AbstractAction {
-
-
-        CitoyenValidationAction() {
-
-            super("Valider");
-
-        }
-
-        *//**
-         * Invoked when an action occurs.
-         *
-         * @param e
-         *//*
-
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-
-            validationResultModel.setResult(ValidationResult.EMPTY);
-            CitoyenValidator validator = new CitoyenValidator(citModel);
-            ValidationResult result = validator.validate((Citoyen) citModel.getBean());
-            validationResultModel.setResult(result);
-
-            if (!result.hasErrors()) {
-                //mettre a jour data base citoyen infos
-                MyDaosCitoyen.updateCitoyen((Citoyen) citModel.getBean());
-                MyDaosMention.updateMention((Mention) mentModel.getBean());
-                //((Citoyen) citModel.getBean()).setDeces(citModel.getBean().getDeces());
-            }
-
-        }
-    }*/
 
 }

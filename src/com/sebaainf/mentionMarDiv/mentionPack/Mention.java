@@ -26,6 +26,7 @@ public class Mention extends Bean implements Comparable<Mention> {
     public static final String PROPERTY_EST_DIVORCE = "est_divorce";
     public static final String PROPERTY_TRIBUNAL_DIV = "tribunal_div";
     public static final String PROPERTY_DATE_DIV = "date_div";
+
     private int id_ment = -1; // default id_ment is -1 to help us when we will added new mention and when we update a mention
     private int id_cit;
     private int numact_mar;

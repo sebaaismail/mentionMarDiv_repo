@@ -25,7 +25,7 @@ public class CitoyenValidator extends IsmValidator implements Validator<Object> 
     public ValidationResult validate(Object citoyen) {
 
         //TODO complete the validations
-        IsmPrintStream.println_with_space("validating citoyen ...");
+        IsmPrintStream.logging("validating citoyen ...");
         addBlankError(Citoyen.PROPERTY_NOM_AR, "Nom_AR");
         addBlankError(Citoyen.PROPERTY_PRENOM_AR, "Prenom_AR");
         addBlankError(Citoyen.PROPERTY_NOM_FR, "Nom_FR");
@@ -38,14 +38,14 @@ public class CitoyenValidator extends IsmValidator implements Validator<Object> 
     public ValidationResult validate(Object citoyen, boolean arabicSearch) {
 
         if (arabicSearch) {
-            IsmPrintStream.println_with_space("validating arabic...");
-            IsmPrintStream.println_with_space("validating arabic...");
+            IsmPrintStream.logging("validating arabic...");
+            IsmPrintStream.logging("validating arabic...");
 
             addBlankError(Citoyen.PROPERTY_NOM_AR, "اللقب");
             addBlankError(Citoyen.PROPERTY_PRENOM_AR, "الإسم");
 
         } else {
-            IsmPrintStream.println_with_space("validating french...");
+            IsmPrintStream.logging("validating french...");
 
             addBlankError(Citoyen.PROPERTY_NOM_FR, "Nom_FR");
             addBlankError(Citoyen.PROPERTY_PRENOM_FR, "Prenom_FR");

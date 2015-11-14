@@ -3,6 +3,7 @@ package com.sebaainf.mentionMarDiv.citoyenPackage;
 import com.jenkov.db.itf.IDaos;
 import com.jenkov.db.itf.PersistenceException;
 import com.sebaainf.mentionMarDiv.common.MyDaos;
+import com.sebaainf.mentionMarDiv.ismUtils.IsmPrintStream;
 
 import java.util.*;
 
@@ -102,72 +103,19 @@ public class MyDaosCitoyen {
     }
 
     /**
-     * method to add new citoyen to DB if not exist!
+     * method to add new citoyen
      *
      * @param cit
      * @return
      * @should insert citoyen cit into Data base
      */
-    public static Citoyen insertCitoyen(Citoyen cit) {
+    public static Citoyen insertCitoyen(Citoyen cit) throws PersistenceException{
 
-        try {
             IDaos daos = MyDaos.persistenceManager.createDaos();
-
-            if (isInDBCitoyen(cit)) {
-                System.out.println("ce citoyen existe deja !");//TODO
-                cit.setId_cit(-99); // todo fire message in UI
-                //TODO to tell that "cit is already in DB"
-            } else {
-
-                daos.getObjectDao().insert(cit);
-            }
-        } catch (PersistenceException e) {
-            e.printStackTrace();
-        }
+            daos.getObjectDao().insert(cit);
         return cit;
-
     }
 
-    /**
-     * method to check if cit is citoyen, exist in DB
-     *
-     * @param cit
-     * @return
-     * @should verifies if cit existe in the data base
-     */
-    public static boolean isInDBCitoyen(Citoyen cit) {
-
-
-        boolean flag = false;
-
-       /* try {
-*//*            if (numactnaiss > 0 && anneenaiss > 0 && lieunaiss > 0) {
-
-
-                if (MyDaosCitoyen.getCitoyen(numactnaiss, anneenaiss, lieunaiss) != null) {
-
-                    flag = true;
-                    System.out.println("citoytn existe deja avec les parametres : numactnaiss, anneenaiss, lieunaiss ");
-                    return flag;
-                }
-
-            }*//*
-            String nomfr = cit.getNom_fr();
-            String prenomfr = cit.getPrenom_fr();
-            Date datenaiss = cit.getDate_naiss();
-
-            if (MyDaosCitoyen.getCitoyen(nomfr, prenomfr, datenaiss, lieunaiss) != null) {
-                flag = true;
-                System.out.println("citoytn existe deja avec les parametres : nomfr, prenomfr, datenaiss, lieunaiss");
-            }
-
-        } catch (PersistenceException e) {
-            e.printStackTrace();
-        }*/
-
-        return flag;
-
-    }
 
     /**
      * method to update
@@ -176,16 +124,12 @@ public class MyDaosCitoyen {
      * @return
      * @should update citoyen cit
      */
-    public static Citoyen updateCitoyen(Citoyen cit) {
+    public static Citoyen updateCitoyen(Citoyen cit) throws PersistenceException {
 
-        try {
 
             IDaos daos = MyDaos.persistenceManager.createDaos();
             daos.getObjectDao().update(cit);
 
-        } catch (PersistenceException e) {
-            e.printStackTrace();
-        }
         return cit;
 
     }
@@ -202,19 +146,15 @@ public class MyDaosCitoyen {
         boolean flag = false;
 
         try {
-            if (isInDBCitoyen(cit)) {
-                IDaos daos = MyDaos.persistenceManager.createDaos();
-                daos.getObjectDao().delete(cit);
-                flag = true;
-                System.out.println("citoyen deleted");
-            } else {
-                System.out.println("citoyen not found in data base !!");
-                //todo  ?
-            }
+            IDaos daos = MyDaos.persistenceManager.createDaos();
+            daos.getObjectDao().delete(cit);
+            flag = true;
+            IsmPrintStream.logging("citoyen deleted");
+
         } catch (PersistenceException e) {
             e.printStackTrace();
         } finally {
-            System.out.println("flag :" + flag);
+            IsmPrintStream.logging("flag :" + flag);
             return flag;
         }
 
@@ -237,50 +177,21 @@ public class MyDaosCitoyen {
                 IDaos daos = MyDaos.persistenceManager.createDaos();
                 daos.getObjectDao().delete(Citoyen.class, id_cit);
                 flag = true;
-                System.out.println("citoyen deleted");
+                IsmPrintStream.logging("citoyen deleted");
             } else {
                 //todo not tested method
-                System.out.println("citoyen not found in data base !!");
+                IsmPrintStream.logging("citoyen not found in data base !!");
 
             }
         } catch (PersistenceException e) {
             e.printStackTrace();
         } finally {
-            System.out.println("flag :" + flag);
+            IsmPrintStream.logging("flag :" + flag);
             return flag;
         }
 
     }
 
-    /**
-     * @param id_dec
-     * @return
-     * @throws com.jenkov.db.itf.PersistenceException
-     * @should return Deces with id_dec
-     */
-/*    public static Deces getDecesInfos(int id_dec) throws PersistenceException {
-
-        Deces dec = null;
-
-
-        try {
-
-            String sql = "select * from deces where id_dec=?";
-            IDaos daos = MyDaos.persistenceManager.createDaos();
-            dec = daos.getObjectDao().read(Deces.class, sql, id_dec);
-        } catch (PersistenceException e) {
-            e.printStackTrace();
-        } finally {
-            return dec;
-        }
-    }*/
-
-    /**
-     * method to test connection with irreport
-     *
-     * @return
-     * @throws com.jenkov.db.itf.PersistenceException
-     */
     public static Collection<Citoyen> getCitoyens() throws PersistenceException {
 
         //createBeanCollection
@@ -302,36 +213,5 @@ public class MyDaosCitoyen {
             return citoyens;
         }
     }
-
-    /**
-     * method to delete Deces infos dec
-     *
-     * @param id_dec
-     * @return
-     * @should delete Deces infos de by id_dec
-     */
-/*    public static boolean deleteDecesInfos(int id_dec) {
-
-        boolean flag = false;
-        try {
-            if (getDecesInfos(id_dec) != null) {
-
-                IDaos daos = MyDaos.persistenceManager.createDaos();
-                daos.getObjectDao().delete(Deces.class, id_dec);
-                flag = true;
-                System.out.println("deces deleted");
-            } else {
-                //todo not tested method
-                System.out.println("deces infos not found in data base !!");
-
-            }
-        } catch (PersistenceException e) {
-            e.printStackTrace();
-        } finally {
-            System.out.println("flag :" + flag);
-            return flag;
-        }
-
-    }*/
 
 }

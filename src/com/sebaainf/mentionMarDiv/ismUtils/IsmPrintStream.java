@@ -71,7 +71,7 @@ public class IsmPrintStream extends PrintStream {
         // loggin code finished .......................
     }
 
-    public static void println_with_space(String text) {
+    public static void logging(String text) {
 
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy  - HH:mm:ss");
         String espace = "                                         ......................................   ";

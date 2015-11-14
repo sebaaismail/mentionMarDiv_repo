@@ -59,16 +59,33 @@ public class MyDaosMention {
         }
     }
 
-    public static Mention updateMention(Mention mention) {
 
-        try {
+    /**
+     * method to add new mention
+     *
+     * @param ment
+     * @return
+     * @should insert citoyen cit into Data base
+     */
+    public static Mention insertMention(Mention ment) throws PersistenceException{
+
+        IDaos daos = MyDaos.persistenceManager.createDaos();
+        daos.getObjectDao().insert(ment);
+        return ment;
+    }
+
+    /**
+     * method to update mention
+     * @param mention
+     * @return
+     * @throws PersistenceException
+     */
+
+    public static Mention updateMention(Mention mention) throws PersistenceException {
 
             IDaos daos = MyDaos.persistenceManager.createDaos();
             daos.getObjectDao().update(mention);
 
-        } catch (PersistenceException e) {
-            e.printStackTrace();
-        }
         return mention;
 
     }

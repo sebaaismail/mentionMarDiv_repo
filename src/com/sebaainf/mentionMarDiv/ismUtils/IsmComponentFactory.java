@@ -8,15 +8,17 @@ import com.sebaainf.mentionMarDiv.citoyenPackage.CitoyenEditorModel;
 import com.sebaainf.mentionMarDiv.citoyenPackage.IPerson;
 import com.sebaainf.mentionMarDiv.mentionPack.Mention;
 import com.sebaainf.mentionMarDiv.mentionPack.MentionEditorModel;
-import com.sebaainf.mentionMarDiv.view.IsmDateFormatter;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 import javax.swing.*;
-import java.sql.Date;
+
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Properties;
 
@@ -30,12 +32,14 @@ public class IsmComponentFactory extends BasicComponentFactory {
 
 
     /**
-     * method to create
+     *
+     *      * method to create
      * TODO important note :
      * Becarfull if you use two times the datePickerImpl object then it will hide
      * for the first use
      * @param model PresentationModel contain model wraping IPerson Bean
      *              that have property Date date_naiss and its setter and getter method
+     * @param datePropertyName
      * @return
      */
     public static JDatePickerImpl createDatePickerImpl(final PresentationModel model,
@@ -43,10 +47,15 @@ public class IsmComponentFactory extends BasicComponentFactory {
 
         // with default datePattern "dd/MM/yyyy"
 
-        final UtilDateModel dateModel = new UtilDateModel();
+        UtilDateModel dateModel = new UtilDateModel();
         dateModel.setDate(2000, 01, 01);
 
-        JDatePanelImpl datePanel = new JDatePanelImpl(dateModel, new Properties());
+        Properties p = new Properties();
+        /*p.put("text.today", "Today");
+        p.put("text.month", "Month");
+        p.put("text.year", "Year");*/
+
+        JDatePanelImpl datePanel = new JDatePanelImpl(dateModel, p);
 
 
         JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, formatter);
@@ -57,12 +66,14 @@ public class IsmComponentFactory extends BasicComponentFactory {
         datePicker.getJFormattedTextField().setHorizontalAlignment(JTextField.RIGHT);
         datePicker = initializeDatePicker(datePicker, model, datePropertyName);
 
+
+
         return datePicker;
     }
 
-    private static JDatePickerImpl initializeDatePicker(JDatePickerImpl datePicker,
-                                                        PresentationModel model,
-                                                        String datePropertyName) {
+    private static JDatePickerImpl initializeDatePicker(final JDatePickerImpl datePicker,
+                                                        final PresentationModel model,
+                                                        final String datePropertyName) {
 
         //initialize datePicker
 
@@ -77,25 +88,36 @@ public class IsmComponentFactory extends BasicComponentFactory {
 
             datePicker.getModel().setDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                     calendar.get(Calendar.DAY_OF_MONTH));
+
             datePicker.getJDateInstantPanel().getModel().setSelected(true);
 
             try {
-                datePicker.getJFormattedTextField().setText(formatter.valueToString(calendar));
+                datePicker.getJFormattedTextField().setText(formatter.valueToString(date));
+                System.out.println("date is .." + formatter.valueToString(date));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
 
-/*            datePicker.getModel().addPropertyChangeListener(new PropertyChangeListener() {
+            /*
+            * interessting part for binding JDatePicjer
+            * TODO abstract that and save it
+             */
+            datePicker.getModel().addPropertyChangeListener(new PropertyChangeListener() {
                 @Override
                 public void propertyChange(PropertyChangeEvent evt) {
 
+                    Object newVal = datePicker.getModel().getValue();
+                    // to change state of medel and enable buttons valid and annule
+                    model.setBufferedValue(Citoyen.PROPERTY_DATE_NAISS, newVal);
+                    /*
                     JOptionPane.showMessageDialog(null, evt.getPropertyName() + " --> : "
                             + evt.getNewValue());
-                    ((IPerson) model.getBean()).
-                            setDate_naiss(new Date(((java.util.Date)
-                                    datePicker.getModel().getValue()).getTime()));
+                    System.out.println("date changed .." + newVal);
+                    //*/
+
                 }
-            });*/
+            });
+
         } else if ((model instanceof MentionEditorModel)&&(datePropertyName
                                         .equals(Mention.PROPERTY_DATE_MAR))) {
 
@@ -114,7 +136,7 @@ public class IsmComponentFactory extends BasicComponentFactory {
                 datePicker.getJDateInstantPanel().getModel().setSelected(true);
 
                 try {
-                    datePicker.getJFormattedTextField().setText(formatter.valueToString(calendar));
+                    datePicker.getJFormattedTextField().setText(formatter.valueToString(date));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -136,7 +158,7 @@ public class IsmComponentFactory extends BasicComponentFactory {
                 datePicker.getJDateInstantPanel().getModel().setSelected(true);
 
                 try {
-                    datePicker.getJFormattedTextField().setText(formatter.valueToString(calendar));
+                    datePicker.getJFormattedTextField().setText(formatter.valueToString(date));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -159,12 +181,22 @@ public class IsmComponentFactory extends BasicComponentFactory {
             datePicker.getJDateInstantPanel().getModel().setSelected(true);
 
             try {
-                datePicker.getJFormattedTextField().setText(formatter.valueToString(calendar));
+                datePicker.getJFormattedTextField().setText(formatter.valueToString(date));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
         }
+
+        PropertyChangeListener l = new PropertyChangeListener() {
+
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                String text = evt.getNewValue() != null ? evt.getNewValue().toString() : "";
+                System.out.println("jtextField ketbeted");
+            }
+        };
+        datePicker.getJFormattedTextField().addPropertyChangeListener("value", l);
 
         return datePicker;
 

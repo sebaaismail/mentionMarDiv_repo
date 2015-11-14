@@ -44,7 +44,7 @@ public class MyApp {
          */
 
         IsmPrintStream.prepareLogFile();
-        IsmPrintStream.println_with_space("Welcome to Mentions app");
+        IsmPrintStream.logging("Welcome to Mentions app");
 
         EventQueue.invokeLater(new Runnable() {
             public void run() {
