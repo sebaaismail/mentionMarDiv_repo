@@ -12,7 +12,7 @@ CREATE TABLE dbmention.Citoyen
 	lieunaiss VARCHAR(100) NULL,
 	daira_naiss VARCHAR(50) NULL,
 	wilaya_naiss VARCHAR(50) NULL,
-	emploi VARCHAR(80) NULL,
+	emploi VARCHAR(80) DEFAULT '/',
 	p_pere VARCHAR(40) NULL,
 	np_mere VARCHAR(60) NULL,
 	est_masculin BOOLEAN DEFAULT TRUE,
@@ -25,7 +25,7 @@ CREATE TABLE dbmention.Citoyen
 CREATE TABLE dbmention.Mention
 (
 	id_ment INT UNSIGNED PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	id_cit INT UNSIGNED,
+	id_cit INT UNSIGNED NOT NULL,
 	numact_mar INT UNSIGNED,
 	date_mar DATE NOT NULL,
 	date_acte_mar DATE NOT NULL,

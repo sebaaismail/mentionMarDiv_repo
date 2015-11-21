@@ -3,6 +3,7 @@ package com.sebaainf.mentionMarDiv.mentionPack;
 import com.jenkov.db.itf.mapping.AGetterMapping;
 import com.jgoodies.common.bean.Bean;
 import com.sebaainf.mentionMarDiv.citoyenPackage.Citoyen;
+import com.sebaainf.mentionMarDiv.common.MyApp;
 
 import java.util.Date;
 
@@ -27,11 +28,11 @@ public class Mention extends Bean implements Comparable<Mention> {
     public static final String PROPERTY_TRIBUNAL_DIV = "tribunal_div";
     public static final String PROPERTY_DATE_DIV = "date_div";
 
-    private int id_ment = -1; // default id_ment is -1 to help us when we will added new mention and when we update a mention
+    private int id_ment; // default id_ment is -1 to help us when we will added new mention and when we update a mention
     private int id_cit;
     private int numact_mar;
-    private Date date_mar;
-    private Date date_acte_mar;
+    private Date date_mar = MyApp.defaultDate;
+    private Date date_acte_mar = MyApp.defaultDate;
     private int annee_mar;
     private String acte_ecrit_par = "ضابط الحالة المدنية";
     private String np_conj_ar;
@@ -39,6 +40,7 @@ public class Mention extends Bean implements Comparable<Mention> {
     private boolean est_divorce;
     private String tribunal_div;
     private Date date_div;
+
 
 
     public Mention() {
@@ -49,7 +51,6 @@ public class Mention extends Bean implements Comparable<Mention> {
 
         this.setId_cit(cit.getId_cit());
     }
-
     @AGetterMapping(databaseGenerated = true)
 
     public int getId_cit() {

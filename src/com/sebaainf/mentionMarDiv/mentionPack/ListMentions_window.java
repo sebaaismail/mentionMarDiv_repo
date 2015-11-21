@@ -6,6 +6,7 @@ import com.jgoodies.forms.factories.Paddings;
 import com.sebaainf.mentionMarDiv.citoyenPackage.Citoyen;
 import com.sebaainf.mentionMarDiv.citoyenPackage.CitoyenEditorModel;
 import com.sebaainf.mentionMarDiv.common.Editor_window;
+import com.sebaainf.mentionMarDiv.ismUtils.IsmDateFormatter;
 import com.sebaainf.mentionMarDiv.ismUtils.IsmTableAdapter;
 
 import javax.swing.*;
@@ -13,6 +14,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by ${sebaainf.com} on 21/10/2015.
@@ -36,7 +38,9 @@ public class ListMentions_window extends JFrame {
         dimWin = new Dimension(6 * (int) screenSize.getWidth() / 10, 4 * (int) screenSize.getHeight() / 10);
         dimPannel = new Dimension(5 * (int) screenSize.getWidth() / 10, 3 * (int) screenSize.getHeight() / 10);
 
-        this.setTitle("Liste des mentions");
+        this.setTitle("Liste des mentions                    |  "
+        + cit.getNom_ar() + "  " + cit.getPrenom_ar() +" |   تاريخ الميلاد"+ " "
+                + new SimpleDateFormat("yyyy/MM/dd").format(cit.getDate_naiss()));
         //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.add(this.createPanel());
 
@@ -91,7 +95,7 @@ public class ListMentions_window extends JFrame {
                 Point p = me.getPoint();
                 int row = table.rowAtPoint(p);
                 if (me.getClickCount() == 2) {
-                    // TODO call editor cit/ment window
+                    // calling editor cit/ment window
                     Mention selectedMent = (Mention) new ArrayListModel(cit.getListMentions())
                             .getElementAt(table.getSelectedRow());
 
@@ -106,7 +110,7 @@ public class ListMentions_window extends JFrame {
         });
 
 
-        // TODO ajouter panel pour afficher infos du citoyen : nom prenom etc
+
         // devant le tableau de choix des mentions a manipuler
         return FormBuilder.create()
                 .columns("p:g")

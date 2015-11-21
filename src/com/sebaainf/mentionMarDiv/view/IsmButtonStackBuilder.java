@@ -92,7 +92,7 @@ public final class IsmButtonStackBuilder extends AbstractButtonPanelBuilder {
         nextRow();
 
 
-        // todo custmize settings
+        // customize settings
 
         button.setBackground(MyApp.theme.buttonsBackgroundColor);
         button.setFont(MyApp.theme.font);

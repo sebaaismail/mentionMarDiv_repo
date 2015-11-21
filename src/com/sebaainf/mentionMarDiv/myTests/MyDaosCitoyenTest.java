@@ -24,7 +24,6 @@ public class MyDaosCitoyenTest {
     @Test
     public void testGetCitoyen_shouldReturnCitoyenWithId_cit() throws Exception {
 
-        //TODO auto-generated
         Citoyen cit = MyDaosCitoyen.getCitoyen(1);
         assertThat(cit.getPrenom_fr(), equalTo("ismail"));
     }

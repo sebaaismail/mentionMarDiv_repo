@@ -40,7 +40,6 @@ public class MyTableAdapterTest extends TestCase {
 
         String hoho = (String) table.getValueAt(2, 1);
         String hoho2 = (String) table.getValueAt(1, 1);
-        //TODO auto-generated
-        Assert.fail("Not yet implemented");
+
     }
 }

@@ -4,6 +4,7 @@ import com.jenkov.db.itf.IDaos;
 import com.jenkov.db.itf.PersistenceException;
 import com.sebaainf.mentionMarDiv.common.MyDaos;
 import com.sebaainf.mentionMarDiv.ismUtils.IsmPrintStream;
+import com.sebaainf.mentionMarDiv.mentionPack.Mention;
 
 import java.util.*;
 
@@ -112,7 +113,8 @@ public class MyDaosCitoyen {
     public static Citoyen insertCitoyen(Citoyen cit) throws PersistenceException{
 
             IDaos daos = MyDaos.persistenceManager.createDaos();
-            daos.getObjectDao().insert(cit);
+            int i = daos.getObjectDao().insert(cit);
+        System.out.println(" id_new ciiiiiiiiiiiiiiiiiiiiit = " + i);
         return cit;
     }
 
@@ -146,7 +148,14 @@ public class MyDaosCitoyen {
         boolean flag = false;
 
         try {
+            // first delete all mentions
+            String sql = "select * from mention where id_cit=?";
             IDaos daos = MyDaos.persistenceManager.createDaos();
+            List<Mention> lisMent = daos.getObjectDao().readList(Mention.class, sql, cit.getId_cit());
+            if (lisMent.size()>0) {
+                daos.getObjectDao().deleteBatch(lisMent);
+            }
+            //////
             daos.getObjectDao().delete(cit);
             flag = true;
             IsmPrintStream.logging("citoyen deleted");
@@ -179,9 +188,7 @@ public class MyDaosCitoyen {
                 flag = true;
                 IsmPrintStream.logging("citoyen deleted");
             } else {
-                //todo not tested method
                 IsmPrintStream.logging("citoyen not found in data base !!");
-
             }
         } catch (PersistenceException e) {
             e.printStackTrace();

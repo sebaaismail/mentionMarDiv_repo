@@ -2,8 +2,12 @@ package com.sebaainf.mentionMarDiv.citoyenPackage;
 
 import com.jenkov.db.itf.mapping.AGetterMapping;
 import com.jgoodies.common.bean.Bean;
+import com.sebaainf.mentionMarDiv.common.MyApp;
+import com.sebaainf.mentionMarDiv.ismUtils.IsmDateFormatter;
 import com.sebaainf.mentionMarDiv.mentionPack.Mention;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,8 +61,8 @@ public class Citoyen extends Bean implements IPerson {
     private String nom_ar = "";
     private String prenom_ar = "";
 
-    //private Date date_naiss = Date.valueOf("1900-01-01");
-    private Date date_naiss;
+    private Date date_naiss = MyApp.defaultDate;
+    //private Date date_naiss;
 
     private String lieunaiss = "";
     private String daira_naiss = "";

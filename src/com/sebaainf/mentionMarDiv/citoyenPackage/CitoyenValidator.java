@@ -24,12 +24,13 @@ public class CitoyenValidator extends IsmValidator implements Validator<Object> 
     @Override
     public ValidationResult validate(Object citoyen) {
 
-        //TODO complete the validations
+
         IsmPrintStream.logging("validating citoyen ...");
         addBlankError(Citoyen.PROPERTY_NOM_AR, "Nom_AR");
         addBlankError(Citoyen.PROPERTY_PRENOM_AR, "Prenom_AR");
         addBlankError(Citoyen.PROPERTY_NOM_FR, "Nom_FR");
         addBlankError(Citoyen.PROPERTY_PRENOM_FR, "Prenom_FR");
+        addBlankError(Citoyen.PROPERTY_DATE_NAISS, "Date_Naiss");
 
 
         return validationResult;

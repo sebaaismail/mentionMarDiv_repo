@@ -199,7 +199,7 @@ public class SearchCit_window extends JFrame implements Runnable {
 
         //*************************
 
-        //TODO file:///C:/projects/modules/Jgoodies/jgoodies-forms-1.9.0/docs/api/index.html
+        //read for more info file:///C:/projects/modules/Jgoodies/jgoodies-forms-1.9.0/docs/api/index.html
         return FormBuilder.create()
                 .columns("right:pref, 4dlu, pref, 4dlu, left:pref, left:default")
                 .rows("pref, $lg, pref, 16dlu, pref, $lg, pref, 8dlu, pref, 14dlu, pref")

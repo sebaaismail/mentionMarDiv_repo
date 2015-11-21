@@ -61,8 +61,10 @@ public class Editor_window extends IsmAbstractJFrame {
     private JCheckBox dateNaiss_est_presume;
 
 
-    private JButton validerButton;
+    private JButton validerAddButton;
     private JButton annulerButton;
+    private JButton imprimerrButton;
+    private JButton annulerModifButton;
 
     // ***** pour Mention
 
@@ -74,7 +76,7 @@ public class Editor_window extends IsmAbstractJFrame {
     private JTextField annee_mar;
     private JDatePickerImpl date_acte_mar;
 
-    private JTextField est_divorce; // TODO ???
+    //private JTextField est_divorce;
     private JTextField tribunal_div;
     private JDatePickerImpl date_div;
 
@@ -98,7 +100,8 @@ public class Editor_window extends IsmAbstractJFrame {
         int idm = ((Mention)(mentModel.getBean())).getId_ment();
 
         // check if mode is add new citoyen
-        if ((idc == -1) && (idm == -1)) {
+        if ((idc <= 0) && (idm <= 0)) {
+        //if (idc <= 0) {
             this.add_mode = true;
         }
 
@@ -111,6 +114,25 @@ public class Editor_window extends IsmAbstractJFrame {
 
 
     protected void initComponents() {
+
+        // initializer les buttons
+
+        validerAddButton = new JButton();
+        annulerButton = new JButton("Annuler");
+        imprimerrButton = new JButton("Imprimer");
+        annulerModifButton = new JButton("Annuler Modif");
+
+        if (this.add_mode) {
+            validerAddButton.setText("Ajouter");
+            annulerButton.setVisible(false);
+            imprimerrButton.setVisible(false);
+            annulerModifButton.setVisible(false);
+
+        } else {
+            validerAddButton.setText("Valider");
+        }
+
+
 
         this.setTitle("Application des Mentions                         " +
                 "                                                           " +
@@ -128,8 +150,9 @@ public class Editor_window extends IsmAbstractJFrame {
         daira_naiss = IsmComponentFactory.createArabTextField(citModel.getDaira_naiss());
         wilaya_naiss = IsmComponentFactory.createArabTextField(citModel.getWilaya_naiss());
 
-        // TODO look at createDateField() to bind jdatepicker with dateNaiss
-        date_naiss = IsmComponentFactory.createDatePickerImpl(citModel, Citoyen.PROPERTY_DATE_NAISS, "yyyy/MM/dd");
+        // Binding jdatepicker with dateNaiss
+        date_naiss = IsmComponentFactory.createDatePickerImpl(citModel,
+                Citoyen.PROPERTY_DATE_NAISS, "yyyy/MM/dd");
         /*
         date_naiss = new JDatePickerImpl(new JDatePanelImpl(new UtilDateModel(), new Properties())
                 , new IsmDateFormatter());
@@ -185,12 +208,12 @@ public class Editor_window extends IsmAbstractJFrame {
 
 
 
-        validerButton = new JButton("Valider");
-        annulerButton = new JButton("Annuler");
+
+
 /*        messageLabel.getComponent(1)
         .setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);*/
-        // TODO later alignement
-        ((JScrollBar) messageLabel.getComponent(1)).setAlignmentY(JScrollBar.RIGHT_ALIGNMENT);
+        ((JScrollBar) messageLabel.getComponent(1))
+                .setAlignmentY(JScrollBar.RIGHT_ALIGNMENT);
 
 
     }
@@ -230,7 +253,6 @@ public class Editor_window extends IsmAbstractJFrame {
         LayoutMap.getRoot().columnPut("label_ar", "left:pref");
         LayoutMap.getRoot().columnPut("label_fr", "right:pref");
 
-        // TODO delete this ?
         //MyCommonUtils.setListComponentsEnabled(getListComponents(), true);
 
         JPanel mainPanel = new JPanel();
@@ -361,10 +383,36 @@ public class Editor_window extends IsmAbstractJFrame {
         bsBuilder.setBackground(MyApp.theme.buttonBarColor);
 
         JButton buttonRetour = new JButton("Retour");
-        JButton buttonSupprCit = new JButton("Supprimer enr.Citoyen");
+        JButton buttonSupprCit = new JButton("Supprimer Citoyen");
         JButton buttonAjouterMent = new JButton("Ajouter Mention");
         JButton buttonSupprMent = new JButton("Supprimer Mention");
         JButton buttonQuitter = new JButton("Quitter");
+
+        buttonAjouterMent.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addNewMention();
+            }
+        });
+
+        buttonSupprCit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                int reply = JOptionPane.showConfirmDialog(null,
+                        "voulez vous supprimer cette enregistrement du citoyen ?",
+                        "Suppression", JOptionPane.YES_NO_OPTION);
+                if (reply == JOptionPane.YES_OPTION) {
+                    MyDaosCitoyen.deleteCitoyen((Citoyen) citModel.getBean());
+                    JOptionPane.showMessageDialog(null, "enregistrement supprimée avec succes");
+                }
+                else {
+                    //JOptionPane.showMessageDialog(null, "GOODBYE");
+
+                }
+
+            }
+        });
 
         bsBuilder.addGlue();
 
@@ -389,14 +437,11 @@ public class Editor_window extends IsmAbstractJFrame {
 
     private JComponent southButtonsPanel() {
 
-        final JButton buttonValider = new JButton("Valider");
-        JButton buttonImprimer = new JButton("Imprimer");
-        JButton buttonAnnulerModif = new JButton("Annuler Modif");
 
         JPanel southPan = new JPanel();
         southPan.setBackground(Color.gray);
 
-        buttonImprimer.addActionListener(new ActionListener() {
+        imprimerrButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -409,24 +454,24 @@ public class Editor_window extends IsmAbstractJFrame {
         final Trigger triggerCit = (Trigger) citModel.getTriggerChannel();
         final Trigger triggerMent = (Trigger) mentModel.getTriggerChannel();
 
-        // TODO dont forget change clolumn emploi in db ----> not unique
-        buttonValider.setEnabled(false);
-        buttonAnnulerModif.setEnabled(false);
+
+        validerAddButton.setEnabled(false);
+        annulerModifButton.setEnabled(false);
 
         // now to enable buttonValider when citModel or mentModel change
-        PropertyConnector.connect(citModel, "buffering", buttonValider, "enabled");
-        PropertyConnector.connect(citModel, "buffering", buttonAnnulerModif, "enabled");
+        PropertyConnector.connect(citModel, "buffering", validerAddButton, "enabled");
+        PropertyConnector.connect(citModel, "buffering", annulerModifButton, "enabled");
 
         //PropertyConnector.connect(date_naiss.getJFormattedTextField(), "value", buttonValider, "enabled");
 
         //PropertyConnector.connect(citModel, Citoyen.PROPERTY_DATE_NAISS, date_naiss, "formattedTextField");
 
 
-        PropertyConnector.connect(mentModel, "buffering", buttonValider, "enabled");
-        PropertyConnector.connect(mentModel, "buffering", buttonAnnulerModif, "enabled");
+        PropertyConnector.connect(mentModel, "buffering", validerAddButton, "enabled");
+        PropertyConnector.connect(mentModel, "buffering", annulerModifButton, "enabled");
 
 
-        buttonAnnulerModif.addActionListener(new ActionListener() {
+        annulerModifButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 triggerCit.triggerFlush();
@@ -435,18 +480,18 @@ public class Editor_window extends IsmAbstractJFrame {
         });
 
 
-        buttonValider.addActionListener(new IsmActionListener
+        validerAddButton.addActionListener(new CommitActionListener
                 (citModel, mentModel, divorce, add_mode));
 
         JPanel pan = IsmButtonBarBuilder.create(screenSize)
                 //.addGlue()
-                .addButton(buttonValider)
+                .addButton(validerAddButton)
                 .addRelatedGap()
-                .addButton(buttonImprimer)
+                .addButton(imprimerrButton)
                 .addUnrelatedGap()
                 .addUnrelatedGap()
                 .addUnrelatedGap()
-                .addButton(buttonAnnulerModif)
+                .addButton(annulerModifButton)
                 .padding(Paddings.DLU9)
 
 
@@ -461,6 +506,19 @@ public class Editor_window extends IsmAbstractJFrame {
     public JComponent showDialog(EventObject e) {
 
         return buildContent();
+
+    }
+
+    private void addNewMention() {
+
+
+        this.mentModel.setBean(new Mention((Citoyen) this.citModel.getBean()));
+
+        // todo to optimise ... do this in resetDatePicker(datePicker);
+        // in IsmComponentFactory.java
+        date_mar.getJFormattedTextField().setText("");
+        date_acte_mar.getJFormattedTextField().setText("");
+        date_div.getJFormattedTextField().setText("");
 
     }
 

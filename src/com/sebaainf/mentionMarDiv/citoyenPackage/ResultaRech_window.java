@@ -113,7 +113,7 @@ public class ResultaRech_window extends JFrame {
                                 mentModel = new MentionEditorModel((Mention) listMent.get(0));
                             } else {
                                 //so( listMent.size() == 0) no mention in data base ,we will create one
-                                mentModel = new MentionEditorModel(new Mention());
+                                mentModel = new MentionEditorModel(new Mention(selectedCit));
                             }
 
                             Editor_window view = new Editor_window(citModel, mentModel);

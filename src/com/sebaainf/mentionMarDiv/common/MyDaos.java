@@ -8,6 +8,8 @@ import com.sebaainf.mentionMarDiv.citoyenPackage.Citoyen;
 import com.sebaainf.mentionMarDiv.mentionPack.Mention;
 
 import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -34,6 +36,27 @@ public class MyDaos {
 
     public static final PersistenceManager persistenceManager = new PersistenceManager(datasource);
 
+
+    public static int ism_lastGeneratedId(String tableName, String id) {
+
+        IDaos daos = null;
+        int i = -1;
+        try {
+            daos = MyDaos.persistenceManager.createDaos();
+
+            Statement st = daos.getConnection().createStatement();
+
+            ResultSet rs = st.executeQuery("select MAX("+ id + ") as "
+                    + id + " from "+ tableName);
+            if (rs.next()) {
+                i = rs.getInt(id);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            return i;
+        }
+    }
 
     /**
      * @param id_cit
